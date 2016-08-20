@@ -1,0 +1,1 @@
+Quiz about Norwegian politics using data from HDO
