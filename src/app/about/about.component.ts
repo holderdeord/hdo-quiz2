@@ -14,7 +14,6 @@ console.log('`About` component loaded asynchronously');
   `],
   template: `
     <h1>About</h1>
-    <div>Used <a href="https://github.com/AngularClass/angular2-webpack-starter">Angular2 Webpack Starter</a> as foundation.</div>
   `
 })
 export class About {
