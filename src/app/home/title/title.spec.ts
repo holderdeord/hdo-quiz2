@@ -1,10 +1,6 @@
 import {
-  beforeEachProviders,
-  inject,
-  injectAsync,
-  it
+  inject
 } from '@angular/core/testing';
-import { TestComponentBuilder } from '@angular/compiler/testing';
 import { Component } from '@angular/core';
 import { BaseRequestOptions, Http } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
@@ -12,7 +8,7 @@ import { MockBackend } from '@angular/http/testing';
 import { Title } from './title.service';
 
 describe('Title', () => {
-  beforeEachProviders(() => [
+  beforeEach(() => [
     BaseRequestOptions,
     MockBackend,
     {

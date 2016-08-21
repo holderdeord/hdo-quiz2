@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router/router_state';
+// import { ActivatedRoute } from '@angular/router/router_state';
 
 @Component({
   selector: 'stack',
@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router/router_state';
   `
 })
 export class Stack {
-  constructor(private route: ActivatedRoute) {
+  constructor() {
   }
 
   ngOnInit() {

@@ -1,9 +1,6 @@
 import {
-  beforeEachProviders,
   fakeAsync,
-  inject,
-  injectAsync,
-  it
+  inject
 } from '@angular/core/testing';
 
 // Load the implementations that should be tested
@@ -21,7 +18,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 
 describe('Stack', () => {
   // provide our implementations or mocks to the dependency injector
-  beforeEachProviders(() => [
+  beforeEach(() => [
     Promise,
     BaseRequestOptions,
     MockBackend,

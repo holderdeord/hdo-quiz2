@@ -1,9 +1,5 @@
 import {
-  beforeEachProviders,
-  describe,
-  inject,
-  injectAsync,
-  it
+  inject
 } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { BaseRequestOptions, Http } from '@angular/http';
@@ -16,7 +12,7 @@ import { Title } from './title';
 
 describe('Home', () => {
   // provide our implementations or mocks to the dependency injector
-  beforeEachProviders(() => [
+  beforeEach(() => [
     BaseRequestOptions,
     MockBackend,
     {

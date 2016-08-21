@@ -15,12 +15,12 @@ import '@angular/router';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 
-if ('production' === ENV) {
-  // Production
+// if ('production' === ENV) {
+//   // Production
 
 
-} else {
-  // Development
-  require('angular2-hmr');
+// } else {
+//   // Development
+//   require('angular2-hmr');
 
-}
+// }
