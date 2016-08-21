@@ -1,5 +1,5 @@
 <ul>
-  <li *ngFor="#stack of stacks">
-    {{stack.name}}
+  <li *ngFor="let stack of stacks">
+    <a [routerLink]="['Stack', { id: stack.id }]">{{stack.name}}</a>
   </li>
 </ul>
