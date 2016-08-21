@@ -1,0 +1,6 @@
+<div *ngIf="stack">
+  <h1>A specific stack: {{stack.name}}</h1>
+  <div>{{stack.promises[index].body}}</div>
+  <button (click)="answer(true)">Holdt</button>
+  <button (click)="answer(false)">Ikke holdt</button>
+</div>

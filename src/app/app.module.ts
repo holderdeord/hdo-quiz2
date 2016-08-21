@@ -6,6 +6,7 @@ import { routing,
 import { StackListComponent } from './stack-list/stack-list.component';
 import { HttpModule }     from '@angular/http';
 import { StackService } from './shared/stack/stack.service';
+import { StackComponent } from './stack';
 
 @NgModule({
     imports: [
@@ -15,7 +16,8 @@ import { StackService } from './shared/stack/stack.service';
     ],
     declarations: [
         AppComponent,
-        StackListComponent
+        StackListComponent,
+        StackComponent
     ],
     providers: [
         appRoutingProviders,

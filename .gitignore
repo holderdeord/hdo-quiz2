@@ -3,3 +3,5 @@ dist
 hdo-bootstrap
 node_modules
 typings
+
+npm-debug.log
