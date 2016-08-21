@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router/router_state';
 
 @Component({
   selector: 'stack',
@@ -8,10 +9,14 @@ import { Component } from '@angular/core';
   `
 })
 export class Stack {
-  constructor() {
+  constructor(private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    console.log('test');
+    // this.route.params.subscribe(params => {
+    //   console.log('foo', params);
+    // });
   }
 
   asyncDataWithWebpack() {
