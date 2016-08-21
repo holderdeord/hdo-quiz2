@@ -5,4 +5,5 @@ import { Component } from '@angular/core';
   template: require('./app.html')
 })
 export class AppComponent {
+  title = 'HDO Quiz';
 }

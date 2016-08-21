@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 
-import { AppState } from '../app.service';
 import { StackService } from '../shared/stack/stack.service';
 import { Stack } from '../shared/stack/stack.class';
 
@@ -15,10 +14,10 @@ import { Stack } from '../shared/stack/stack.class';
   styles: [],
   template: require('./stack-list.html')
 })
-export class StackList {
+export class StackListComponent {
   public stacks: Stack[];
   
-  constructor(public appState: AppState, public service: StackService) {
+  constructor(private service: StackService) {
   }
 
   ngOnInit() {

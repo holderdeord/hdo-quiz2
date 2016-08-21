@@ -3,17 +3,23 @@ import { BrowserModule  } from '@angular/platform-browser';
 import { AppComponent }   from './app.component';
 import { routing,
     appRoutingProviders } from './app.routes';
+import { StackListComponent } from './stack-list/stack-list.component';
+import { HttpModule }     from '@angular/http';
+import { StackService } from './shared/stack/stack.service';
 
 @NgModule({
     imports: [
         BrowserModule,
-        routing
+        routing,
+        HttpModule
     ],
     declarations: [
-        AppComponent
+        AppComponent,
+        StackListComponent
     ],
     providers: [
-        appRoutingProviders
+        appRoutingProviders,
+        StackService
     ],
     bootstrap: [AppComponent],
 })

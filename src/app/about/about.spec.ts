@@ -1,23 +1,23 @@
-import { Component } from '@angular/core';
-import {
-  inject
-} from '@angular/core/testing';
+// import { Component } from '@angular/core';
+// import {
+//   inject
+// } from '@angular/core/testing';
 
-// Load the implementations that should be tested
-import { About } from './about.component';
+// // Load the implementations that should be tested
+// import { About } from './about.component';
 
-describe('About', () => {
-  // provide our implementations or mocks to the dependency injector
-  beforeEach(() => [
-    About
-  ]);
+// describe('About', () => {
+//   // provide our implementations or mocks to the dependency injector
+//   beforeEach(() => [
+//     About
+//   ]);
 
-  it('should log ngOnInit', inject([ About ], (about) => {
-    spyOn(console, 'log');
-    expect(console.log).not.toHaveBeenCalled();
+//   it('should log ngOnInit', inject([ About ], (about) => {
+//     spyOn(console, 'log');
+//     expect(console.log).not.toHaveBeenCalled();
 
-    about.ngOnInit();
-    expect(console.log).toHaveBeenCalled();
-  }));
+//     about.ngOnInit();
+//     expect(console.log).toHaveBeenCalled();
+//   }));
 
-});
+// });
