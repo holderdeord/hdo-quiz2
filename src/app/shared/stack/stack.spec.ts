@@ -1,89 +1,83 @@
-// import {
-//   fakeAsync,
-//   inject
-// } from '@angular/core/testing';
+import { addProviders, fakeAsync, inject } from '@angular/core/testing';
+import { MockBackend, MockConnection } from '@angular/http/testing';
+import { mockStack } from './stack.mock';
 
-// // Load the implementations that should be tested
-// import { Promise } from '../promise/promise.class';
-// import { Stack } from './stack.class';
-// import { StackService } from './stack.service';
-// import {
-//   BaseRequestOptions,
-//   Http,
-//   RequestMethod,
-//   ResponseOptions,
-//   Response
-// } from '@angular/http';
-// import { MockBackend, MockConnection } from '@angular/http/testing';
+import { Promise } from '../promise';
+import { Stack, StackService } from './';
+import { BaseRequestOptions, Http, RequestMethod, ResponseOptions, Response } from '@angular/http';
 
-// describe('Stack', () => {
-//   // provide our implementations or mocks to the dependency injector
-//   beforeEach(() => [
-//     Promise,
-//     BaseRequestOptions,
-//     MockBackend,
-//     {
-//       provide: Http,
-//       useFactory: function (backend, defaultOptions) {
-//         return new Http(backend, defaultOptions);
-//       },
-//       deps: [MockBackend, BaseRequestOptions]
-//     },
-//     Stack,
-//     StackService
-//   ]);
+describe('Stack', () => {
+  beforeEach(() => addProviders([
+    BaseRequestOptions,
+    MockBackend,
+    {
+      provide: Http,
+      useFactory: function (backend, defaultOptions) {
+        return new Http(backend, defaultOptions);
+      },
+      deps: [MockBackend, BaseRequestOptions]
+    },
+    StackService
+  ]));
 
-//   describe('Class', () => {
-//     it('exposes getStacks', () => {
-//       let stack = new Stack(1, 'test');
-//       expect(stack.id).toBe(1);
-//       expect(stack.name).toEqual('test');
-//       expect(stack.promises.length).toBe(0);
-//     });
-//   });
+  describe('Class', () => {
+    it('sets properties', () => {
+      let stack = new Stack(1, 'test');
 
-//   it('should get data from the server', inject(
-//     [MockBackend, StackService],
-//     fakeAsync((backend: MockBackend, service: StackService) => {
-//       backend.connections.subscribe((connection: MockConnection) => {
-//         expect(connection.request.method).toBe(RequestMethod.Get);
-//         expect(connection.request.url).toEqual('/assets/stacks.json');
-//       });
+      expect(stack.id).toBe(1);
+      expect(stack.name).toEqual('test');
+      expect(stack.promises.length).toBe(0);
+    });
+  });
 
-//       service.getStacks();
-//     })));
+  describe('Service', () => {
+    describe('getStacks', () => {
+      it('should get stacks from the server', inject([MockBackend, StackService], fakeAsync((backend: MockBackend, service: StackService) => {
+        backend.connections.subscribe((connection: MockConnection) => {
+          expect(connection.request.method).toBe(RequestMethod.Get);
+          expect(connection.request.url).toEqual('/assets/stacks.json');
+        });
 
-//   it('transforms response to a stack', inject(
-//     [MockBackend, StackService],
-//     fakeAsync((backend: MockBackend, service: StackService) => {
-//       backend.connections.subscribe((connection: MockConnection) => {
-//         let mockResponseBody: any[] = [
-//           {
-//             'id': 1,
-//             'name': 'Parti',
-//             'promises': [
-//               {
-//                 'body': 'Holdt',
-//                 'kept': true
-//               },
-//               {
-//                 'body': 'Ikke holdt',
-//                 'kept': false
-//               }
-//             ]
-//           }
-//         ];
+        service.getStacks();
+      })));
 
-//         let response = new ResponseOptions({ body: JSON.stringify(mockResponseBody) });
-//         connection.mockRespond(new Response(response));
-//       });
+      it('transforms response to stacks', inject([MockBackend, StackService], fakeAsync((backend: MockBackend, service: StackService) => {
+        backend.connections.subscribe((connection: MockConnection) => {
+          let response = new ResponseOptions({ body: JSON.stringify(mockStack()) });
+          connection.mockRespond(new Response(response));
+        });
 
-//       service.getStacks()
-//         .subscribe(stacks => {
-//           expect(stacks.length).toBe(1);
-//           expect(stacks[0].id).toBe(1);
-//           expect(stacks[0].name).toEqual('Parti');
-//           expect(stacks[0].promises.length).toBe(2);
-//         });
-//     })));
-// });
+        service.getStacks().subscribe(stacks => {
+          expect(stacks.length).toBe(1);
+          expect(stacks[0].id).toBe(1);
+          expect(stacks[0].name).toEqual('Parti');
+          expect(stacks[0].promises.length).toBe(2);
+        });
+      })));
+    });
+
+    describe('getStack', () => {
+      it('should get stacks from the server', inject([MockBackend, StackService], fakeAsync((backend: MockBackend, service: StackService) => {
+        backend.connections.subscribe((connection: MockConnection) => {
+          expect(connection.request.method).toBe(RequestMethod.Get);
+          expect(connection.request.url).toEqual('/assets/stacks.json');
+        });
+
+        service.getStack(1);
+      })));
+
+      it('transforms response to a stack', inject([MockBackend, StackService], fakeAsync((backend: MockBackend, service: StackService) => {
+        backend.connections.subscribe((connection: MockConnection) => {
+          let response = new ResponseOptions({ body: JSON.stringify(mockStack()) });
+          connection.mockRespond(new Response(response));
+        });
+
+        service.getStack(1).subscribe(stack => {
+          expect(stack.id).toBe(1);
+          expect(stack.name).toEqual('Parti');
+          expect(stack.promises.length).toBe(2);
+        });
+      })));
+    })
+  });
+});
