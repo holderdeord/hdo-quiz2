@@ -1,14 +1,46 @@
 [
   {
     "id": 1,
-    "name": "Parti",
+    "name": "Regjeringen Solberg",
     "promises": [
       {
-        "body": "Holdt",
+        "body": "Regjeringen vil myke opp arbeidsmiljøloven, blant annet når det gjelder gjennomsnittsberegning av arbeidstid, alternative turnusordninger og uttak av overtid.",
         "kept": true
       },
       {
-        "body": "Ikke holdt",
+        "body": "Regjeringen vil pålegge kommunene å gjennomføre oppsøkende hjemmebesøk for å tilpasse hjelpetiltak til den enkelte.",
+        "kept": false
+      },
+      {
+        "body": "Regjeringen vil legge til rette for at eldre skal kunne stå lenger i arbeidslivet, blant annet ved å gå gjennom alle lovbestemte aldersgrenser i arbeidslivet i samråd med partene.",
+        "kept": true
+      },
+      {
+        "body": "Regjeringen vil legge til rette for at uføre skal kunne ta i bruk restarbeidsevnen ved å gjennomføre uførereformen. Det vil være et mål at uføregraden i hvert tilfelle skal reflektere den reelle arbeidsevnen, og at gradert uføretrygd skal tas i bruk i større grad enn i dag.",
+        "kept": true
+      },
+      {
+        "body": "Regjeringen vil åpne for bruk av aksjeselskap som selskapsform i landbruket.",
+        "kept": false
+      },
+      {
+        "body": "Regjeringen vil jobbe for et velfungerende trepartssamarbeid, høy produktivitet og høy trivsel blant arbeidstakerne.",
+        "kept": false
+      },
+      {
+        "body": "Regjeringen vil gå gjennom dagens velferdsordninger for å sikre at det lønner seg å jobbe, herunder utrede barnetillegget i uføretrygden.",
+        "kept": true
+      },
+      {
+        "body": "Regjeringen vil videreføre dagens sykelønnsordning.",
+        "kept": true
+      },
+      {
+        "body": "Regjeringen vil i større grad bruke DNA-testing for å avklare identitet i forbindelse med familiegjenforening.",
+        "kept": false
+      },
+      {
+        "body": "Regjeringen vil legge til rette for et organisert arbeidsliv og et velfungerende trepartssamarbeid gjennom å videreføre fagforeningsfradraget på 2013-nivå.",
         "kept": false
       }
     ]
