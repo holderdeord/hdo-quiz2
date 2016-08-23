@@ -9,6 +9,7 @@ import { StackService, Stack, StackState } from '../shared/stack';
 })
 export class StackComponent {
   public stack: Stack;
+  public answeredLastCorrectly: boolean;
   public stackStates = StackState;
 
   constructor(private route: ActivatedRoute, private service: StackService) {
@@ -22,6 +23,6 @@ export class StackComponent {
   }
 
   answer(answer: boolean) {
-    let answeredCorrectly = this.stack.giveAnswer(answer);
+    this.answeredLastCorrectly = this.stack.giveAnswer(answer);
   }
 }
