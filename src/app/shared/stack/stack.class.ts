@@ -2,16 +2,70 @@ import { Injectable } from '@angular/core';
 import { IStack } from './stack.interface';
 import { IPromise } from '../promise/promise.interface';
 import { Promise } from '../promise/promise.class';
+import { Answer } from '../answer';
 
 @Injectable()
 export class Stack implements IStack {
+  public answers: Answer[];
+  public current: Promise;
   public promises: IPromise[];
+
+  private _index: number;
+  private _state: StackState;
 
   constructor(public id: number, public name: string) {
     this.promises = [];
+    this.answers = [];
+    this.current = null;
+    this._state = StackState.Setup;
   }
 
-  addPromise(promise: Promise) {
+  addPromise(promise: Promise) : void {
+    if (this.state !== StackState.Setup) {
+      throw new Error('Quiz is started');
+    }
     this.promises.push(promise);
+    this.answers.push(new Answer(promise));
+  }
+
+  getNumberOfCorrectAnswers() : number {
+    return this.answers.reduce((total, answer) => total += answer.hadCorrectAnswer() ? 1 : 0, 0);
+  }
+
+  giveAnswer(answer: boolean) : boolean {
+    if (this.state === StackState.Setup) {
+      throw new Error('Have not started quiz yet');
+    }
+    if (this.state === StackState.Complete) {
+      throw new Error('There are no question to answer');
+    }
+    let correctAnswer = this.answers[this._index].giveAnswer(answer);
+    this._advance();
+    return correctAnswer;
+  }
+
+  startQuiz() : Stack {
+    this._state = StackState.InProgress;
+    this._advance();
+    return this;
+  }
+
+  public get state() : StackState {
+    return this._state;
+  }
+
+  private _advance() : void {
+    this._index = this._index === undefined ? 0 : this._index + 1;
+    if (this.promises[this._index]) {
+      this.current = this.promises[this._index];
+    } else {
+      this._state = StackState.Complete;
+    }
   }
 }
+
+export enum StackState {
+  Setup,
+  InProgress,
+  Complete
+};

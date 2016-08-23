@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { StackService, Stack } from '../shared/stack';
+import { StackService, Stack, StackState } from '../shared/stack';
 
 @Component({
   selector: 'stack',
@@ -9,25 +9,19 @@ import { StackService, Stack } from '../shared/stack';
 })
 export class StackComponent {
   public stack: Stack;
-  public index: number;
+  public stackStates = StackState;
 
   constructor(private route: ActivatedRoute, private service: StackService) {
-    this.index = 0;
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       let id = parseInt(params['id'], 10);
-      this.service.getStack(id).subscribe(stack => this.stack = stack);
+      this.service.getStack(id).subscribe(stack => this.stack = stack.startQuiz());
     });
   }
 
-  answer(kept: boolean) {
-    console.log(kept);
-    if (this.stack.promises.length > this.index + 1) {
-      this.index++;
-    } else {
-      console.log('done');
-    }
+  answer(answer: boolean) {
+    let answeredCorrectly = this.stack.giveAnswer(answer);
   }
 }

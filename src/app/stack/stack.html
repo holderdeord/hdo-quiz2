@@ -1,6 +1,14 @@
 <div *ngIf="stack">
   <h1>A specific stack: {{stack.name}}</h1>
-  <div>{{stack.promises[index].body}}</div>
-  <button (click)="answer(true)">Holdt</button>
-  <button (click)="answer(false)">Ikke holdt</button>
+  <div *ngIf="stack.state === stackStates.InProgress">
+    <p>{{stack.current.body}}</p>
+    <button (click)="answer(true)">Holdt</button>
+    <button (click)="answer(false)">Ikke holdt</button>
+  </div>
+  <div *ngIf="stack.state === stackStates.Complete">
+    <p>Du fikk {{stack.getNumberOfCorrectAnswers()}} riktig svar!</p>
+    <p>
+      <a [routerLink]="['/home']">Tilbake til forsiden</a>
+    </p>
+  </div>
 </div>

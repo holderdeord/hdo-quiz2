@@ -1,4 +1,4 @@
-export function mockStack() {
+export function mockStackData() {
   return [
     {
       'id': 1,

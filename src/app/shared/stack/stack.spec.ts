@@ -1,12 +1,13 @@
 import { addProviders, fakeAsync, inject } from '@angular/core/testing';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { mockStack } from './stack.mock';
+import { mockStackData } from './stack.mock';
+import { mockPromise } from '../promise/promise.mock';
 
 import { Promise } from '../promise';
-import { Stack, StackService } from './';
+import { Stack, StackService, StackState } from './';
 import { BaseRequestOptions, Http, RequestMethod, ResponseOptions, Response } from '@angular/http';
 
-describe('Stack', () => {
+describe('Stack (shared)', () => {
   beforeEach(() => addProviders([
     BaseRequestOptions,
     MockBackend,
@@ -21,12 +22,71 @@ describe('Stack', () => {
   ]));
 
   describe('Class', () => {
-    it('sets properties', () => {
-      let stack = new Stack(1, 'test');
+    let stack;
 
+    beforeEach(() => {
+      stack = new Stack(1, 'test');
+    });
+
+    it('exposes properties', () => {
       expect(stack.id).toBe(1);
       expect(stack.name).toEqual('test');
       expect(stack.promises.length).toBe(0);
+      expect(stack.answers.length).toBe(0);
+      expect(stack.current).toBeNull();
+      expect(stack.state).toBe(StackState.Setup);
+    });
+
+    it('exposes addPromise', () => {
+      stack.addPromise(mockPromise());
+      expect(stack.promises.length).toBe(1);
+      expect(stack.answers.length).toBe(1);
+
+      stack.startQuiz();
+
+      expect(() => stack.addPromise(mockPromise())).toThrow();      
+    });
+
+    it('exposes getNumberOfCorrectAnswers', () => {
+      expect(stack.getNumberOfCorrectAnswers()).toBe(0);
+
+      stack.addPromise(mockPromise());
+      stack.addPromise(mockPromise());
+      stack.addPromise(mockPromise());
+      stack.startQuiz();
+      
+      expect(stack.getNumberOfCorrectAnswers()).toBe(0);
+
+      stack.giveAnswer(true);
+
+      expect(stack.getNumberOfCorrectAnswers()).toBe(1);
+      
+      stack.giveAnswer(false);
+      stack.giveAnswer(true);
+
+      expect(stack.getNumberOfCorrectAnswers()).toBe(2);
+    });
+
+    it('exposes giveAnswer', () => {
+      expect(() => stack.giveAnswer(true)).toThrow();
+
+      stack.addPromise(mockPromise());
+      stack.addPromise(mockPromise());
+      stack.startQuiz();
+
+      expect(stack.giveAnswer(true)).toBe(true);
+      expect(stack.giveAnswer(false)).toBe(false);
+      expect(stack.state).toBe(StackState.Complete);
+    });
+
+    it('exposes startQuiz', () => {
+      expect(stack.startQuiz).toThrow();
+
+      stack.addPromise(mockPromise());
+      expect(stack.startQuiz()).toBe(stack);
+
+      expect(stack.current).toBe(stack.promises[0]);
+      expect(stack.state).toBe(StackState.InProgress);
     });
   });
 
@@ -43,7 +103,7 @@ describe('Stack', () => {
 
       it('transforms response to stacks', inject([MockBackend, StackService], fakeAsync((backend: MockBackend, service: StackService) => {
         backend.connections.subscribe((connection: MockConnection) => {
-          let response = new ResponseOptions({ body: JSON.stringify(mockStack()) });
+          let response = new ResponseOptions({ body: JSON.stringify(mockStackData()) });
           connection.mockRespond(new Response(response));
         });
 
@@ -58,6 +118,7 @@ describe('Stack', () => {
 
     describe('getStack', () => {
       it('should get stacks from the server', inject([MockBackend, StackService], fakeAsync((backend: MockBackend, service: StackService) => {
+        // does not support fetching just one atm
         backend.connections.subscribe((connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toEqual('/assets/stacks.json');
@@ -68,7 +129,7 @@ describe('Stack', () => {
 
       it('transforms response to a stack', inject([MockBackend, StackService], fakeAsync((backend: MockBackend, service: StackService) => {
         backend.connections.subscribe((connection: MockConnection) => {
-          let response = new ResponseOptions({ body: JSON.stringify(mockStack()) });
+          let response = new ResponseOptions({ body: JSON.stringify(mockStackData()) });
           connection.mockRespond(new Response(response));
         });
 
