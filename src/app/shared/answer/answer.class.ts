@@ -1,21 +1,24 @@
 import { Promise } from '../promise';
 
 export class Answer {
-  private answer: boolean;
+  private _response: boolean;
+
+  public get response(): boolean {
+    return this._response;
+  }
 
   constructor(private promise: Promise) {
-
   }
 
-  giveAnswer(answer: boolean) {
-    this.answer = answer;
-    return this.answer === this.promise.kept; 
+  giveAnswer(response: boolean): boolean {
+    this._response = response;
+    return this._response === this.promise.kept;
   }
 
-  hadCorrectAnswer() {
-    if (!this.answer === undefined) {
-      throw new Error('No answer given yet');
+  hadCorrectAnswer(): boolean {
+    if (!this._response === undefined) {
+      throw new Error('No _response given yet');
     }
-    return this.answer === this.promise.kept; 
+    return this._response === this.promise.kept;
   }
 }
