@@ -42,9 +42,9 @@ describe('Stack (shared)', () => {
       expect(stack.promises.length).toBe(1);
       expect(stack.answers.length).toBe(1);
 
-      stack.startQuiz();
+      stack.startQuiz([]);
 
-      expect(() => stack.addPromise(mockPromise())).toThrow();      
+      expect(() => stack.addPromise(mockPromise())).toThrow();
     });
 
     it('exposes getNumberOfCorrectResponses', () => {
@@ -53,25 +53,53 @@ describe('Stack (shared)', () => {
       stack.addPromise(mockPromise());
       stack.addPromise(mockPromise());
       stack.addPromise(mockPromise());
-      stack.startQuiz();
-      
+      stack.startQuiz([]);
+
       expect(stack.getNumberOfCorrectResponses()).toBe(0);
 
       stack.setResponse(true);
 
       expect(stack.getNumberOfCorrectResponses()).toBe(1);
-      
+
       stack.setResponse(false);
       stack.setResponse(true);
 
       expect(stack.getNumberOfCorrectResponses()).toBe(2);
     });
 
+    it('exposes getNumberOfQuestions', () => {
+      expect(stack.getNumberOfQuestions()).toBe(0);
+
+      stack.addPromise(mockPromise());
+      stack.addPromise(mockPromise());
+
+      expect(stack.getNumberOfQuestions()).toBe(2);
+
+      stack.addPromise(mockPromise());
+
+      expect(stack.getNumberOfQuestions()).toBe(3);
+    });
+
+    it('exposes getNumberOfResponses', () => {
+      expect(stack.getNumberOfResponses()).toBe(0);
+
+      stack.addPromise(mockPromise());
+      stack.addPromise(mockPromise());
+      stack.startQuiz([]);
+      stack.setResponse(false);
+
+      expect(stack.getNumberOfResponses()).toBe(1);
+
+      stack.setResponse(true);
+
+      expect(stack.getNumberOfResponses()).toBe(2);
+    });
+
     it('exposes getResponses', () => {
       expect(stack.getResponses()).toEqual([]);
 
       stack.addPromise(mockPromise());
-      stack.startQuiz();
+      stack.startQuiz([]);
       stack.setResponse(true);
 
       expect(stack.getResponses()).toEqual([true]);
@@ -81,8 +109,8 @@ describe('Stack (shared)', () => {
       expect(stack.getResponsesAsString()).toEqual('');
 
       stack.addPromise(mockPromise());
-      stack.startQuiz();
-      stack.setResponse(true);
+      stack.addPromise(mockPromise());
+      stack.startQuiz([true]);
 
       expect(stack.getResponsesAsString()).toEqual('1');
     });
@@ -92,36 +120,47 @@ describe('Stack (shared)', () => {
 
       stack.addPromise(mockPromise());
       stack.addPromise(mockPromise());
-      stack.startQuiz();
+      stack.startQuiz([]);
 
       expect(stack.setResponse(true)).toBe(true);
       expect(stack.setResponse(false)).toBe(false);
       expect(stack.state).toBe(StackState.Complete);
     });
 
-    it('exposes setResponses', () => {
-      expect(() => stack.setResponses([true, true])).toThrow();
+    describe('startQuiz', () => {
+      it('needs to have promises before it can start', () => {
+        expect(() => stack.startQuiz([true, true])).toThrow();
+      });
 
-      stack.addPromise(mockPromise());
-      stack.addPromise(mockPromise());
+      it('can be started at the beginning', () => {
+        stack.addPromise(mockPromise());
+        expect(stack.startQuiz([])).toBe(stack);
 
-      expect(stack.setResponses([true])).toBe(stack);
-      expect(stack.state).toBe(StackState.InProgress); 
+        expect(stack.current).toBe(stack.promises[0]);
+        expect(stack.state).toBe(StackState.InProgress);
+      });
 
-      stack.setResponses([true, true]); 
+      it('can be started with a given preset of responses', () => {
+        stack.addPromise(mockPromise());
+        stack.addPromise(mockPromise());
 
-      expect(stack.getNumberOfCorrectResponses()).toBe(2);
-      expect(stack.state).toBe(StackState.Complete);
-    });
+        stack.startQuiz([true]);
 
-    it('exposes startQuiz', () => {
-      expect(stack.startQuiz).toThrow();
+        expect(stack.current).toBe(stack.promises[1]);
+        expect(stack.state).toBe(StackState.InProgress);
+        expect(stack.index).toBe(1);
+      });
 
-      stack.addPromise(mockPromise());
-      expect(stack.startQuiz()).toBe(stack);
+      it('can be completed by giving all responses', () => {
+        stack.addPromise(mockPromise());
+        stack.addPromise(mockPromise());
 
-      expect(stack.current).toBe(stack.promises[0]);
-      expect(stack.state).toBe(StackState.InProgress);
+        stack.startQuiz([true, true]);
+
+        expect(stack.current).toBeNull();
+        expect(stack.state).toBe(StackState.Complete);
+        expect(stack.index).toBe(2);
+      });
     });
   });
 

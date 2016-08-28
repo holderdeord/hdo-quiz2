@@ -27,7 +27,7 @@ export class StackListComponent {
     this.service.getStacks().subscribe(stacks => {
       stacks
         .filter(stack => !!this.stacks[stack.id])
-        .forEach(stack => stack.setResponses(this.stacks[stack.id]));
+        .forEach(stack => stack.startQuiz(this.stacks[stack.id]));
       this.availableStacks = stacks;
     });
   }

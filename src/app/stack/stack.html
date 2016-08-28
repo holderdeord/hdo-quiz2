@@ -1,5 +1,5 @@
 <div *ngIf="stack">
-  <h1>A specific stack: {{stack.name}}</h1>
+  <h1>{{stack.name}}</h1>
   <div *ngIf="stack.state === stackStates.InProgress">
     <p *ngIf="answeredLastCorrectly">Du svarte riktig på forrige løfte!</p>
     <p *ngIf="answeredLastCorrectly === false">Du svarte feil på forrige løfte...</p>

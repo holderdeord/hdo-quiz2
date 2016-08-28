@@ -23,8 +23,8 @@ export class StackComponent {
   ngOnInit() {
     this.route.params.subscribe(params => {
       let id = parseInt(params['id'], 10);
-      this.stacks[id] = [];
-      this.service.getStack(id).subscribe(stack => this.stack = stack.startQuiz());
+      this.stacks[id] = params['responses'] ? this.stacks[id] : [];
+      this.service.getStack(id).subscribe(stack => this.stack = stack.startQuiz(this.stacks[id]));
     });
   }
 
