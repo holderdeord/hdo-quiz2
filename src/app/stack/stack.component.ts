@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StackService, Stack, StackState } from '../shared/stack';
 
 @Component({
@@ -12,7 +12,10 @@ export class StackComponent {
   public answeredLastCorrectly: boolean;
   public stackStates = StackState;
 
-  constructor(private route: ActivatedRoute, private service: StackService) {
+  constructor(
+    private route: ActivatedRoute, 
+    private service: StackService,
+    private router: Router) {
   }
 
   ngOnInit() {
@@ -24,5 +27,8 @@ export class StackComponent {
 
   answer(answer: boolean) {
     this.answeredLastCorrectly = this.stack.giveAnswer(answer);
+    if (this.stack.state === StackState.Complete) {
+      this.router.navigate(['/stack', this.stack.id, this.stack.getResponses().map(response => response ? 1 : 0).join('')]);
+    }
   }
 }

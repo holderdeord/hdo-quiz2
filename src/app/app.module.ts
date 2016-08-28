@@ -6,7 +6,10 @@ import { routing,
 import { StackListComponent } from './stack-list/stack-list.component';
 import { HttpModule }     from '@angular/http';
 import { StackService } from './shared/stack/stack.service';
+
+import { AboutComponent } from './about';
 import { StackComponent } from './stack';
+import { ResultComponent } from './result';
 
 @NgModule({
     imports: [
@@ -16,6 +19,8 @@ import { StackComponent } from './stack';
     ],
     declarations: [
         AppComponent,
+        AboutComponent,
+        ResultComponent,
         StackListComponent,
         StackComponent
     ],

@@ -17,7 +17,7 @@ const HtmlElementsPlugin = require('./html-elements-plugin');
  * Webpack Constants
  */
 const METADATA = {
-  title: 'HDO admin',
+  title: 'HDO quiz',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer()
 };

@@ -1,0 +1,27 @@
+<div *ngIf="stack">
+  <p>Du fikk {{stack.getNumberOfCorrectAnswers()}} riktig svar!</p>
+  <table>
+    <thead>
+      <tr>
+        <th>Løfte</th>
+        <th>Holdt</th>
+        <th>Du svarte</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let answer of stack.answers">
+        <td>{{answer.promise.body}}</td>
+        <td>{{answer.promise.kept ? "Ja" : "Nei" }}</td>
+        <td>{{answer.response ? "Ja" : "Nei" }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <ul>
+    <li>
+      <a [routerLink]="['/stack', stack.id]">Prøv quiz igjen</a>
+    </li>
+    <li>
+      <a [routerLink]="['/home']">Tilbake til forsiden</a>
+    </li>
+  </ul>
+</div>

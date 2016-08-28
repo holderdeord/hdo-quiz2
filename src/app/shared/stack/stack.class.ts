@@ -40,6 +40,10 @@ export class Stack implements IStack {
     return this._answers.reduce((total, answer) => total += answer.hadCorrectAnswer() ? 1 : 0, 0);
   }
 
+  getResponses() : boolean[] {
+    return this._answers.map(answer => answer.response);
+  }
+
   giveAnswer(answer: boolean) : boolean {
     if (this.state === StackState.Setup) {
       throw new Error('Have not started quiz yet');
@@ -50,6 +54,11 @@ export class Stack implements IStack {
     let correctAnswer = this._answers[this._index].giveAnswer(answer);
     this._advance();
     return correctAnswer;
+  }
+
+  giveAnswers(answers: boolean[]) : Stack {
+    answers.forEach(answer => this.giveAnswer(answer));
+    return this;
   }
 
   startQuiz() : Stack {

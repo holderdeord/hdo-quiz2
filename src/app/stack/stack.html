@@ -7,26 +7,4 @@
     <button (click)="answer(true)">Holdt</button>
     <button (click)="answer(false)">Ikke holdt</button>
   </div>
-  <div *ngIf="stack.state === stackStates.Complete">
-    <p>Du fikk {{stack.getNumberOfCorrectAnswers()}} riktig svar!</p>
-    <table>
-      <thead>
-        <tr>
-          <th>Løfte</th>
-          <th>Holdt</th>
-          <th>Du svarte</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let answer of stack.answers">
-          <td>{{answer.promise.body}}</td>
-          <td>{{answer.promise.kept ? "Ja" : "Nei" }}</td>
-          <td>{{answer.response ? "Ja" : "Nei" }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <p>
-      <a [routerLink]="['/home']">Tilbake til forsiden</a>
-    </p>
-  </div>
 </div>

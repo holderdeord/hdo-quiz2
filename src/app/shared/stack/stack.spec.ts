@@ -67,6 +67,16 @@ describe('Stack (shared)', () => {
       expect(stack.getNumberOfCorrectAnswers()).toBe(2);
     });
 
+    it('exposes getResponses', () => {
+      expect(stack.getResponses()).toEqual([]);
+
+      stack.addPromise(mockPromise());
+      stack.startQuiz();
+      stack.giveAnswer(true);
+
+      expect(stack.getResponses()).toEqual([true]);
+    });
+
     it('exposes giveAnswer', () => {
       expect(() => stack.giveAnswer(true)).toThrow();
 
@@ -77,6 +87,18 @@ describe('Stack (shared)', () => {
       expect(stack.giveAnswer(true)).toBe(true);
       expect(stack.giveAnswer(false)).toBe(false);
       expect(stack.state).toBe(StackState.Complete);
+    });
+
+    it('exposes giveAnswers', () => {
+      expect(() => stack.giveAnswers([true, true])).toThrow();
+
+      stack.addPromise(mockPromise());
+      stack.addPromise(mockPromise());
+      stack.startQuiz();
+
+      expect(stack.giveAnswers([true, true])).toBe(stack);     
+
+      expect(stack.getNumberOfCorrectAnswers()).toBe(2);
     });
 
     it('exposes startQuiz', () => {
