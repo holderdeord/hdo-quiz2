@@ -9,7 +9,7 @@ import { ResultComponent } from './result';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: StackListComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'stack/:id', component: StackComponent },
   { path: 'stack/:id/:responses', component: StackComponent },

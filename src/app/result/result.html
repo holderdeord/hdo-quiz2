@@ -1,4 +1,13 @@
 <div *ngIf="stack">
+  <h1>{{stack.name}}</h1>
+  <ul>
+    <li>
+      <a [routerLink]="['/stack', stack.id]">Prøv quiz igjen</a> (for teste-formål)
+    </li>
+    <li>
+      <a [routerLink]="['/home']">Tilbake til forsiden</a>
+    </li>
+  </ul>
   <p>Du svarte {{stack.getNumberOfCorrectResponses()}} riktige</p>
   <table>
     <thead>
@@ -16,12 +25,4 @@
       </tr>
     </tbody>
   </table>
-  <ul>
-    <li>
-      <a [routerLink]="['/stack', stack.id]">Prøv quiz igjen</a> (for teste-formål)
-    </li>
-    <li>
-      <a [routerLink]="['/home']">Tilbake til forsiden</a>
-    </li>
-  </ul>
 </div>

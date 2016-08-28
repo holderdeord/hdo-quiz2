@@ -1,23 +1,15 @@
 import { Component } from '@angular/core';
 
+import { MainNavigationComponent } from '../main-navigation';
 import { StackListComponent } from '../stack-list';
 
 @Component({
   selector: 'home',
-  providers: [],
   directives: [
+    MainNavigationComponent,
     StackListComponent
   ],
-  pipes: [],
-  styles: [require('./home.css')],
   template: require('./home.html')
 })
 export class HomeComponent {
-  constructor() {
-  }
-
-  ngOnInit() {
-    console.log('hello `Home` component');
-  }
-
 }

@@ -3,8 +3,10 @@
   <div *ngIf="stack.state === stackStates.InProgress">
     <p *ngIf="answeredLastCorrectly">Du svarte riktig på forrige løfte!</p>
     <p *ngIf="answeredLastCorrectly === false">Du svarte feil på forrige løfte...</p>
+    <p>Spørsmål {{stack.index+1}} av {{stack.getNumberOfQuestions()}}</p>
     <p>{{stack.current.body}}</p>
-    <button (click)="answer(true)">Holdt</button>
-    <button (click)="answer(false)">Ikke holdt</button>
+    <p>Tror du {{stack.name}} holdt løftet?</p>
+    <button (click)="answer(true)">Ja</button>
+    <button (click)="answer(false)">Nei</button>
   </div>
 </div>

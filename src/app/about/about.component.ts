@@ -1,19 +1,13 @@
 import { Component } from '@angular/core';
 
+import { MainNavigationComponent } from '../main-navigation';
+
 @Component({
   selector: 'about',
-  styles: [`
-  `],
-  template: `
-    <h1>About</h1>
-  `
+  directives: [
+    MainNavigationComponent
+  ],
+  template: require('./about.html')
 })
 export class AboutComponent {
-  constructor() {
-
-  }
-
-  ngOnInit() {
-    console.log('hello `About` component');
-  }
 }

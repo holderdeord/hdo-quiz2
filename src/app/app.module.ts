@@ -9,8 +9,10 @@ import { StackService } from './shared/stack/stack.service';
 import { LocalStorageService } from './shared/storage';
 
 import { AboutComponent } from './about';
-import { StackComponent } from './stack';
+import { HomeComponent } from './home';
+import { MainNavigationComponent } from './main-navigation';
 import { ResultComponent } from './result';
+import { StackComponent } from './stack';
 
 @NgModule({
     imports: [
@@ -21,9 +23,11 @@ import { ResultComponent } from './result';
     declarations: [
         AppComponent,
         AboutComponent,
+        HomeComponent,
+        MainNavigationComponent,
         ResultComponent,
-        StackListComponent,
-        StackComponent
+        StackComponent,
+        StackListComponent
     ],
     providers: [
         appRoutingProviders,
