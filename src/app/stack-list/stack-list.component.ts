@@ -1,34 +1,29 @@
 import { Component } from '@angular/core';
-import { LocalStorage } from "angular2-localstorage/WebStorage";
 
 import { StackService } from '../shared/stack/stack.service';
 import { Stack, StackState } from '../shared/stack';
+import { LocalStorageService } from '../shared/storage';
 
 @Component({
   selector: 'hdo-stack-list',
-  providers: [
-    StackService
-  ],
-  directives: [
-  ],
-  pipes: [],
-  styles: [],
   template: require('./stack-list.html')
 })
 export class StackListComponent {
-  public availableStacks: Stack[];
+  public stacks: Stack[];
   public stackStates = StackState;
-  @LocalStorage() public stacks: Object = {};
 
-  constructor(private service: StackService) {
+  constructor(
+    private service: StackService,
+    private storageService: LocalStorageService) {
   }
 
   ngOnInit() {
+    let storage = this.storageService.setupStorage('stacks', {});
     this.service.getStacks().subscribe(stacks => {
       stacks
-        .filter(stack => !!this.stacks[stack.id])
-        .forEach(stack => stack.startQuiz(this.stacks[stack.id]));
-      this.availableStacks = stacks;
+        .filter(stack => !!storage()[stack.id])
+        .forEach(stack => stack.startQuiz(storage()[stack.id]));
+      this.stacks = stacks;
     });
   }
 }
