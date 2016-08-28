@@ -71,7 +71,9 @@ export class Stack implements IStack {
 
   startQuiz(responses: boolean[]): Stack {
     responses.forEach((response, index) => this._answers[index].setResponse(response));
-    this._state = responses.length === this._answers.length ? StackState.Complete : StackState.InProgress;
+    this._state = responses.length === this._answers.length ?
+      StackState.Complete :
+      StackState.InProgress;
     this._index = responses.length;
     this._current = this._promises[this._index] ? this._promises[this._index] : null;
     return this;

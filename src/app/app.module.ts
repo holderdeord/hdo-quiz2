@@ -37,6 +37,6 @@ import { StackComponent } from './stack';
     ],
     bootstrap: [AppComponent],
 })
-export class AppModule { 
+export class AppModule {
     constructor() {}
 }

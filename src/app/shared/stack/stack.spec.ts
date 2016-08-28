@@ -166,7 +166,9 @@ describe('Stack (shared)', () => {
 
   describe('Service', () => {
     describe('getStacks', () => {
-      it('should get stacks from the server', inject([MockBackend, StackService], fakeAsync((backend: MockBackend, service: StackService) => {
+      it('should get stacks from the server', inject(
+        [MockBackend, StackService],
+        fakeAsync((backend: MockBackend, service: StackService) => {
         backend.connections.subscribe((connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Get);
           expect(connection.request.url).toEqual('/assets/stacks.json');
@@ -175,7 +177,9 @@ describe('Stack (shared)', () => {
         service.getStacks();
       })));
 
-      it('transforms response to stacks', inject([MockBackend, StackService], fakeAsync((backend: MockBackend, service: StackService) => {
+      it('transforms response to stacks', inject(
+        [MockBackend, StackService],
+        fakeAsync((backend: MockBackend, service: StackService) => {
         backend.connections.subscribe((connection: MockConnection) => {
           let response = new ResponseOptions({ body: JSON.stringify(mockStackData()) });
           connection.mockRespond(new Response(response));
@@ -191,7 +195,9 @@ describe('Stack (shared)', () => {
     });
 
     describe('getStack', () => {
-      it('should get stacks from the server', inject([MockBackend, StackService], fakeAsync((backend: MockBackend, service: StackService) => {
+      it('should get stacks from the server', inject(
+        [MockBackend, StackService],
+        fakeAsync((backend: MockBackend, service: StackService) => {
         // does not support fetching just one atm
         backend.connections.subscribe((connection: MockConnection) => {
           expect(connection.request.method).toBe(RequestMethod.Get);
@@ -201,7 +207,9 @@ describe('Stack (shared)', () => {
         service.getStack(1);
       })));
 
-      it('transforms response to a stack', inject([MockBackend, StackService], fakeAsync((backend: MockBackend, service: StackService) => {
+      it('transforms response to a stack', inject(
+        [MockBackend, StackService],
+        fakeAsync((backend: MockBackend, service: StackService) => {
         backend.connections.subscribe((connection: MockConnection) => {
           let response = new ResponseOptions({ body: JSON.stringify(mockStackData()) });
           connection.mockRespond(new Response(response));
@@ -213,6 +221,6 @@ describe('Stack (shared)', () => {
           expect(stack.promises.length).toBe(2);
         });
       })));
-    })
+    });
   });
 });

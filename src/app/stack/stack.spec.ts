@@ -14,7 +14,7 @@ describe('Stack', () => {
 
   // will do this when https://angular.io/docs/ts/latest/guide/testing.html has some content 
   // on how to test components
-
+  //
   // beforeEach(() => addProviders([
   //   StackComponent,
   //   { provide: ActivatedRoute, useClass: MockActivatedRoute},
@@ -32,7 +32,7 @@ describe('Stack', () => {
   // beforeEach(inject([StackComponent], (stack: StackComponent) => {
   //   component.stack = new Stack()
   // });
-  
+  //
   // it('sets properties', inject([StackComponent], (stack: StackComponent) => {
   //   expect(stack.index).toBe(0);
   // }));
