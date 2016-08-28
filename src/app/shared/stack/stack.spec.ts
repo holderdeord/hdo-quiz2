@@ -34,7 +34,7 @@ describe('Stack (shared)', () => {
       expect(stack.promises.length).toBe(0);
       expect(stack.answers.length).toBe(0);
       expect(stack.current).toBeNull();
-      expect(stack.state).toBe(StackState.Setup);
+      expect(stack.state).toBe(StackState.NotStarted);
     });
 
     it('exposes addPromise', () => {
@@ -47,24 +47,24 @@ describe('Stack (shared)', () => {
       expect(() => stack.addPromise(mockPromise())).toThrow();      
     });
 
-    it('exposes getNumberOfCorrectAnswers', () => {
-      expect(stack.getNumberOfCorrectAnswers()).toBe(0);
+    it('exposes getNumberOfCorrectResponses', () => {
+      expect(stack.getNumberOfCorrectResponses()).toBe(0);
 
       stack.addPromise(mockPromise());
       stack.addPromise(mockPromise());
       stack.addPromise(mockPromise());
       stack.startQuiz();
       
-      expect(stack.getNumberOfCorrectAnswers()).toBe(0);
+      expect(stack.getNumberOfCorrectResponses()).toBe(0);
 
-      stack.giveAnswer(true);
+      stack.setResponse(true);
 
-      expect(stack.getNumberOfCorrectAnswers()).toBe(1);
+      expect(stack.getNumberOfCorrectResponses()).toBe(1);
       
-      stack.giveAnswer(false);
-      stack.giveAnswer(true);
+      stack.setResponse(false);
+      stack.setResponse(true);
 
-      expect(stack.getNumberOfCorrectAnswers()).toBe(2);
+      expect(stack.getNumberOfCorrectResponses()).toBe(2);
     });
 
     it('exposes getResponses', () => {
@@ -72,33 +72,46 @@ describe('Stack (shared)', () => {
 
       stack.addPromise(mockPromise());
       stack.startQuiz();
-      stack.giveAnswer(true);
+      stack.setResponse(true);
 
       expect(stack.getResponses()).toEqual([true]);
     });
 
-    it('exposes giveAnswer', () => {
-      expect(() => stack.giveAnswer(true)).toThrow();
+    it('exposes getResponsesAsString', () => {
+      expect(stack.getResponsesAsString()).toEqual('');
+
+      stack.addPromise(mockPromise());
+      stack.startQuiz();
+      stack.setResponse(true);
+
+      expect(stack.getResponsesAsString()).toEqual('1');
+    });
+
+    it('exposes setResponse', () => {
+      expect(() => stack.setResponse(true)).toThrow();
 
       stack.addPromise(mockPromise());
       stack.addPromise(mockPromise());
       stack.startQuiz();
 
-      expect(stack.giveAnswer(true)).toBe(true);
-      expect(stack.giveAnswer(false)).toBe(false);
+      expect(stack.setResponse(true)).toBe(true);
+      expect(stack.setResponse(false)).toBe(false);
       expect(stack.state).toBe(StackState.Complete);
     });
 
-    it('exposes giveAnswers', () => {
-      expect(() => stack.giveAnswers([true, true])).toThrow();
+    it('exposes setResponses', () => {
+      expect(() => stack.setResponses([true, true])).toThrow();
 
       stack.addPromise(mockPromise());
       stack.addPromise(mockPromise());
-      stack.startQuiz();
 
-      expect(stack.giveAnswers([true, true])).toBe(stack);     
+      expect(stack.setResponses([true])).toBe(stack);
+      expect(stack.state).toBe(StackState.InProgress); 
 
-      expect(stack.getNumberOfCorrectAnswers()).toBe(2);
+      stack.setResponses([true, true]); 
+
+      expect(stack.getNumberOfCorrectResponses()).toBe(2);
+      expect(stack.state).toBe(StackState.Complete);
     });
 
     it('exposes startQuiz', () => {

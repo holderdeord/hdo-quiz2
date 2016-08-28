@@ -1,10 +1,11 @@
 import { NgModule }       from '@angular/core';
 import { BrowserModule  } from '@angular/platform-browser';
-import { AppComponent }   from './app.component';
-import { routing,
-    appRoutingProviders } from './app.routes';
-import { StackListComponent } from './stack-list/stack-list.component';
 import { HttpModule }     from '@angular/http';
+import { LocalStorageService } from "angular2-localstorage/LocalStorageEmitter";
+
+import { AppComponent }   from './app.component';
+import { routing, appRoutingProviders } from './app.routes';
+import { StackListComponent } from './stack-list/stack-list.component';
 import { StackService } from './shared/stack/stack.service';
 
 import { AboutComponent } from './about';
@@ -26,8 +27,11 @@ import { ResultComponent } from './result';
     ],
     providers: [
         appRoutingProviders,
-        StackService
+        StackService,
+        LocalStorageService
     ],
     bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule { 
+    constructor(storageService: LocalStorageService) {}
+}

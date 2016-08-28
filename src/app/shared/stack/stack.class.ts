@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { IStack } from './stack.interface';
 import { IPromise } from '../promise/promise.interface';
 import { Promise } from '../promise/promise.class';
@@ -25,39 +26,44 @@ export class Stack implements IStack {
     this.promises = [];
     this.current = null;
     this._answers = [];
-    this._state = StackState.Setup;
+    this._state = StackState.NotStarted;
   }
 
   addPromise(promise: Promise) : void {
-    if (this.state !== StackState.Setup) {
+    if (this.state !== StackState.NotStarted) {
       throw new Error('Quiz is started');
     }
     this.promises.push(promise);
     this._answers.push(new Answer(promise));
   }
 
-  getNumberOfCorrectAnswers() : number {
-    return this._answers.reduce((total, answer) => total += answer.hadCorrectAnswer() ? 1 : 0, 0);
+  getNumberOfCorrectResponses() : number {
+    return this._answers.reduce((total, answer) => total += answer.hadCorrectResponse() ? 1 : 0, 0);
   }
 
   getResponses() : boolean[] {
     return this._answers.map(answer => answer.response);
   }
 
-  giveAnswer(answer: boolean) : boolean {
-    if (this.state === StackState.Setup) {
+  getResponsesAsString() : string {
+    return this._answers.map(answer => answer.response ? '1' : '0').join('');
+  }
+
+  setResponse(response: boolean) : boolean {
+    if (this.state === StackState.NotStarted) {
       throw new Error('Have not started quiz yet');
     }
     if (this.state === StackState.Complete) {
-      throw new Error('There are no question to answer');
+      throw new Error('There are no question to set response to');
     }
-    let correctAnswer = this._answers[this._index].giveAnswer(answer);
+    let correctAnswer = this._answers[this._index].setResponse(response);
     this._advance();
     return correctAnswer;
   }
 
-  giveAnswers(answers: boolean[]) : Stack {
-    answers.forEach(answer => this.giveAnswer(answer));
+  setResponses(responses: boolean[]) : Stack {
+    responses.forEach((response, index) => this._answers[index].setResponse(response));
+    this._state = responses.length === this._answers.length ? StackState.Complete : StackState.InProgress;
     return this;
   }
 
@@ -78,7 +84,7 @@ export class Stack implements IStack {
 }
 
 export enum StackState {
-  Setup,
+  NotStarted,
   InProgress,
   Complete
 };

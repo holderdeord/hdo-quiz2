@@ -11,21 +11,21 @@ describe('Answer (shared)', () => {
       answer = new Answer(promise);
     });
 
-    it('exposes giveAnswer', () => {
-      expect(answer.giveAnswer(true)).toBe(true);
-      expect(answer.giveAnswer(false)).toBe(false);
-
-      promise.kept = false;
-      expect(answer.giveAnswer(true)).toBe(false);
-      expect(answer.giveAnswer(false)).toBe(true);
+    it('exposes hadCorrectResponse', () => {
+      expect(answer.hadCorrectResponse).toThrow();
+      answer.setResponse(true);
+      expect(answer.hadCorrectResponse()).toBe(true);
+      answer.setResponse(false);
+      expect(answer.hadCorrectResponse()).toBe(false);
     });
 
-    it('exposes hadCorrectAnswer', () => {
-      expect(answer.hadCorrectAnswer).toThrow();
-      answer.giveAnswer(true);
-      expect(answer.hadCorrectAnswer()).toBe(true);
-      answer.giveAnswer(false);
-      expect(answer.hadCorrectAnswer()).toBe(false);
+    it('exposes setResponse', () => {
+      expect(answer.setResponse(true)).toBe(true);
+      expect(answer.setResponse(false)).toBe(false);
+
+      promise.kept = false;
+      expect(answer.setResponse(true)).toBe(false);
+      expect(answer.setResponse(false)).toBe(true);
     });
   });
 });

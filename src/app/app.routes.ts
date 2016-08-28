@@ -12,7 +12,7 @@ const appRoutes: Routes = [
   { path: 'home', component: StackListComponent },
   { path: 'about', component: AboutComponent },
   { path: 'stack/:id', component: StackComponent },
-  { path: 'stack/:id/:responses', component: ResultComponent }
+  { path: 'result/:id/:responses', component: ResultComponent }
 ];
 
 export const appRoutingProviders: any[] = [

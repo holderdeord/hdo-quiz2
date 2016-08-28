@@ -1,5 +1,9 @@
 <ul>
-  <li *ngFor="let stack of stacks">
-    <a [routerLink]="['/stack', stack.id]">{{stack.name}}</a>
+  <li *ngFor="let stack of availableStacks">
+    <a *ngIf="stack.state === stackStates.NotStarted" [routerLink]="['/stack', stack.id]">{{stack.name}}</a>
+    <span *ngIf="stack.state === stackStates.Complete">
+      <a [routerLink]="['/result', stack.id, stack.getResponsesAsString()]">{{stack.name}}</a>
+      Du har fullført denne tidligere med {{stack.getNumberOfCorrectResponses()}} rette
+    </span>
   </li>
 </ul>

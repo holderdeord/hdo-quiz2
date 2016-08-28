@@ -1,5 +1,5 @@
 <div *ngIf="stack">
-  <p>Du fikk {{stack.getNumberOfCorrectAnswers()}} riktig svar!</p>
+  <p>Du svarte {{stack.getNumberOfCorrectResponses()}} riktige</p>
   <table>
     <thead>
       <tr>
@@ -18,7 +18,7 @@
   </table>
   <ul>
     <li>
-      <a [routerLink]="['/stack', stack.id]">Prøv quiz igjen</a>
+      <a [routerLink]="['/stack', stack.id]">Prøv quiz igjen</a> (for teste-formål)
     </li>
     <li>
       <a [routerLink]="['/home']">Tilbake til forsiden</a>
