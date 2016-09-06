@@ -5,6 +5,10 @@ export class LocalStorageService {
   constructor(private _window: Window) {
   }
 
+  clearStorage(name: string): void {
+    window.localStorage.removeItem(name);
+  }
+
   setupStorage(name: string, defaultValue: any): Function {
     let window = this._window;
     return function () {

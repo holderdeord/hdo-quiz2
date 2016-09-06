@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { LocalStorageService } from '../shared/storage';
 import { MainNavigationComponent } from '../main-navigation';
 import { StackListComponent } from '../stack-list';
 
@@ -12,4 +13,10 @@ import { StackListComponent } from '../stack-list';
   template: require('./home.html')
 })
 export class HomeComponent {
+  constructor(private storageService: LocalStorageService, private window: Window) {}
+
+  clearStorage() {
+    this.storageService.clearStorage('stacks');
+    window.location.reload();
+  }
 }
