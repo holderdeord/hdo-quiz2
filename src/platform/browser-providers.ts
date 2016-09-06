@@ -5,7 +5,7 @@
 // Angular 2
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 // Angular 2 Http
-import { HTTP_PROVIDERS } from '@angular/http';
+// import { HTTP_PROVIDERS } from '@angular/http';
 // Angular 2 Router
 // import { appRoutingProviders } from '@angular/router';
 // Angular 2 forms
@@ -19,7 +19,7 @@ export const APPLICATION_PROVIDERS = [
   // disableDeprecatedForms(),
   // provideForms(),
 
-  ...HTTP_PROVIDERS,
+  // ...HTTP_PROVIDERS,
   // ...ROUTER_PROVIDERS,
   { provide: LocationStrategy, useClass: HashLocationStrategy }
 ];

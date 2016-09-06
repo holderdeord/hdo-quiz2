@@ -6,7 +6,7 @@ import { StackListComponent } from '../stack-list';
 
 @Component({
   selector: 'home',
-  directives: [
+  providers: [
     MainNavigationComponent,
     StackListComponent
   ],

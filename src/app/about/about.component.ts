@@ -4,7 +4,7 @@ import { MainNavigationComponent } from '../main-navigation';
 
 @Component({
   selector: 'about',
-  directives: [
+  providers: [
     MainNavigationComponent
   ],
   template: require('./about.html')

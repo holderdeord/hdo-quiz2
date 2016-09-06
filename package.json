@@ -70,7 +70,8 @@
     "core-js": "^2.4.1",
     "ie-shim": "^0.1.0",
     "observe-js": "^0.5.7",
-    "rxjs": "5.0.0-beta.11",
+    "rxjs": "^5.0.0-beta.11",
+    "swing": "^3.0.3",
     "ts-loader": "^0.8.2",
     "zone.js": "0.6.17"
   },

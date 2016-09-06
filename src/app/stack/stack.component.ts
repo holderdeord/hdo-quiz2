@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+// import * as Swing from 'swing';
 
 import { StackService, Stack, StackState } from '../shared/stack';
 import { LocalStorageService } from '../shared/storage';

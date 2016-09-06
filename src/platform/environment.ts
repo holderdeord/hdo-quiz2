@@ -1,7 +1,7 @@
 
 // Angular 2
 import { CompilerConfig } from '@angular/compiler';
-import { PLATFORM_DIRECTIVES, PLATFORM_PIPES } from '@angular/core';
+// import { PLATFORM_DIRECTIVES, PLATFORM_PIPES } from '@angular/core';
 // Environment Providers
 let PROVIDERS = [
   // common env directives
@@ -20,7 +20,7 @@ if ('production' === ENV) {
         });
         return compiler;
       },
-      deps: [PLATFORM_DIRECTIVES, PLATFORM_PIPES]
+      // deps: [PLATFORM_DIRECTIVES, PLATFORM_PIPES]
     },
     // custom providers in production
   ];

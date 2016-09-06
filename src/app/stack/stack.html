@@ -2,13 +2,15 @@
   <div div class="jumbotron">
     <h1>{{stack.name}}</h1>
   </div>
-  <div *ngIf="stack.state === stackStates.InProgress">
-    <p *ngIf="answeredLastCorrectly" class="alert alert-success" role="alert">Du svarte riktig på forrige løfte!</p>
-    <p *ngIf="answeredLastCorrectly === false" class="alert alert-danger">Du svarte feil på forrige løfte...</p>
-    <p>Spørsmål {{stack.index+1}} av {{stack.getNumberOfQuestions()}}</p>
-    <p>{{stack.current.body}}</p>
-    <p>Tror du {{stack.name}} holdt løftet?</p>
-    <button (click)="answer(true)" type="button" class="btn btn-success">Ja</button>
-    <button (click)="answer(false)" type="button" class="btn btn-danger">Nei</button>
-  </div>
+  <p *ngIf="answeredLastCorrectly" class="alert alert-success" role="alert">Du svarte riktig på forrige løfte!</p>
+  <p *ngIf="answeredLastCorrectly === false" class="alert alert-danger">Du svarte feil på forrige løfte...</p>
+  <ul>
+    <li *ngFor="let promise of stack.promises; let index = index;">
+      <p>Spørsmål {{index+1}} av {{stack.getNumberOfQuestions()}}</p>
+      <p>{{promise.body}}</p>
+    </li>
+  </ul>
+  <p>Tror du {{stack.name}} holdt løftet?</p>
+  <button (click)="answer(true)" type="button" class="btn btn-success">Ja</button>
+  <button (click)="answer(false)" type="button" class="btn btn-danger">Nei</button>
 </div>
