@@ -1,5 +1,7 @@
 <div *ngIf="stack">
-  <h1>{{stack.name}}</h1>
+  <div class="jumbotron">
+    <h1>{{stack.name}}</h1>
+  </div>
   <ul>
     <li>
       <a [routerLink]="['/stack', stack.id]">Prøv quiz igjen</a> (for teste-formål)
@@ -9,7 +11,7 @@
     </li>
   </ul>
   <p>Du svarte {{stack.getNumberOfCorrectResponses()}} riktige</p>
-  <table>
+  <table class="table">
     <thead>
       <tr>
         <th>Løfte</th>
@@ -18,7 +20,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let answer of stack.answers">
+      <tr *ngFor="let answer of stack.answers" [className]="answer.promise.kept === answer.response ? 'table-success' : 'table-danger'">
         <td>{{answer.promise.body}}</td>
         <td>{{answer.promise.kept ? "Ja" : "Nei" }}</td>
         <td>{{answer.response ? "Ja" : "Nei" }}</td>
