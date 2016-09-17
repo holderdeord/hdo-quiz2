@@ -3,7 +3,9 @@ import {Stack} from '../shared/swing';
 
 import {NodeListService} from '../shared/node-list';
 
-@Directive({selector: '[hdoCards]'})
+@Directive({
+  selector: '[hdoCards]'
+})
 export class CardsDirective {
   constructor(private el: ElementRef,
               private nodeListService: NodeListService) {

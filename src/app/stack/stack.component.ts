@@ -6,7 +6,7 @@ import {LocalStorageService} from '../shared/storage';
 
 @Component({
   selector: 'stack',
-  styles: [`.card { display: none; } .card.active { display: block; }`],
+  styles: [``+require('!raw!sass!./stack.scss')],
   template: require('./stack.html')
 })
 export class StackComponent {
