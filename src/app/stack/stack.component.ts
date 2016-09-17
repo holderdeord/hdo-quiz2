@@ -1,13 +1,12 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-// import * as Swing from 'swing';
+import {Component} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
-import { StackService, Stack, StackState } from '../shared/stack';
-import { LocalStorageService } from '../shared/storage';
+import {StackService, Stack, StackState} from '../shared/stack';
+import {LocalStorageService} from '../shared/storage';
 
 @Component({
   selector: 'stack',
-  styles: [],
+  styles: [`.card { display: none; } .card.active { display: block; }`],
   template: require('./stack.html')
 })
 export class StackComponent {
@@ -17,11 +16,10 @@ export class StackComponent {
   private _storage: Function;
   private _responses: boolean[];
 
-  constructor(
-    private route: ActivatedRoute,
-    private service: StackService,
-    private router: Router,
-    private storageService: LocalStorageService) {
+  constructor(private route: ActivatedRoute,
+              private service: StackService,
+              private router: Router,
+              private storageService: LocalStorageService) {
     this._storage = this.storageService.setupStorage('stacks', {});
   }
 
@@ -31,7 +29,9 @@ export class StackComponent {
       this._responses = params['responses'] ?
         params['responses'].split('').map(response => response === '1') :
         [];
-      this.service.getStack(id).subscribe(stack => this.stack = stack.startQuiz(this._responses));
+      this.service.getStack(id).subscribe(stack => {
+        this.stack = stack.startQuiz(this._responses);
+      });
     });
   }
 

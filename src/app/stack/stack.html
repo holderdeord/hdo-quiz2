@@ -4,8 +4,8 @@
   </div>
   <p *ngIf="answeredLastCorrectly" class="alert alert-success" role="alert">Du svarte riktig på forrige løfte!</p>
   <p *ngIf="answeredLastCorrectly === false" class="alert alert-danger">Du svarte feil på forrige løfte...</p>
-  <ul>
-    <li *ngFor="let promise of stack.promises; let index = index;">
+  <ul hdoCards>
+    <li class="card" [ngClass]="{'active': index === stack.index}" *ngFor="let promise of stack.promises; let index = index;">
       <p>Spørsmål {{index+1}} av {{stack.getNumberOfQuestions()}}</p>
       <p>{{promise.body}}</p>
     </li>
