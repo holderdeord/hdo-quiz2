@@ -1,6 +1,29 @@
-.card {
-  display: none;
-}
-.card.active {
-  display: block;
+[hdoCards] {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  .card,
+  .next {
+    background-color: white;
+    border: solid 1px black;
+    height: 15em;
+    padding: 1em;
+    .body {
+      font-weight: bold;
+    }
+  }
+  .card {
+    cursor: move;
+  }
+  .next {
+    position: absolute;
+    opacity: 0.5;
+  }
+  > div {
+    display: none;
+    &.active {
+      display: block;
+    }
+  }
 }

@@ -4,12 +4,18 @@
   </div>
   <p *ngIf="answeredLastCorrectly" class="alert alert-success" role="alert">Du svarte riktig på forrige løfte!</p>
   <p *ngIf="answeredLastCorrectly === false" class="alert alert-danger">Du svarte feil på forrige løfte...</p>
-  <ul hdoCards>
-    <li class="card" [ngClass]="{'active': index === stack.index}" *ngFor="let promise of stack.promises; let index = index;">
-      <p>Spørsmål {{index+1}} av {{stack.getNumberOfQuestions()}}</p>
-      <p>{{promise.body}}</p>
-    </li>
-  </ul>
+  <div hdoCards (throwLeft)="answer(false)" (throwRight)="answer(true)">
+    <div [ngClass]="{'active': index === stack.index}" *ngFor="let promise of stack.promises; let index = index;">
+      <div class="next" *ngIf="index + 1 < stack.getNumberOfQuestions()">
+        <p class="title">Spørsmål {{index+2}} av {{stack.getNumberOfQuestions()}}</p>
+        <p class="body">{{stack.promises[index+1].body}}</p>
+      </div>
+      <div class="card">
+        <p class="title">Spørsmål {{index+1}} av {{stack.getNumberOfQuestions()}}</p>
+        <p class="body">{{promise.body}}</p>
+      </div>
+    </div>
+  </div>
   <p>Tror du {{stack.name}} holdt løftet?</p>
   <button (click)="answer(true)" type="button" class="btn btn-success">Ja</button>
   <button (click)="answer(false)" type="button" class="btn btn-danger">Nei</button>
