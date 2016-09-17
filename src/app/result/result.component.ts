@@ -4,7 +4,6 @@ import { StackService, Stack } from '../shared/stack';
 
 @Component({
   selector: 'result',
-  styles: [],
   template: require('./result.html')
 })
 export class ResultComponent {

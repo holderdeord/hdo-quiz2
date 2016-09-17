@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {Observable} from 'rxjs/Rx';
 
 import {StackService, Stack, StackState} from '../shared/stack';
 import {LocalStorageService} from '../shared/storage';
@@ -48,6 +49,7 @@ export class StackComponent {
 
   answer(response: boolean) {
     this.answeredLastCorrectly = this.stack.setResponse(response);
+
     this._responses.push(response);
     this._storage(this.stack.id, this._responses);
     if (this.stack.state === StackState.Complete) {

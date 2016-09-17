@@ -1,7 +1,5 @@
-<div *ngIf="stack">
-  <div div class="jumbotron">
-    <h1>{{stack.name}}</h1>
-  </div>
+<div class="quiz" *ngIf="stack">
+  <h1>{{stack.name}}</h1>
   <p *ngIf="answeredLastCorrectly" class="alert alert-success" role="alert">Du svarte riktig på forrige løfte!</p>
   <p *ngIf="answeredLastCorrectly === false" class="alert alert-danger">Du svarte feil på forrige løfte...</p>
   <div hdoCards [stack]="swingStack" (addCard)="addCard($event.index, $event.card)" (throwLeft)="answer(false)" (throwRight)="answer(true)">
@@ -17,6 +15,12 @@
     </div>
   </div>
   <p>Tror du {{stack.name}} holdt løftet?</p>
-  <button (click)="throwLeft()" type="button" class="btn btn-danger">Nei</button>
-  <button (click)="throwRight()" type="button" class="btn btn-success">Ja</button>
+  <div class="row">
+    <div class="col-xs-6">
+      <button (click)="answer(false)" type="button" class="btn btn-block btn-danger">Nei</button>
+    </div>
+    <div class="col-xs-6">
+      <button (click)="answer(true)" type="button" class="btn btn-block btn-success">Ja</button>
+    </div>
+  </div>
 </div>
