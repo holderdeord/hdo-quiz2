@@ -11,7 +11,7 @@ import {LocalStorageService} from '../shared/storage';
   template: require('./quiz.html')
 })
 export class QuizComponent {
-  private _responses: boolean[];
+  public responses: boolean[];
   public stack: Stack;
 
   constructor(private route: ActivatedRoute,
@@ -23,15 +23,18 @@ export class QuizComponent {
   ngOnInit() {
     this.route.params.subscribe(params => {
       let id = parseInt(params['id'], 10);
-      this._responses = params['responses'] ?
-        params['responses'].split('').map(response => response === '1') :
-        [];
+      this.responses = [];
       this.service.getStack(id).subscribe(stack => {
-        this.stack = stack.startQuiz(this._responses);
+        this.stack = stack.startQuiz(this.responses);
       });
     });
   }
 
   answer(response: boolean) {
+    this.stack.setResponse(response);
+    this.responses.push(response);
+    if (this.stack.state === StackState.Complete) {
+      this.router.navigate(['/result', this.stack.id, this.stack.getResponsesAsString()]);
+    }
   }
 }
