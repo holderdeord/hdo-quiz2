@@ -1,8 +1,8 @@
 <ul class="list-group">
   <li *ngFor="let stack of stacks" class="list-group-item">
-    <a *ngIf="stack.state === stackStates.NotStarted" [routerLink]="['/stack', stack.id]">{{stack.name}}</a>
+    <a *ngIf="stack.state === stackStates.NotStarted" [routerLink]="['/quiz', stack.id]">{{stack.name}}</a>
     <span *ngIf="stack.state === stackStates.InProgress">
-      <a [routerLink]="['/stack', stack.id, stack.getResponsesAsString()]">{{stack.name}}</a>
+      <a [routerLink]="['/quiz', stack.id, stack.getResponsesAsString()]">{{stack.name}}</a>
       (påbegynt {{stack.getNumberOfResponses()}} av {{stack.getNumberOfQuestions()}} spørsmål)
     </span>
     <span *ngIf="stack.state === stackStates.Complete">

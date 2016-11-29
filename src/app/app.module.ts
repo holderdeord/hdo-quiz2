@@ -13,6 +13,7 @@ import {AboutComponent} from './about';
 import {CardsDirective} from './cards';
 import {HomeComponent} from './home';
 import {MainNavigationComponent} from './main-navigation';
+import {QuizComponent} from './quiz';
 import {ResultComponent} from './result';
 import {StackComponent} from './stack';
 import {StackListComponent} from './stack-list';
@@ -29,6 +30,7 @@ import {StackListComponent} from './stack-list';
     CardsDirective,
     HomeComponent,
     MainNavigationComponent,
+    QuizComponent,
     ResultComponent,
     StackComponent,
     StackListComponent

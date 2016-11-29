@@ -3,6 +3,7 @@ import { ModuleWithProviders } from '@angular/core';
 
 import { HomeComponent } from './home';
 import { AboutComponent } from './about';
+import { QuizComponent } from './quiz';
 import { StackListComponent } from './stack-list';
 import { StackComponent } from './stack';
 import { ResultComponent } from './result';
@@ -11,6 +12,7 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
+  { path: 'quiz/:id', component: QuizComponent },
   { path: 'stack/:id', component: StackComponent },
   { path: 'stack/:id/:responses', component: StackComponent },
   { path: 'result/:id/:responses', component: ResultComponent }
