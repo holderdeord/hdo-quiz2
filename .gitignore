@@ -3,6 +3,6 @@ coverage
 dist
 hdo-bootstrap
 node_modules
-typings
+typings/globals
 
 npm-debug.log

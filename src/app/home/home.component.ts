@@ -5,7 +5,7 @@ import { MainNavigationComponent } from '../main-navigation';
 import { StackListComponent } from '../stack-list';
 
 @Component({
-  selector: 'home',
+  selector: 'hdo-home',
   providers: [
     MainNavigationComponent,
     StackListComponent

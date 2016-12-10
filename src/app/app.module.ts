@@ -5,12 +5,14 @@ import {HttpModule}     from '@angular/http';
 import {AppComponent}   from './app.component';
 import {routing, appRoutingProviders} from './app.routes';
 
+import {ChatService} from './shared/chat';
 import {NodeListService} from './shared/node-list';
 import {StackService} from './shared/stack';
 import {LocalStorageService} from './shared/storage';
 
 import {AboutComponent} from './about';
 import {CardsDirective} from './cards';
+import {ChatEntryComponent, ChatMessageEntryComponent} from './shared/chat';
 import {HomeComponent} from './home';
 import {MainNavigationComponent} from './main-navigation';
 import {QuizComponent} from './quiz';
@@ -27,6 +29,8 @@ import {StackListComponent} from './stack-list';
   declarations: [
     AppComponent,
     AboutComponent,
+    ChatEntryComponent,
+    ChatMessageEntryComponent,
     CardsDirective,
     HomeComponent,
     MainNavigationComponent,
@@ -35,8 +39,12 @@ import {StackListComponent} from './stack-list';
     StackComponent,
     StackListComponent
   ],
+  entryComponents: [
+    ChatMessageEntryComponent
+  ],
   providers: [
     appRoutingProviders,
+    ChatService,
     StackService,
     LocalStorageService,
     NodeListService,

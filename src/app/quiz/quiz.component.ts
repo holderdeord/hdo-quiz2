@@ -4,20 +4,23 @@ import {Observable} from 'rxjs/Rx';
 
 import {StackService, Stack, StackState} from '../shared/stack';
 import {LocalStorageService} from '../shared/storage';
+import {ChatService, IChatEntry, ChatMessageEntryComponent} from '../shared/chat';
 
 @Component({
-  selector: 'quiz',
+  selector: 'hdo-quiz',
   styles: [``+require('!raw!sass!./quiz.scss')],
   template: require('./quiz.html')
 })
 export class QuizComponent {
   public responses: boolean[];
   public stack: Stack;
+  public entries: any[] = [];
 
   constructor(private route: ActivatedRoute,
               private service: StackService,
               private router: Router,
-              private storageService: LocalStorageService) {
+              private storageService: LocalStorageService,
+              private chatService: ChatService) {
   }
 
   ngOnInit() {
@@ -28,6 +31,7 @@ export class QuizComponent {
         this.stack = stack.startQuiz(this.responses);
       });
     });
+    this.chatService.entries.subscribe(entry => this.entries.push(entry));
   }
 
   answer(response: boolean) {

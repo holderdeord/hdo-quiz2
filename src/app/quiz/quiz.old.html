@@ -1,0 +1,48 @@
+<div class="quiz" *ngIf="stack">
+  <div class="row msg-group">
+    <div class="col-xs-2">
+      <img class="img-thumbnail" src="/assets/img/oldlogo.png" />
+    </div>
+    <div class="col-xs-10">
+      <ul class="list-group">
+        <li class="list-group-item">Hei, velkommen til Holder de ord sin Quiz-app!</li>
+        <li class="list-group-item">Her kan du teste dine kunnskaper om {{stack.name}}</li>
+        <li class="list-group-item">Under vil vi presentere en rekke løfter</li>
+        <li class="list-group-item">Bruk knappene til å presentere om du tror løftene er holdt eller ikke</li>
+      </ul>
+    </div>
+  </div>
+  <div *ngFor="let promise of stack.promises; let index = index;">
+    <div class="row msg-group" *ngIf="stack.index >= index">
+      <div class="col-xs-2">
+        <img class="img-thumbnail" src="/assets/img/oldlogo.png" />
+      </div>
+      <div class="col-xs-10">
+        <ul class="list-group">
+          <li class="list-group-item">Spørsmål {{index+1}} av {{stack.getNumberOfQuestions()}}</li>
+          <li class="list-group-item">{{promise.body}}</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row msg-group" *ngIf="responses[index] != undefined">
+      <div class="col-xs-10">
+        <ul class="list-group">
+          <li class="list-group-item">{{responses[index] ? 'Ja' : 'Nei'}}</li>
+        </ul>
+        <p *ngIf="responses[index] === stack.promises[index].kept" class="alert alert-success" role="alert">Du svarte riktig!</p>
+        <p *ngIf="responses[index] !== stack.promises[index].kept" class="alert alert-danger">Du svarte feil...</p>
+      </div>
+      <div class="col-xs-2">
+        <img class="img-thumbnail" src="/assets/img/fallback_avatar.png" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6">
+      <button (click)="answer(false)" type="button" class="btn btn-block btn-danger">Nei</button>
+    </div>
+    <div class="col-xs-6">
+      <button (click)="answer(true)" type="button" class="btn btn-block btn-success">Ja</button>
+    </div>
+  </div>
+</div>
