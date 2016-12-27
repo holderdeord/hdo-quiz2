@@ -11,4 +11,5 @@ export class ChatService {
     setTimeout(() => this.entries.emit({ type: ChatMessageEntryComponent }), 1000);
   }
 
+
 }

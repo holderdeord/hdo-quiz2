@@ -1,5 +1,5 @@
 import {Directive, ElementRef, Input, Output, EventEmitter} from '@angular/core';
-// import {Stack} from '../shared/swing';
+import {SwingStack} from '../shared/swing';
 
 import {NodeListService} from '../shared/node-list';
 
@@ -17,19 +17,19 @@ export class CardsDirective {
   }
 
   ngAfterViewInit() {
-   // const stack = this.stack || Stack();
+    const stack = this.stack || SwingStack();
     this.nodeListService.toArray(this.el.nativeElement.childNodes)
       .filter(containerElement => containerElement.nodeName === 'DIV')
       .map(container => this.nodeListService.toArray(container.childNodes)
         .filter(cardElement => cardElement.nodeName === 'DIV' && cardElement.classList.contains('card'))[0]
       )
       .forEach((cardElement, index) => {
-     //   let card = stack.createCard(cardElement);
+        let card = stack.createCard(cardElement);
         this.addCard.emit({
           index: index,
-      //    card: card
+          card: card
         });
       });
-    //stack.on('throwout', event => event.throwDirection > 0 ? this.throwRight.emit(event) : this.throwLeft.emit(event));
+    stack.on('throwout', event => event.throwDirection > 0 ? this.throwRight.emit(event) : this.throwLeft.emit(event));
   }
 }

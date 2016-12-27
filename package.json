@@ -71,7 +71,7 @@
     "ie-shim": "^0.1.0",
     "observe-js": "^0.5.7",
     "rxjs": "^5.0.0-beta.12",
-    "swing": "^4.0.0",
+    "swing": "3.0.3",
     "zone.js": "0.7.2"
   },
   "devDependencies": {

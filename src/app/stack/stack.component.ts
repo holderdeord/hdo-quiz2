@@ -4,11 +4,11 @@ import {Observable} from 'rxjs/Rx';
 
 import {StackService, Stack, StackState} from '../shared/stack';
 import {LocalStorageService} from '../shared/storage';
-// import {Stack as SwingStack, Card, ICard} from '../shared/swing';
+import {SwingStack, SwingCard, ISwingCard} from '../shared/swing';
 
 @Component({
   selector: 'stack',
-  styles: [``+require('!raw!sass!./stack.scss')],
+  styles: [`` + require('!raw!sass!./stack.scss')],
   template: require('./stack.html')
 })
 export class StackComponent {
@@ -19,7 +19,7 @@ export class StackComponent {
 
   private _storage: Function;
   private _responses: boolean[];
-//private _cards: ICard[] = [];
+  private _cards: ISwingCard[] = [];
 
   constructor(private route: ActivatedRoute,
               private service: StackService,
@@ -38,14 +38,14 @@ export class StackComponent {
         this.stack = stack.startQuiz(this._responses);
       });
     });
-  //  this.swingStack = SwingStack({
-      //throwOutConfidence: (offset, element) => Math.min(Math.abs(offset) / (element.offsetWidth / 2), 1)
-    //});
+    this.swingStack = SwingStack({
+      throwOutConfidence: (offset, element) => Math.min(Math.abs(offset) / (element.offsetWidth / 2), 1)
+    });
   }
 
-  //addCard(index: number, card: ICard) {
-  //  this._cards[index] = card;
-//  }
+  addCard(index: number, card: ISwingCard) {
+    this._cards[index] = card;
+  }
 
   answer(response: boolean) {
     this.answeredLastCorrectly = this.stack.setResponse(response);
@@ -58,10 +58,10 @@ export class StackComponent {
   }
 
   throwLeft() {
-    //this._cards[this.stack.index].throwOut(Card.DIRECTION_LEFT, 0);
+    this._cards[this.stack.index].throwOut(SwingCard.DIRECTION_LEFT, 0);
   }
 
   throwRight() {
-    //this._cards[this.stack.index].throwOut(Card.DIRECTION_RIGHT, 0);
+    this._cards[this.stack.index].throwOut(SwingCard.DIRECTION_RIGHT, 0);
   }
 }
