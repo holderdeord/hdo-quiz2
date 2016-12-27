@@ -148,7 +148,8 @@ module.exports = {
        * See: https://github.com/deepsweet/istanbul-instrumenter-loader
        */
       {
-        test: /\.(js|ts)$/, loader: 'istanbul-instrumenter-loader',
+        test: /\.(js|ts)$/,
+        loader: 'istanbul-instrumenter-loader',
         include: helpers.root('src'),
         exclude: [
           /\.(e2e|spec)\.ts$/,

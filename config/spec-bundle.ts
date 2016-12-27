@@ -25,15 +25,6 @@ require('zone.js/dist/sync-test');
 // RxJS
 require('rxjs/Rx');
 
-var testing = require('@angular/core/testing');
-var http = require('@angular/http/testing');
-var browser = require('@angular/platform-browser-dynamic/testing');
-
-testing.setBaseTestProviders(
-  browser.TEST_BROWSER_DYNAMIC_PLATFORM_PROVIDERS,
-  browser.TEST_BROWSER_DYNAMIC_APPLICATION_PROVIDERS
-);
-
 /*
  * Ok, this is kinda crazy. We can use the the context method on
  * require that webpack created in order to tell webpack
@@ -43,16 +34,8 @@ testing.setBaseTestProviders(
  * any file that ends with spec.js and get its path. By passing in true
  * we say do this recursively
  */
-var testContext = require.context('../src', true, /\.spec\.ts/);
+const testContext = require.context('../src', true, /\.spec\.ts/);
+testContext.keys().forEach(testContext);
 
-/*
- * get all the files, for each file, call the context function
- * that will require the file and load it up here. Context will
- * loop and require those spec files here
- */
-function requireAll(requireContext) {
-  return requireContext.keys().map(requireContext);
-}
-
-// requires and returns all modules that match
-var modules = requireAll(testContext);
+const test = require('../src/app/app.spec');
+console.log(test);

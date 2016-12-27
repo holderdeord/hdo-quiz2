@@ -3,5 +3,7 @@ coverage
 dist
 node_modules
 typings/globals
+karma-*
 
+npm-debug.log
 npm-debug.log.*
