@@ -1,7 +1,6 @@
-import {Directive, ElementRef, Input, Output, EventEmitter} from '@angular/core';
-import {SwingStack} from '../shared/swing';
-
-import {NodeListService} from '../shared/node-list';
+import { Directive, ElementRef, Input, Output, EventEmitter } from '@angular/core';
+import { swingStack } from '../shared/swing';
+import { NodeListService } from '../shared/node-list';
 
 @Directive({
   selector: '[hdoCards]'
@@ -17,7 +16,7 @@ export class CardsDirective {
   }
 
   ngAfterViewInit() {
-    const stack = this.stack || SwingStack();
+    const stack = this.stack || swingStack();
     this.nodeListService.toArray(this.el.nativeElement.childNodes)
       .filter(containerElement => containerElement.nodeName === 'DIV')
       .map(container => this.nodeListService.toArray(container.childNodes)

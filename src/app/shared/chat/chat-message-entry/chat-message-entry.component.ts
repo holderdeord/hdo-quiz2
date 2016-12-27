@@ -1,9 +1,9 @@
-import {Component} from '@angular/core';
-import {IChatEntry} from '../chat-entry';
+import { Component } from '@angular/core';
+import { IChatEntry } from '../chat-entry';
 
 @Component({
   selector: 'hdo-chat-message-entry',
-  styles: [``+require('!raw!sass!./chat-message-entry.scss')],
+  styles: [`${require('!raw!sass!./chat-message-entry.scss')}`],
   template: require('./chat-message-entry.html')
 })
 export class ChatMessageEntryComponent {

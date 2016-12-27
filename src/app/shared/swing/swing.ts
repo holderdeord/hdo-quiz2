@@ -1,7 +1,4 @@
-declare var Card: any;
-declare var Stack: any;
-
-import {Card, Stack} from 'swing';
+import { Card, Stack } from 'swing';
 
 export interface ISwingCard {
   on(event, listener: Function);
@@ -10,5 +7,5 @@ export interface ISwingCard {
   destroy();
 }
 
-export const SwingCard = Card;
-export const SwingStack = Stack;
+export const swingCard = Card;
+export const swingStack = Stack;

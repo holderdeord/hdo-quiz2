@@ -1,10 +1,8 @@
-import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Observable} from 'rxjs/Rx';
-
-import {StackService, Stack, StackState} from '../shared/stack';
-import {LocalStorageService} from '../shared/storage';
-import {SwingStack, SwingCard, ISwingCard} from '../shared/swing';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { StackService, Stack, StackState } from '../shared/stack';
+import { LocalStorageService } from '../shared/storage';
+import { swingStack, swingCard, ISwingCard } from '../shared/swing';
 
 @Component({
   selector: 'stack',
@@ -38,7 +36,7 @@ export class StackComponent {
         this.stack = stack.startQuiz(this._responses);
       });
     });
-    this.swingStack = SwingStack({
+    this.swingStack = swingStack({
       throwOutConfidence: (offset, element) => Math.min(Math.abs(offset) / (element.offsetWidth / 2), 1)
     });
   }
@@ -58,10 +56,10 @@ export class StackComponent {
   }
 
   throwLeft() {
-    this._cards[this.stack.index].throwOut(SwingCard.DIRECTION_LEFT, 0);
+    this._cards[this.stack.index].throwOut(swingCard.DIRECTION_LEFT, 0);
   }
 
   throwRight() {
-    this._cards[this.stack.index].throwOut(SwingCard.DIRECTION_RIGHT, 0);
+    this._cards[this.stack.index].throwOut(swingCard.DIRECTION_RIGHT, 0);
   }
 }

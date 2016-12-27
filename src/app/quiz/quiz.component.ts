@@ -1,14 +1,14 @@
-import {Component} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Observable} from 'rxjs/Rx';
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/Rx';
 
-import {StackService, Stack, StackState} from '../shared/stack';
-import {LocalStorageService} from '../shared/storage';
-import {ChatService, IChatEntry, ChatMessageEntryComponent} from '../shared/chat';
+import { StackService, Stack, StackState } from '../shared/stack';
+import { LocalStorageService } from '../shared/storage';
+import { ChatService, IChatEntry, ChatMessageEntryComponent } from '../shared/chat';
 
 @Component({
   selector: 'hdo-quiz',
-  styles: [``+require('!raw!sass!./quiz.scss')],
+  styles: [`${require('!raw!sass!./quiz.scss')}`],
   template: require('./quiz.html')
 })
 export class QuizComponent {

@@ -4,4 +4,4 @@ dist
 node_modules
 typings/globals
 
-npm-debug.log
+npm-debug.log.*

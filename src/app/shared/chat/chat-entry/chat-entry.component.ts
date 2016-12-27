@@ -17,16 +17,16 @@ import { ChatMessageEntryComponent } from '../';
   template: `<div #container></div>`
 })
 export class ChatEntryComponent implements OnInit, OnDestroy {
-  @Input() component:any; // Some dynamic component to render
-  @Input() options:any;   // Component configuration, optional
-  @Input() data:any;      // Data to render within the component
+  @Input() component: any; // Some dynamic component to render
+  @Input() options: any;   // Component configuration, optional
+  @Input() data: any;      // Data to render within the component
 
   // Inject the dynamic component onto the DOM
-  @ViewChild("container", {read: ViewContainerRef}) container:ViewContainerRef;
+  @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef;
 
-  private componentReference:ComponentRef<any>;
+  private componentReference: ComponentRef<any>;
 
-  constructor(private resolver:ComponentFactoryResolver) {
+  constructor(private resolver: ComponentFactoryResolver) {
   }
 
   ngOnInit() {
@@ -34,8 +34,8 @@ export class ChatEntryComponent implements OnInit, OnDestroy {
     let componentFactory = this.resolver.resolveComponentFactory(ChatMessageEntryComponent);
     console.log(componentFactory);
     this.componentReference = this.container.createComponent(componentFactory);
-    //this.componentReference.instance.data = this.data;
-    //this.componentReference.instance.options = this.options;
+    // this.componentReference.instance.data = this.data;
+    // this.componentReference.instance.options = this.options;
   }
 
   ngOnDestroy() {
