@@ -16,6 +16,7 @@ import {ChatEntryComponent, ChatMessageEntryComponent} from './shared/chat';
 import {HomeComponent} from './home';
 import {MainNavigationComponent} from './main-navigation';
 import {QuizComponent} from './quiz';
+import {QuizListComponent} from './quiz-list';
 import {ResultComponent} from './result';
 import {StackComponent} from './stack';
 import {StackListComponent} from './stack-list';
@@ -35,6 +36,7 @@ import {StackListComponent} from './stack-list';
     HomeComponent,
     MainNavigationComponent,
     QuizComponent,
+    QuizListComponent,
     ResultComponent,
     StackComponent,
     StackListComponent

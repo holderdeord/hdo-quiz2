@@ -1,0 +1,5 @@
+<ul class="list-group">
+  <li *ngFor="let quiz of quizList" class="list-group-item">
+    <a [routerLink]="['/quiz', quiz.id]">{{quiz.name}}</a>
+  </li>
+</ul>
