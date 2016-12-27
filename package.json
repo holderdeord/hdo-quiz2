@@ -72,7 +72,7 @@
     "observe-js": "^0.5.7",
     "rxjs": "^5.0.2",
     "swing": "3.0.3",
-    "zone.js": "0.6.12"
+    "zone.js": "^0.7.4"
   },
   "devDependencies": {
     "codelyzer": "~2.0.0-beta.4",

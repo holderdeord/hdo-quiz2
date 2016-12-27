@@ -5567,7 +5567,7 @@ zip-object@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/zip-object/-/zip-object-0.1.0.tgz#c1a0da04c88c837756e248680a03ff902ec3f53a"
 
-zone.js@0.6.12:
-  version "0.6.12"
-  resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.6.12.tgz#346aa83f4e5093fb98b31c241f4daed9290accee"
+zone.js:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/zone.js/-/zone.js-0.7.4.tgz#0e624fe5b724450ee433495deff15c02b3908ee0"
 
