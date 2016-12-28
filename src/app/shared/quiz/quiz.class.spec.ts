@@ -18,7 +18,7 @@ describe('Quiz, class (shared)', () => {
     it('throws error if quiz is started', () => {
       stack.startQuiz([]);
 
-      expect(() => stack.addQuestion(mockQuestion())).toThrow()
+      expect(() => stack.addQuestion(mockQuestion())).toThrow();
     });
 
     it('throws error if quiz is ended', () => {
