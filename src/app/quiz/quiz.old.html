@@ -12,7 +12,7 @@
       </ul>
     </div>
   </div>
-  <div *ngFor="let promise of stack.promises; let index = index;">
+  <div *ngFor="let promise of stack.questions; let index = index;">
     <div class="row msg-group" *ngIf="stack.index >= index">
       <div class="col-xs-2">
         <img class="img-thumbnail" src="/assets/img/oldlogo.png" />
@@ -29,8 +29,8 @@
         <ul class="list-group">
           <li class="list-group-item">{{responses[index] ? 'Ja' : 'Nei'}}</li>
         </ul>
-        <p *ngIf="responses[index] === stack.promises[index].kept" class="alert alert-success" role="alert">Du svarte riktig!</p>
-        <p *ngIf="responses[index] !== stack.promises[index].kept" class="alert alert-danger">Du svarte feil...</p>
+        <p *ngIf="responses[index] === stack.questions[index].kept" class="alert alert-success" role="alert">Du svarte riktig!</p>
+        <p *ngIf="responses[index] !== stack.questions[index].kept" class="alert alert-danger">Du svarte feil...</p>
       </div>
       <div class="col-xs-2">
         <img class="img-thumbnail" src="/assets/img/fallback_avatar.png" />

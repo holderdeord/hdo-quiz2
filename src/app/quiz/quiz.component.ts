@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs/Rx';
 
-import { StackService, Stack, StackState } from '../shared/stack';
-import { LocalStorageService } from '../shared/storage';
-import { ChatService, IChatEntry, ChatMessageEntryComponent } from '../shared/chat';
+import { QuizService, Quiz, QuizState } from '../shared/quiz';
+import { ChatService } from '../shared/chat';
 
 @Component({
   selector: 'hdo-quiz',
@@ -13,13 +11,12 @@ import { ChatService, IChatEntry, ChatMessageEntryComponent } from '../shared/ch
 })
 export class QuizComponent {
   public responses: boolean[];
-  public stack: Stack;
+  public stack: Quiz;
   public entries: any[] = [];
 
   constructor(private route: ActivatedRoute,
-              private service: StackService,
+              private service: QuizService,
               private router: Router,
-              private storageService: LocalStorageService,
               private chatService: ChatService) {
   }
 
@@ -37,7 +34,7 @@ export class QuizComponent {
   answer(response: boolean) {
     this.stack.setResponse(response);
     this.responses.push(response);
-    if (this.stack.state === StackState.Complete) {
+    if (this.stack.state === QuizState.Complete) {
       this.router.navigate(['/result', this.stack.id, this.stack.getResponsesAsString()]);
     }
   }

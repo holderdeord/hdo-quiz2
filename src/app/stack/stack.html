@@ -3,13 +3,13 @@
   <p *ngIf="answeredLastCorrectly" class="alert alert-success" role="alert">Du svarte riktig på forrige løfte!</p>
   <p *ngIf="answeredLastCorrectly === false" class="alert alert-danger">Du svarte feil på forrige løfte...</p>
   <div hdoCards [stack]="swingStack" (addCard)="addCard($event.index, $event.card)" (throwLeft)="answer(false)" (throwRight)="answer(true)">
-    <div [ngClass]="{'active': index === stack.index}" *ngFor="let promise of stack.promises; let index = index;">
-      <div class="next" *ngIf="index + 1 < stack.promises.length">
-        <p class="title">Spørsmål {{index+2}} av {{stack.promises.length()}}</p>
-        <p class="body">{{stack.promises[index+1].body}}</p>
+    <div [ngClass]="{'active': index === stack.index}" *ngFor="let promise of stack.questions; let index = index;">
+      <div class="next" *ngIf="index + 1 < stack.questions.length">
+        <p class="title">Spørsmål {{index+2}} av {{stack.getNumberOfQuestions()}}</p>
+        <p class="body">{{stack.questions[index+1].body}}</p>
       </div>
       <div class="card">
-        <p class="title">Spørsmål {{index+1}} av {{stack.promises.length()}}</p>
+        <p class="title">Spørsmål {{index+1}} av {{stack.getNumberOfQuestions()}}</p>
         <p class="body">{{promise.body}}</p>
       </div>
     </div>

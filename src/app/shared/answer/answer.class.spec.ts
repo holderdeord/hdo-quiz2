@@ -1,12 +1,12 @@
 import { Answer } from './';
-import { mockPromise } from '../promise/promise.mock';
+import { mockQuestion } from '../question/question.mock';
 
 describe('Answer, class (shared)', () => {
   let promise;
   let answer;
 
   beforeEach(() => {
-    promise = mockPromise();
+    promise = mockQuestion();
     answer = new Answer(promise);
   });
 

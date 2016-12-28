@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StackService, Stack, StackState } from '../shared/stack';
+import { QuizService, Quiz, QuizState } from '../shared/quiz';
 import { LocalStorageService } from '../shared/storage';
 import { swingStack, swingCard, ISwingCard } from '../shared/swing';
 
@@ -10,17 +10,17 @@ import { swingStack, swingCard, ISwingCard } from '../shared/swing';
   template: require('./stack.html')
 })
 export class StackComponent {
-  public stack: Stack;
+  public stack: Quiz;
   public swingStack;
   public answeredLastCorrectly: boolean;
-  public stackStates = StackState;
+  public stackStates = QuizState;
 
   private _storage: Function;
   private _responses: boolean[];
   private _cards: ISwingCard[] = [];
 
   constructor(private route: ActivatedRoute,
-              private service: StackService,
+              private service: QuizService,
               private router: Router,
               private storageService: LocalStorageService) {
     this._storage = this.storageService.setupStorage('stacks', {});
@@ -34,6 +34,7 @@ export class StackComponent {
         [];
       this.service.getStack(id).subscribe(stack => {
         this.stack = stack.startQuiz(this._responses);
+        console.log(this.stack);
       });
     });
     this.swingStack = swingStack({
@@ -50,7 +51,7 @@ export class StackComponent {
 
     this._responses.push(response);
     this._storage(this.stack.id, this._responses);
-    if (this.stack.state === StackState.Complete) {
+    if (this.stack.state === QuizState.Complete) {
       this.router.navigate(['/result', this.stack.id, this.stack.getResponsesAsString()]);
     }
   }

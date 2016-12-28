@@ -7,7 +7,7 @@ import { routing, appRoutingProviders } from './app.routes';
 
 import { ChatService }                  from './shared/chat';
 import { NodeListService }              from './shared/node-list';
-import { StackService }                 from './shared/stack';
+import { QuizService }                 from './shared/quiz';
 import { LocalStorageService }          from './shared/storage';
 
 import { AboutComponent }               from './about';
@@ -50,7 +50,7 @@ import { StackListComponent }           from './stack-list';
   providers: [
     appRoutingProviders,
     ChatService,
-    StackService,
+    QuizService,
     LocalStorageService,
     NodeListService,
     {provide: Window, useValue: window}

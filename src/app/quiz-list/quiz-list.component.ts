@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { StackService } from '../shared/stack/stack.service';
-import { Stack } from '../shared/stack';
+import { QuizService } from '../shared/quiz/quiz.service';
+import { Quiz } from '../shared/quiz';
 
 @Component({
   selector: 'hdo-quiz-list',
   template: require('./quiz-list.html')
 })
 export class QuizListComponent {
-  public quizList: Stack[];
+  public quizList: Quiz[];
 
   constructor(
-    private service: StackService) {
+    private service: QuizService) {
   }
 
   ngOnInit() {

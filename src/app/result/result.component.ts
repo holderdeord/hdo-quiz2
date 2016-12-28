@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { StackService, Stack } from '../shared/stack';
+import { QuizService, Quiz } from '../shared/quiz';
 
 @Component({
   selector: 'result',
   template: require('./result.html')
 })
 export class ResultComponent {
-  public stack: Stack;
+  public stack: Quiz;
 
-  constructor(private route: ActivatedRoute, private service: StackService) {
+  constructor(private route: ActivatedRoute, private service: QuizService) {
   }
 
   ngOnInit() {

@@ -1,24 +1,22 @@
-import { Promise } from '../promise';
+import { Question } from '../question';
 
 export class Answer {
   private _response: boolean;
 
-  public get response(): boolean {
-    return this._response;
-  }
+  public get response(): boolean { return this._response; }
 
-  constructor(private promise: Promise) {
+  constructor(private question: Question) {
   }
 
   hadCorrectResponse(): boolean {
     if (!this._response === undefined) {
       throw new Error('No _response given yet');
     }
-    return this._response === this.promise.kept;
+    return this._response === this.question.kept;
   }
 
   setResponse(response: boolean): boolean {
     this._response = response;
-    return this._response === this.promise.kept;
+    return this._response === this.question.kept;
   }
 }

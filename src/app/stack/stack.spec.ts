@@ -3,13 +3,13 @@
 
 // // import { ActivatedRoute } from '@angular/router';
 // // import { StackComponent } from './';
-// // import { Stack, StackService } from '../shared/stack';
+// // import { Quiz, QuizService } from '../shared/stack';
 // // import { mockStackData } from '../shared/stack/stack.mock';
 // // import { BaseRequestOptions, Http, RequestMethod, ResponseOptions, Response } from '@angular/http';
 
 // class MockActivatedRoute {}
 
-// describe('Stack', () => {
+// describe('Quiz', () => {
 //   let component;
 
 //   // will do this when https://angular.io/docs/ts/latest/guide/testing.html has some content 
@@ -25,12 +25,12 @@
 //   //     },
 //   //     deps: [MockBackend, BaseRequestOptions]
 //   //   },
-//   //   StackService,
+//   //   QuizService,
 //   //   MockBackend,
 //   //   BaseRequestOptions
 //   // ]));
 //   // beforeEach(inject([StackComponent], (stack: StackComponent) => {
-//   //   component.stack = new Stack()
+//   //   component.stack = new Quiz()
 //   // });
 //   //
 //   // it('sets properties', inject([StackComponent], (stack: StackComponent) => {

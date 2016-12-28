@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-
-import { StackService } from '../shared/stack/stack.service';
-import { Stack, StackState } from '../shared/stack';
+import { Quiz, QuizState, QuizService } from '../shared/quiz';
 import { LocalStorageService } from '../shared/storage';
 
 @Component({
@@ -9,11 +7,11 @@ import { LocalStorageService } from '../shared/storage';
   template: require('./stack-list.html')
 })
 export class StackListComponent {
-  public stacks: Stack[];
-  public stackStates = StackState;
+  public stacks: Quiz[];
+  public stackStates = QuizState;
 
   constructor(
-    private service: StackService,
+    private service: QuizService,
     private storageService: LocalStorageService) {
   }
 
