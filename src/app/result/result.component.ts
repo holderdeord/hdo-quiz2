@@ -16,7 +16,7 @@ export class ResultComponent {
     this.route.params.subscribe(params => {
       let id = parseInt(params['id'], 10);
       let responses = params['responses'].split('').map(response => response === '1');
-      this.service.getStack(id).subscribe(stack => this.stack = stack.startQuiz(responses));
+      this.service.getStack(id).subscribe(stack => this.stack = stack.start(responses));
     });
   }
 }

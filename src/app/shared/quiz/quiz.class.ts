@@ -1,8 +1,6 @@
-import { Injectable } from '@angular/core';
 import { Question } from '../question/question.class';
 import { Answer } from '../answer';
 
-@Injectable()
 export class Quiz {
   private _answers: Answer[];
   private _current: Question;
@@ -58,7 +56,7 @@ export class Quiz {
     return correctAnswer;
   }
 
-  startQuiz(responses: boolean[]): Quiz {
+  start(responses: boolean[]): Quiz {
     responses.forEach((response, index) => this._answers[index].setResponse(response));
     this._state = responses.length === this._answers.length ?
       QuizState.Complete :

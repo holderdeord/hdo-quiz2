@@ -42,7 +42,7 @@
 //       expect(quiz.questions.length).toBe(1);
 //       expect(quiz.answers.length).toBe(1);
 
-//       quiz.startQuiz([]);
+//       quiz.start([]);
 
 //       expect(() => quiz.addQuestion(mockQuestion())).toThrow();
 //     });
@@ -53,7 +53,7 @@
 //       quiz.addQuestion(mockQuestion());
 //       quiz.addQuestion(mockQuestion());
 //       quiz.addQuestion(mockQuestion());
-//       quiz.startQuiz([]);
+//       quiz.start([]);
 
 //       expect(quiz.getNumberOfCorrectResponses()).toBe(0);
 
@@ -85,7 +85,7 @@
 
 //       quiz.addQuestion(mockQuestion());
 //       quiz.addQuestion(mockQuestion());
-//       quiz.startQuiz([]);
+//       quiz.start([]);
 //       quiz.setResponse(false);
 
 //       expect(quiz.getNumberOfResponses()).toBe(1);
@@ -99,7 +99,7 @@
 //       expect(quiz.getResponses()).toEqual([]);
 
 //       quiz.addQuestion(mockQuestion());
-//       quiz.startQuiz([]);
+//       quiz.start([]);
 //       quiz.setResponse(true);
 
 //       expect(quiz.getResponses()).toEqual([true]);
@@ -110,7 +110,7 @@
 
 //       quiz.addQuestion(mockQuestion());
 //       quiz.addQuestion(mockQuestion());
-//       quiz.startQuiz([true]);
+//       quiz.start([true]);
 
 //       expect(quiz.getResponsesAsString()).toEqual('1');
 //     });
@@ -120,21 +120,21 @@
 
 //       quiz.addQuestion(mockQuestion());
 //       quiz.addQuestion(mockQuestion());
-//       quiz.startQuiz([]);
+//       quiz.start([]);
 
 //       expect(quiz.setResponse(true)).toBe(true);
 //       expect(quiz.setResponse(false)).toBe(false);
 //       expect(quiz.state).toBe(QuizState.Complete);
 //     });
 
-//     describe('startQuiz', () => {
+//     describe('start', () => {
 //       it('needs to have questions before it can start', () => {
-//         expect(() => quiz.startQuiz([true, true])).toThrow();
+//         expect(() => quiz.start([true, true])).toThrow();
 //       });
 
 //       it('can be started at the beginning', () => {
 //         quiz.addQuestion(mockQuestion());
-//         expect(quiz.startQuiz([])).toBe(quiz);
+//         expect(quiz.start([])).toBe(quiz);
 
 //         expect(quiz.current).toBe(quiz.questions[0]);
 //         expect(quiz.state).toBe(QuizState.InProgress);
@@ -144,7 +144,7 @@
 //         quiz.addQuestion(mockQuestion());
 //         quiz.addQuestion(mockQuestion());
 
-//         quiz.startQuiz([true]);
+//         quiz.start([true]);
 
 //         expect(quiz.current).toBe(quiz.questions[1]);
 //         expect(quiz.state).toBe(QuizState.InProgress);
@@ -155,7 +155,7 @@
 //         quiz.addQuestion(mockQuestion());
 //         quiz.addQuestion(mockQuestion());
 
-//         quiz.startQuiz([true, true]);
+//         quiz.start([true, true]);
 
 //         expect(quiz.current).toBeNull();
 //         expect(quiz.state).toBe(QuizState.Complete);

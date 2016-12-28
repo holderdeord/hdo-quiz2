@@ -32,7 +32,7 @@ export class StackComponent {
       this._responses = params['responses'] ?
         params['responses'].split('').map(response => response === '1') :
         [];
-      this.service.getStack(id).subscribe(stack => this.quiz = stack.startQuiz(this._responses));
+      this.service.getStack(id).subscribe(stack => this.quiz = stack.start(this._responses));
     });
     this.swingStack = swingStack({
       throwOutConfidence: (offset, element) => Math.min(Math.abs(offset) / (element.offsetWidth / 2), 1)

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { QuizService } from './';
 import { mockStackData } from './quiz.mock';
-import { configureTestBedWithHttp, mockResponse } from '../http/http.mock';
+import { configureTestBedWithHttp, mockResponse } from '../../../testing';
 
 describe('Quiz, service (shared)', () => {
   let testBed: TestBed;
@@ -17,9 +17,16 @@ describe('Quiz, service (shared)', () => {
 
     it('returns a list of stacks', () => quizService.getStacks().subscribe(stacks => {
       expect(stacks.length).toBe(1);
-      expect(stacks[ 0 ].id).toBe(1);
-      expect(stacks[ 0 ].name).toEqual('Parti');
-      expect(stacks[ 0 ].questions.length).toBe(2);
+      expect(stacks[0].id).toBe(1);
+      expect(stacks[0].name).toEqual('Parti');
+      expect(stacks[0].questions.length).toBe(2);
     }));
+  });
+
+  describe('getStack', () => {
+    beforeEach(() => mockResponse(testBed, mockStackData()));
+
+    it('returns a specific stack if it exists', () => quizService.getStack(1).subscribe(stack => expect(stack).toBeDefined()));
+    it('returns null if it does not exist', () => quizService.getStack(666).subscribe(stack => expect(stack).toBeNull()));
   });
 });

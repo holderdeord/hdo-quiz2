@@ -20,7 +20,7 @@ export class StackListComponent {
     this.service.getStacks().subscribe(stacks => {
       stacks
         .filter(stack => !!storage()[stack.id])
-        .forEach(stack => stack.startQuiz(storage()[stack.id]));
+        .forEach(stack => stack.start(storage()[stack.id]));
       this.stacks = stacks;
     });
   }

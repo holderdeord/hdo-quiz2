@@ -19,8 +19,11 @@ export class QuizService {
   getStack(id: number): Observable<Quiz> {
     return this.http.get('/assets/stacks.json')
       .map(res => res.json())
-      .flatMap(response => response.filter(stack => stack.id === id))
-      .map(this.createStack);
+      .flatMap(response => {
+        const stackData = response.filter(stack => stack.id === id);
+        return stackData.length === 0 ? [null] : stackData;
+      })
+      .map(stackData => stackData ? this.createStack(stackData) : null);
   }
 
   private createStack(stackData: any): Quiz {

@@ -25,7 +25,7 @@ export class QuizComponent {
       let id = parseInt(params['id'], 10);
       this.responses = [];
       this.service.getStack(id).subscribe(stack => {
-        this.stack = stack.startQuiz(this.responses);
+        this.stack = stack.start(this.responses);
       });
     });
     this.chatService.entries.subscribe(entry => this.entries.push(entry));
