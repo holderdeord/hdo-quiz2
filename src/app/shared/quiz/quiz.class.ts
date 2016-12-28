@@ -31,6 +31,10 @@ export class Quiz {
     this._answers.push(new Answer(question));
   }
 
+  getNumberOfCorrectResponses(): number {
+    return this._answers.reduce((total, answer) => total += answer.hadCorrectResponse() ? 1 : 0, 0);
+  }
+
   getNumberOfQuestions(): number {
     return this._questions.length;
   }

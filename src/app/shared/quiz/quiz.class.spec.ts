@@ -29,7 +29,7 @@ describe('Quiz, class (shared)', () => {
       expect(() => stack.addQuestion(mockQuestion())).toThrow();
     });
 
-    it('adds questions to stack', () => {
+    it('adds questions to quiz', () => {
       expect(stack.questions.length).toBe(0);
 
       stack.addQuestion(mockQuestion());

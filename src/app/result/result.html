@@ -10,9 +10,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let answer of stack.answers" [className]="answer.promise.kept === answer.response ? 'table-success' : 'table-danger'">
-        <td>{{answer.promise.body}}</td>
-        <td>{{answer.promise.kept ? "Ja" : "Nei" }}</td>
+      <tr *ngFor="let answer of stack.answers" [className]="answer.question.kept === answer.response ? 'table-success' : 'table-danger'">
+        <td>{{answer.question.body}}</td>
+        <td>{{answer.question.kept ? "Ja" : "Nei" }}</td>
         <td>{{answer.response ? "Ja" : "Nei" }}</td>
       </tr>
     </tbody>

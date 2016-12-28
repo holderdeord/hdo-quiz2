@@ -10,7 +10,7 @@ import { swingStack, swingCard, ISwingCard } from '../shared/swing';
   template: require('./stack.html')
 })
 export class StackComponent {
-  public stack: Quiz;
+  public quiz: Quiz;
   public swingStack;
   public answeredLastCorrectly: boolean;
   public stackStates = QuizState;
@@ -32,10 +32,7 @@ export class StackComponent {
       this._responses = params['responses'] ?
         params['responses'].split('').map(response => response === '1') :
         [];
-      this.service.getStack(id).subscribe(stack => {
-        this.stack = stack.startQuiz(this._responses);
-        console.log(this.stack);
-      });
+      this.service.getStack(id).subscribe(stack => this.quiz = stack.startQuiz(this._responses));
     });
     this.swingStack = swingStack({
       throwOutConfidence: (offset, element) => Math.min(Math.abs(offset) / (element.offsetWidth / 2), 1)
@@ -47,20 +44,20 @@ export class StackComponent {
   }
 
   answer(response: boolean) {
-    this.answeredLastCorrectly = this.stack.setResponse(response);
+    this.answeredLastCorrectly = this.quiz.setResponse(response);
 
     this._responses.push(response);
-    this._storage(this.stack.id, this._responses);
-    if (this.stack.state === QuizState.Complete) {
-      this.router.navigate(['/result', this.stack.id, this.stack.getResponsesAsString()]);
+    this._storage(this.quiz.id, this._responses);
+    if (this.quiz.state === QuizState.Complete) {
+      this.router.navigate(['/result', this.quiz.id, this.quiz.getResponsesAsString()]);
     }
   }
 
   throwLeft() {
-    this._cards[this.stack.index].throwOut(swingCard.DIRECTION_LEFT, 0);
+    this._cards[this.quiz.index].throwOut(swingCard.DIRECTION_LEFT, 0);
   }
 
   throwRight() {
-    this._cards[this.stack.index].throwOut(swingCard.DIRECTION_RIGHT, 0);
+    this._cards[this.quiz.index].throwOut(swingCard.DIRECTION_RIGHT, 0);
   }
 }

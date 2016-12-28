@@ -1,20 +1,20 @@
-<div class="quiz" *ngIf="stack">
-  <h1>{{stack.name}}</h1>
+<div class="quiz" *ngIf="quiz">
+  <h1>{{quiz.name}}</h1>
   <p *ngIf="answeredLastCorrectly" class="alert alert-success" role="alert">Du svarte riktig på forrige løfte!</p>
   <p *ngIf="answeredLastCorrectly === false" class="alert alert-danger">Du svarte feil på forrige løfte...</p>
   <div hdoCards [stack]="swingStack" (addCard)="addCard($event.index, $event.card)" (throwLeft)="answer(false)" (throwRight)="answer(true)">
-    <div [ngClass]="{'active': index === stack.index}" *ngFor="let promise of stack.questions; let index = index;">
-      <div class="next" *ngIf="index + 1 < stack.questions.length">
-        <p class="title">Spørsmål {{index+2}} av {{stack.getNumberOfQuestions()}}</p>
-        <p class="body">{{stack.questions[index+1].body}}</p>
+    <div [ngClass]="{'active': index === quiz.index}" *ngFor="let promise of quiz.questions; let index = index;">
+      <div class="next" *ngIf="index + 1 < quiz.questions.length">
+        <p class="title">Spørsmål {{index+2}} av {{quiz.getNumberOfQuestions()}}</p>
+        <p class="body">{{quiz.questions[index+1].body}}</p>
       </div>
       <div class="card">
-        <p class="title">Spørsmål {{index+1}} av {{stack.getNumberOfQuestions()}}</p>
+        <p class="title">Spørsmål {{index+1}} av {{quiz.getNumberOfQuestions()}}</p>
         <p class="body">{{promise.body}}</p>
       </div>
     </div>
   </div>
-  <p>Tror du {{stack.name}} holdt løftet?</p>
+  <p>Tror du {{quiz.name}} holdt løftet?</p>
   <div class="row">
     <div class="col-xs-6">
       <button (click)="answer(false)" type="button" class="btn btn-block btn-danger">Nei</button>

@@ -3,8 +3,8 @@
 
 // // import { ActivatedRoute } from '@angular/router';
 // // import { StackComponent } from './';
-// // import { Quiz, QuizService } from '../shared/stack';
-// // import { mockStackData } from '../shared/stack/stack.mock';
+// // import { Quiz, QuizService } from '../shared/quiz';
+// // import { mockStackData } from '../shared/quiz/quiz.mock';
 // // import { BaseRequestOptions, Http, RequestMethod, ResponseOptions, Response } from '@angular/http';
 
 // class MockActivatedRoute {}
@@ -29,11 +29,11 @@
 //   //   MockBackend,
 //   //   BaseRequestOptions
 //   // ]));
-//   // beforeEach(inject([StackComponent], (stack: StackComponent) => {
-//   //   component.stack = new Quiz()
+//   // beforeEach(inject([StackComponent], (quiz: StackComponent) => {
+//   //   component.quiz = new Quiz()
 //   // });
 //   //
-//   // it('sets properties', inject([StackComponent], (stack: StackComponent) => {
-//   //   expect(stack.index).toBe(0);
+//   // it('sets properties', inject([StackComponent], (quiz: StackComponent) => {
+//   //   expect(quiz.index).toBe(0);
 //   // }));
 // });

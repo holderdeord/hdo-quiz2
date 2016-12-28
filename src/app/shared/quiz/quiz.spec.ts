@@ -1,6 +1,6 @@
 // import { addProviders, fakeAsync, inject } from '@angular/core/testing';
 // import { MockBackend, MockConnection } from '@angular/http/testing';
-// import { mockStackData } from './stack.mock';
+// import { mockStackData } from './quiz.mock';
 // import { mockQuestion } from '../question/question.mock';
 
 // import { Question } from '../question';
@@ -22,144 +22,144 @@
 //   ]));
 
 //   describe('Class', () => {
-//     let stack;
+//     let quiz;
 
 //     beforeEach(() => {
-//       stack = new Quiz(1, 'test');
+//       quiz = new Quiz(1, 'test');
 //     });
 
 //     it('exposes properties', () => {
-//       expect(stack.id).toBe(1);
-//       expect(stack.name).toEqual('test');
-//       expect(stack.questions.length).toBe(0);
-//       expect(stack.answers.length).toBe(0);
-//       expect(stack.current).toBeNull();
-//       expect(stack.state).toBe(QuizState.NotStarted);
+//       expect(quiz.id).toBe(1);
+//       expect(quiz.name).toEqual('test');
+//       expect(quiz.questions.length).toBe(0);
+//       expect(quiz.answers.length).toBe(0);
+//       expect(quiz.current).toBeNull();
+//       expect(quiz.state).toBe(QuizState.NotStarted);
 //     });
 
 //     it('exposes addQuestion', () => {
-//       stack.addQuestion(mockQuestion());
-//       expect(stack.questions.length).toBe(1);
-//       expect(stack.answers.length).toBe(1);
+//       quiz.addQuestion(mockQuestion());
+//       expect(quiz.questions.length).toBe(1);
+//       expect(quiz.answers.length).toBe(1);
 
-//       stack.startQuiz([]);
+//       quiz.startQuiz([]);
 
-//       expect(() => stack.addQuestion(mockQuestion())).toThrow();
+//       expect(() => quiz.addQuestion(mockQuestion())).toThrow();
 //     });
 
 //     it('exposes getNumberOfCorrectResponses', () => {
-//       expect(stack.getNumberOfCorrectResponses()).toBe(0);
+//       expect(quiz.getNumberOfCorrectResponses()).toBe(0);
 
-//       stack.addQuestion(mockQuestion());
-//       stack.addQuestion(mockQuestion());
-//       stack.addQuestion(mockQuestion());
-//       stack.startQuiz([]);
+//       quiz.addQuestion(mockQuestion());
+//       quiz.addQuestion(mockQuestion());
+//       quiz.addQuestion(mockQuestion());
+//       quiz.startQuiz([]);
 
-//       expect(stack.getNumberOfCorrectResponses()).toBe(0);
+//       expect(quiz.getNumberOfCorrectResponses()).toBe(0);
 
-//       stack.setResponse(true);
+//       quiz.setResponse(true);
 
-//       expect(stack.getNumberOfCorrectResponses()).toBe(1);
+//       expect(quiz.getNumberOfCorrectResponses()).toBe(1);
 
-//       stack.setResponse(false);
-//       stack.setResponse(true);
+//       quiz.setResponse(false);
+//       quiz.setResponse(true);
 
-//       expect(stack.getNumberOfCorrectResponses()).toBe(2);
+//       expect(quiz.getNumberOfCorrectResponses()).toBe(2);
 //     });
 
 //     it('exposes getNumberOfQuestions', () => {
-//       expect(stack.getNumberOfQuestions()).toBe(0);
+//       expect(quiz.getNumberOfQuestions()).toBe(0);
 
-//       stack.addQuestion(mockQuestion());
-//       stack.addQuestion(mockQuestion());
+//       quiz.addQuestion(mockQuestion());
+//       quiz.addQuestion(mockQuestion());
 
-//       expect(stack.getNumberOfQuestions()).toBe(2);
+//       expect(quiz.getNumberOfQuestions()).toBe(2);
 
-//       stack.addQuestion(mockQuestion());
+//       quiz.addQuestion(mockQuestion());
 
-//       expect(stack.getNumberOfQuestions()).toBe(3);
+//       expect(quiz.getNumberOfQuestions()).toBe(3);
 //     });
 
 //     it('exposes getNumberOfResponses', () => {
-//       expect(stack.getNumberOfResponses()).toBe(0);
+//       expect(quiz.getNumberOfResponses()).toBe(0);
 
-//       stack.addQuestion(mockQuestion());
-//       stack.addQuestion(mockQuestion());
-//       stack.startQuiz([]);
-//       stack.setResponse(false);
+//       quiz.addQuestion(mockQuestion());
+//       quiz.addQuestion(mockQuestion());
+//       quiz.startQuiz([]);
+//       quiz.setResponse(false);
 
-//       expect(stack.getNumberOfResponses()).toBe(1);
+//       expect(quiz.getNumberOfResponses()).toBe(1);
 
-//       stack.setResponse(true);
+//       quiz.setResponse(true);
 
-//       expect(stack.getNumberOfResponses()).toBe(2);
+//       expect(quiz.getNumberOfResponses()).toBe(2);
 //     });
 
 //     it('exposes getResponses', () => {
-//       expect(stack.getResponses()).toEqual([]);
+//       expect(quiz.getResponses()).toEqual([]);
 
-//       stack.addQuestion(mockQuestion());
-//       stack.startQuiz([]);
-//       stack.setResponse(true);
+//       quiz.addQuestion(mockQuestion());
+//       quiz.startQuiz([]);
+//       quiz.setResponse(true);
 
-//       expect(stack.getResponses()).toEqual([true]);
+//       expect(quiz.getResponses()).toEqual([true]);
 //     });
 
 //     it('exposes getResponsesAsString', () => {
-//       expect(stack.getResponsesAsString()).toEqual('');
+//       expect(quiz.getResponsesAsString()).toEqual('');
 
-//       stack.addQuestion(mockQuestion());
-//       stack.addQuestion(mockQuestion());
-//       stack.startQuiz([true]);
+//       quiz.addQuestion(mockQuestion());
+//       quiz.addQuestion(mockQuestion());
+//       quiz.startQuiz([true]);
 
-//       expect(stack.getResponsesAsString()).toEqual('1');
+//       expect(quiz.getResponsesAsString()).toEqual('1');
 //     });
 
 //     it('exposes setResponse', () => {
-//       expect(() => stack.setResponse(true)).toThrow();
+//       expect(() => quiz.setResponse(true)).toThrow();
 
-//       stack.addQuestion(mockQuestion());
-//       stack.addQuestion(mockQuestion());
-//       stack.startQuiz([]);
+//       quiz.addQuestion(mockQuestion());
+//       quiz.addQuestion(mockQuestion());
+//       quiz.startQuiz([]);
 
-//       expect(stack.setResponse(true)).toBe(true);
-//       expect(stack.setResponse(false)).toBe(false);
-//       expect(stack.state).toBe(QuizState.Complete);
+//       expect(quiz.setResponse(true)).toBe(true);
+//       expect(quiz.setResponse(false)).toBe(false);
+//       expect(quiz.state).toBe(QuizState.Complete);
 //     });
 
 //     describe('startQuiz', () => {
 //       it('needs to have questions before it can start', () => {
-//         expect(() => stack.startQuiz([true, true])).toThrow();
+//         expect(() => quiz.startQuiz([true, true])).toThrow();
 //       });
 
 //       it('can be started at the beginning', () => {
-//         stack.addQuestion(mockQuestion());
-//         expect(stack.startQuiz([])).toBe(stack);
+//         quiz.addQuestion(mockQuestion());
+//         expect(quiz.startQuiz([])).toBe(quiz);
 
-//         expect(stack.current).toBe(stack.questions[0]);
-//         expect(stack.state).toBe(QuizState.InProgress);
+//         expect(quiz.current).toBe(quiz.questions[0]);
+//         expect(quiz.state).toBe(QuizState.InProgress);
 //       });
 
 //       it('can be started with a given preset of responses', () => {
-//         stack.addQuestion(mockQuestion());
-//         stack.addQuestion(mockQuestion());
+//         quiz.addQuestion(mockQuestion());
+//         quiz.addQuestion(mockQuestion());
 
-//         stack.startQuiz([true]);
+//         quiz.startQuiz([true]);
 
-//         expect(stack.current).toBe(stack.questions[1]);
-//         expect(stack.state).toBe(QuizState.InProgress);
-//         expect(stack.index).toBe(1);
+//         expect(quiz.current).toBe(quiz.questions[1]);
+//         expect(quiz.state).toBe(QuizState.InProgress);
+//         expect(quiz.index).toBe(1);
 //       });
 
 //       it('can be completed by giving all responses', () => {
-//         stack.addQuestion(mockQuestion());
-//         stack.addQuestion(mockQuestion());
+//         quiz.addQuestion(mockQuestion());
+//         quiz.addQuestion(mockQuestion());
 
-//         stack.startQuiz([true, true]);
+//         quiz.startQuiz([true, true]);
 
-//         expect(stack.current).toBeNull();
-//         expect(stack.state).toBe(QuizState.Complete);
-//         expect(stack.index).toBe(2);
+//         expect(quiz.current).toBeNull();
+//         expect(quiz.state).toBe(QuizState.Complete);
+//         expect(quiz.index).toBe(2);
 //       });
 //     });
 //   });
@@ -207,7 +207,7 @@
 //         service.getStack(1);
 //       })));
 
-//       it('transforms response to a stack', inject(
+//       it('transforms response to a quiz', inject(
 //         [MockBackend, QuizService],
 //         fakeAsync((backend: MockBackend, service: QuizService) => {
 //         backend.connections.subscribe((connection: MockConnection) => {
@@ -215,10 +215,10 @@
 //           connection.mockRespond(new Response(response));
 //         });
 
-//         service.getStack(1).subscribe(stack => {
-//           expect(stack.id).toBe(1);
-//           expect(stack.name).toEqual('Parti');
-//           expect(stack.questions.length).toBe(2);
+//         service.getStack(1).subscribe(quiz => {
+//           expect(quiz.id).toBe(1);
+//           expect(quiz.name).toEqual('Parti');
+//           expect(quiz.questions.length).toBe(2);
 //         });
 //       })));
 //     });
