@@ -34,22 +34,6 @@ export class Stack implements IStack {
     this._answers.push(new Answer(promise));
   }
 
-  getNumberOfCorrectResponses(): number {
-    return this._answers.reduce((total, answer) => total += answer.hadCorrectResponse() ? 1 : 0, 0);
-  }
-
-  getNumberOfQuestions(): number {
-    return this._promises.length;
-  }
-
-  getNumberOfResponses(): number {
-    return this._answers.filter(answer => answer.response !== undefined).length;
-  }
-
-  getResponses(): boolean[] {
-    return this._answers.map(answer => answer.response);
-  }
-
   getResponsesAsString(): string {
     return this._answers
       .filter(answer => answer.response !== undefined)

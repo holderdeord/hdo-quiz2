@@ -38,5 +38,4 @@ require('rxjs/Rx');
 const testContext = require.context('../src', true, /\.spec\.ts/);
 testContext.keys().forEach(testContext);
 
-const test = require('../src/app/app.spec');
-console.log(test);
+require('../src/app/app.spec');

@@ -1,0 +1,3 @@
+describe('Stack, service (shared)', () => {
+
+});
