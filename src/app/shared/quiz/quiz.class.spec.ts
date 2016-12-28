@@ -2,127 +2,143 @@ import { Quiz, QuizState } from './quiz.class';
 import { mockQuestion } from '../question/question.mock';
 
 describe('Quiz, class (shared)', () => {
-  let stack;
+  let quiz;
 
-  beforeEach(() => stack = new Quiz(1, 'test'));
+  beforeEach(() => quiz = new Quiz(1, 'test'));
 
-  it('sets property id', () => expect(stack.id).toBe(1));
-  it('sets property name', () => expect(stack.name).toEqual('test'));
-  it('exposes answers', () => expect(stack.answers).toEqual([]));
-  it('exposes current', () => expect(stack.current).toBeNull());
-  it('exposes index', () => expect(stack.index).toBeUndefined());
-  it('exposes questions', () => expect(stack.questions).toEqual([]));
-  it('exposes state', () => expect(stack.state).toBe(QuizState.NotStarted));
+  it('exposes property id', () => expect(quiz.id).toBe(1));
+  it('exposes property name', () => expect(quiz.name).toEqual('test'));
+  it('exposes property answers', () => expect(quiz.answers).toEqual([]));
+  it('exposes property current', () => expect(quiz.current).toBeNull());
+  it('exposes property index', () => expect(quiz.index).toBeUndefined());
+  it('exposes property questions', () => expect(quiz.questions).toEqual([]));
+  it('exposes property state', () => expect(quiz.state).toBe(QuizState.NotStarted));
 
   describe('addQuestion', () => {
     it('throws error if quiz is started', () => {
-      stack.start([]);
+      quiz.start([]);
 
-      expect(() => stack.addQuestion(mockQuestion())).toThrow();
+      expect(() => quiz.addQuestion(mockQuestion())).toThrow();
     });
 
     it('throws error if quiz is ended', () => {
-      stack.addQuestion(mockQuestion());
-      stack.start([]);
-      stack.setResponse(true);
+      quiz.addQuestion(mockQuestion());
+      quiz.start([true]);
 
-      expect(() => stack.addQuestion(mockQuestion())).toThrow();
+      expect(() => quiz.addQuestion(mockQuestion())).toThrow();
     });
 
     it('adds questions to quiz', () => {
-      expect(stack.questions.length).toBe(0);
+      expect(quiz.questions.length).toBe(0);
 
-      stack.addQuestion(mockQuestion());
+      quiz.addQuestion(mockQuestion());
 
-      expect(stack.questions.length).toBe(1);
+      expect(quiz.questions.length).toBe(1);
 
-      stack.addQuestion(mockQuestion());
+      quiz.addQuestion(mockQuestion());
 
-      expect(stack.questions.length).toBe(2);
+      expect(quiz.questions.length).toBe(2);
     });
   });
 
   describe('getNumberOfCorrectResponses', () => {
     it('returns the number of correct responses', () => {
-      expect(stack.getNumberOfCorrectResponses()).toBe(0);
+      expect(quiz.getNumberOfCorrectResponses()).toBe(0);
 
-      stack.addQuestion(mockQuestion());
-      stack.addQuestion(mockQuestion());
-      stack.start([]);
+      quiz.addQuestion(mockQuestion());
+      quiz.addQuestion(mockQuestion());
+      quiz.start([]);
 
-      expect(stack.getNumberOfCorrectResponses()).toBe(0);
+      expect(quiz.getNumberOfCorrectResponses()).toBe(0);
 
-      stack.setResponse(false);
+      quiz.setResponse(false);
 
-      expect(stack.getNumberOfCorrectResponses()).toBe(0);
+      expect(quiz.getNumberOfCorrectResponses()).toBe(0);
 
-      stack.setResponse(true);
+      quiz.setResponse(true);
 
-      expect(stack.getNumberOfCorrectResponses()).toBe(1);
+      expect(quiz.getNumberOfCorrectResponses()).toBe(1);
     });
   });
 
   describe('getNumberOfQuestions', () => {
-    it('returns the number of questions', () => expect(stack.getNumberOfQuestions()).toBe(stack.questions.length));
+    it('returns the number of questions', () => expect(quiz.getNumberOfQuestions()).toBe(quiz.questions.length));
+  });
+
+  describe('getNumberOfResponses', () => {
+    it('returns the number of responses that has been given', () => {
+      expect(quiz.getNumberOfResponses()).toBe(0);
+
+      quiz.addQuestion(mockQuestion());
+      quiz.addQuestion(mockQuestion());
+      quiz.start([true]);
+
+      expect(quiz.getNumberOfResponses()).toBe(1);
+
+      quiz.setResponse(true);
+
+      expect(quiz.getNumberOfResponses()).toBe(2);
+    });
   });
 
   describe('getResponsesAsString', () => {
     it('returns responses given as string', () => {
-      expect(stack.getResponsesAsString()).toEqual('');
+      expect(quiz.getResponsesAsString()).toEqual('');
 
-      stack.addQuestion(mockQuestion());
-      stack.addQuestion(mockQuestion());
-      stack.start([]);
-      stack.setResponse(true);
+      quiz.addQuestion(mockQuestion());
+      quiz.addQuestion(mockQuestion());
+      quiz.start([true]);
 
-      expect(stack.getResponsesAsString()).toEqual('1');
+      expect(quiz.getResponsesAsString()).toEqual('1');
 
-      stack.setResponse(false);
+      quiz.setResponse(false);
 
-      expect(stack.getResponsesAsString()).toEqual('10');
+      expect(quiz.getResponsesAsString()).toEqual('10');
     });
   });
 
   describe('setResponse', () => {
-    it('throws error if quiz is not started', () => expect(() => stack.setResponse(true)).toThrow());
+    it('throws error if quiz is not started', () => expect(() => quiz.setResponse(true)).toThrow());
     it('throws error if quiz is ended', () => {
-      stack.addQuestion(mockQuestion());
-      stack.start([]);
-      stack.setResponse(true);
+      quiz.addQuestion(mockQuestion());
+      quiz.start([true]);
 
-      expect(() => stack.setResponse(true)).toThrow();
+      expect(() => quiz.setResponse(true)).toThrow();
     });
 
     it('returns whether or not answer was correct', () => {
-      stack.addQuestion(mockQuestion());
-      stack.addQuestion(mockQuestion());
-      stack.start([]);
+      quiz.addQuestion(mockQuestion());
+      quiz.addQuestion(mockQuestion());
+      quiz.addQuestion(mockQuestion({ kept: false }));
+      quiz.start([]);
 
-      expect(stack.setResponse(true)).toBe(true);
+      expect(quiz.setResponse(true)).toBe(true);
+      expect(quiz.setResponse(false)).toBe(false);
+      expect(quiz.setResponse(false)).toBe(true);
     });
 
     it('ends quiz when all questions are answered', () => {
-      stack.addQuestion(mockQuestion());
-      stack.start([]);
-      stack.setResponse(true);
+      quiz.addQuestion(mockQuestion());
+      quiz.start([]);
+      quiz.setResponse(true);
 
-      expect(stack.state).toBe(QuizState.Complete);
+      expect(quiz.state).toBe(QuizState.Complete);
     });
   });
 
   describe('start', () => {
     it('alters state', () => {
-      stack.addQuestion(mockQuestion());
-      stack.start([]);
+      quiz.addQuestion(mockQuestion());
+      quiz.start([]);
 
-      expect(stack.state).toBe(QuizState.InProgress);
+      expect(quiz.state).toBe(QuizState.InProgress);
     });
 
     it('can set responses at once', () => {
-      stack.addQuestion(mockQuestion());
-      stack.start([true]);
+      quiz.addQuestion(mockQuestion());
+      quiz.start([true]);
 
-      expect(stack.answers.length).toBe(1);
+      expect(quiz.answers.length).toBe(1);
     });
   });
 });

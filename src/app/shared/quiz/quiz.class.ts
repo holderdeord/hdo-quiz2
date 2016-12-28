@@ -8,13 +8,35 @@ export class Quiz {
   private _questions: Question[];
   private _state: QuizState;
 
-  public get answers(): Answer[] { return this._answers; }
-  public get current(): Question { return this._current; }
-  public get index(): number { return this._index; }
-  public get questions(): Question[] { return this._questions; }
-  public get state(): QuizState { return this._state; }
+  public get answers(): Answer[] {
+    return this._answers;
+  }
 
-  constructor(public id: number, public name: string) {
+  public get current(): Question {
+    return this._current;
+  }
+
+  public get id(): number {
+    return this._id;
+  }
+
+  public get index(): number {
+    return this._index;
+  }
+
+  public get name(): string {
+    return this._name;
+  }
+
+  public get questions(): Question[] {
+    return this._questions;
+  }
+
+  public get state(): QuizState {
+    return this._state;
+  }
+
+  constructor(private _id: number, private _name: string) {
     this._questions = [];
     this._current = null;
     this._answers = [];
@@ -30,11 +52,18 @@ export class Quiz {
   }
 
   getNumberOfCorrectResponses(): number {
-    return this._answers.reduce((total, answer) => total += answer.hadCorrectResponse() ? 1 : 0, 0);
+    return this._answers.reduce((total, answer) => {
+      total += answer.hadCorrectResponse() ? 1 : 0;
+      return total;
+    }, 0);
   }
 
   getNumberOfQuestions(): number {
     return this._questions.length;
+  }
+
+  getNumberOfResponses(): number {
+    return this._answers.filter(answer => answer.response !== undefined).length;
   }
 
   getResponsesAsString(): string {
