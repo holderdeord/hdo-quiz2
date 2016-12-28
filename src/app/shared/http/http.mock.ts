@@ -3,7 +3,8 @@ import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@ang
 import { MockBackend } from '@angular/http/testing';
 import { BaseRequestOptions, Http, HttpModule, XHRBackend, Response, ResponseOptions } from '@angular/http';
 
-export function configureTestBed(providers: any[]): TestBed {
+export function configureTestBedWithHttp(providers: any[]): TestBed {
+  TestBed.resetTestEnvironment();
   TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
   TestBed
     .configureTestingModule({

@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { QuizService } from './';
 import { mockStackData } from './quiz.mock';
-import { configureTestBed, mockResponse } from '../http/http.mock';
+import { configureTestBedWithHttp, mockResponse } from '../http/http.mock';
 
 describe('Quiz, service (shared)', () => {
   let testBed: TestBed;
   let quizService: QuizService;
 
   beforeEach(() => {
-    testBed = configureTestBed([QuizService]);
+    testBed = configureTestBedWithHttp([QuizService]);
     quizService = testBed.get(QuizService);
   });
 
