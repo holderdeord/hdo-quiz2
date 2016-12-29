@@ -1,6 +1,6 @@
 import { NodeListService } from './node-list.service';
 import { mockNodeList } from './node-list.mock';
-import { inject } from '../../../testing';
+import { inject } from '../../../../testing';
 
 describe('NodeListService (shared)', () => {
   let service;

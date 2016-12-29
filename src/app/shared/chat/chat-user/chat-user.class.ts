@@ -1,16 +1,14 @@
-import { Injectable } from '@angular/core';
 import { IChatUser } from './chat-user.interface';
 
-@Injectable()
 export class ChatUser implements IChatUser {
-  constructor(private name: string, private pictureUrl: string) {
+  constructor(private _name: string, private _pictureUrl: string) {
   }
 
-  getPictureUrl(): string {
-    return this.pictureUrl;
+  public get name() : string {
+    return this._name;
   }
 
-  getName(): string {
-    return this.name;
+  public get pictureUrl(): string {
+    return this._pictureUrl;
   }
 }

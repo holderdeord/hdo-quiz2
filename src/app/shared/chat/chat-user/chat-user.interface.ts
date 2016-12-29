@@ -1,4 +1,4 @@
 export interface IChatUser {
-  getPictureUrl(): string;
-  getName(): string;
+  name: string;
+  pictureUrl: string;
 }

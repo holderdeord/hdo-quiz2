@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { QuizService } from './';
 import { mockStackData } from './quiz.mock';
-import { configureTestBedWithHttp, mockResponse } from '../../../testing';
+import { configureTestBedWithHttp, mockResponse } from '../../../../testing';
 
 describe('Quiz, service (shared)', () => {
   let testBed: TestBed;
