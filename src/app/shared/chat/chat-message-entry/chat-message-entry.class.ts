@@ -5,8 +5,7 @@ export class ChatMessageEntry implements IChatEntry {
   messages: string[] = [];
   type: any = ChatMessageEntryComponent;
 
-  constructor(public originUser: IChatUser, firstMessage: string, timeout?: number) {
-    this.addMessage(firstMessage, timeout);
+  constructor(public originUser: IChatUser) {
   }
 
   addMessage(message: string, timeout?: number): Promise<any> {

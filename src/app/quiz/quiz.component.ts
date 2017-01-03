@@ -35,9 +35,10 @@ export class QuizComponent {
     this.quizMaster = this.chatUserFactory.createSystemUser();
     this.chat = new Chat(this.responder);
     this.chat.addParticipant(this.quizMaster);
-    this.chat.addMessage(this.quizMaster, 'Hello World!');
-    setTimeout(() => this.chat.addMessage(this.responder, 'Hello back at ya!'), 1000);
-    setTimeout(() => this.chat.addMessage(this.responder, 'How about some questions?'), 2000);
+    this.chat.addMessage(this.quizMaster, 'Hello there!', 0)
+      .then(() => this.chat.addMessage(this.responder, 'Hello back at ya!'))
+      .then(() => this.chat.addMessage(this.responder, 'How about some questions?'))
+      .then(() => this.chat.addMessage(this.quizMaster, 'Sure, let me see what I got ^_^'));
   }
 
   answer(response: boolean) {

@@ -2,5 +2,6 @@
   <div>{{data.originUser.name}}</div>
   <ul>
     <li *ngFor="let message of data.messages">{{message}}</li>
+    <li *ngIf="data.isWritingMessage">Writing message...</li>
   </ul>
 </div>
