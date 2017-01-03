@@ -1,3 +1,7 @@
+import { IChatUser } from '..';
+
 export interface IChatEntry {
-  type: string;
+  originUser: IChatUser;
+  type: any;
+  addMessage(message: string): void;
 }

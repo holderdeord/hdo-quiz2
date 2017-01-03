@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IChatEntry } from '../chat-entry';
+import { IChatEntry } from '../';
 
 @Component({
   selector: 'hdo-chat-message-entry',

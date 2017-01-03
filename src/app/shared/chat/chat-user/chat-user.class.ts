@@ -4,7 +4,7 @@ export class ChatUser implements IChatUser {
   constructor(private _name: string, private _pictureUrl: string) {
   }
 
-  public get name() : string {
+  public get name(): string {
     return this._name;
   }
 

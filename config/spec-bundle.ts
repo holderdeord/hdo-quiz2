@@ -36,6 +36,4 @@ require('rxjs/Rx');
  * we say do this recursively
  */
 const testContext = require.context('../src', true, /\.spec\.ts/);
-testContext.keys().forEach(testContext);
-
-require('../src/app/app.spec');
+const tests = testContext.keys().map(testContext);

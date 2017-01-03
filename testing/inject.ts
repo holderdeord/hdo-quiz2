@@ -1,9 +1,8 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
-export function inject(...providers: any[]) {
+export function inject(providers: any[], callback: Function) {
   return () => {
-    const callback: Function = providers.pop();
     TestBed.resetTestEnvironment();
     TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
     TestBed.configureTestingModule({providers}).compileComponents();

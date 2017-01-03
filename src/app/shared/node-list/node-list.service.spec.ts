@@ -4,7 +4,7 @@ import { inject } from '../../../../testing';
 
 describe('NodeListService (shared)', () => {
   let service;
-  beforeEach(inject(NodeListService, nodeListService => service = nodeListService));
+  beforeEach(inject([NodeListService], nodeListService => service = nodeListService));
 
   describe('toArray', () => {
     it('converts empty nodeList to an empty array', () => expect(service.toArray(mockNodeList([]))).toEqual([]));

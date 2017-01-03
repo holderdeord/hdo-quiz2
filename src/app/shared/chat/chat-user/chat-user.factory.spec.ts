@@ -4,7 +4,7 @@ import { ChatUserFactory, ChatUser } from './';
 describe('ChatUser, factory (shared)', () => {
   let factory;
 
-  beforeEach(inject(ChatUserFactory, chatUserFactory => factory = chatUserFactory));
+  beforeEach(inject([ChatUserFactory], chatUserFactory => factory = chatUserFactory));
 
   describe('createAnonymousUser', () => {
     it('creates an anonymous user', () => expect(factory.createAnonymousUser()).toEqual(new ChatUser('Anonym', '/assets/img/fallback_avatar.png')));
