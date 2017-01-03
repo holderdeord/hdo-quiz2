@@ -37,3 +37,5 @@ require('rxjs/Rx');
  */
 const testContext = require.context('../src', true, /\.spec\.ts/);
 const tests = testContext.keys().map(testContext);
+
+declare const sinon: any;

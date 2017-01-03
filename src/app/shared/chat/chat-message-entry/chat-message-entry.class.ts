@@ -1,14 +1,22 @@
 import { ChatMessageEntryComponent, IChatEntry, IChatUser } from '../';
 
 export class ChatMessageEntry implements IChatEntry {
+  isWritingMessage: boolean = false;
+  messages: string[] = [];
   type: any = ChatMessageEntryComponent;
-  messages: string[];
 
-  constructor(public originUser: IChatUser, firstMessage: string) {
-    this.messages = [firstMessage];
+  constructor(public originUser: IChatUser, firstMessage: string, timeout?: number) {
+    this.addMessage(firstMessage, timeout);
   }
 
-  addMessage(message: string): void {
-    this.messages.push(message);
+  addMessage(message: string, timeout?: number): Promise<any> {
+    this.isWritingMessage = true;
+    return new Promise(resolve => {
+      setTimeout(() => {
+        this.messages.push(message);
+        this.isWritingMessage = false;
+        resolve();
+      }, timeout || 0);
+    });
   }
 }
