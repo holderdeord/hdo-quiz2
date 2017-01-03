@@ -5,7 +5,10 @@ import { HttpModule }                   from '@angular/http';
 import { AppComponent }                 from './app.component';
 import { routing, appRoutingProviders } from './app.routes';
 
-import { ChatService }                  from './shared/chat';
+import {
+  ChatService,
+  ChatUserFactory
+}                  from './shared/chat';
 import { NodeListService }              from './shared/node-list';
 import { QuizService }                 from './shared/quiz';
 import { LocalStorageService }          from './shared/storage';
@@ -50,6 +53,7 @@ import { StackListComponent }           from './stack-list';
   providers: [
     appRoutingProviders,
     ChatService,
+    ChatUserFactory,
     QuizService,
     LocalStorageService,
     NodeListService,

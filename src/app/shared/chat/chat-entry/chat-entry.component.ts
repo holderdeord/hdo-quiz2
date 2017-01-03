@@ -18,7 +18,6 @@ import { ChatMessageEntryComponent } from '../';
 })
 export class ChatEntryComponent implements OnInit, OnDestroy {
   @Input() component: any; // Some dynamic component to render
-  @Input() options: any;   // Component configuration, optional
   @Input() data: any;      // Data to render within the component
 
   // Inject the dynamic component onto the DOM
@@ -32,10 +31,8 @@ export class ChatEntryComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // Create our component now we're initialised
     let componentFactory = this.resolver.resolveComponentFactory(ChatMessageEntryComponent);
-    console.log(componentFactory);
     this.componentReference = this.container.createComponent(componentFactory);
-    // this.componentReference.instance.data = this.data;
-    // this.componentReference.instance.options = this.options;
+    this.componentReference.instance.data = this.data;
   }
 
   ngOnDestroy() {

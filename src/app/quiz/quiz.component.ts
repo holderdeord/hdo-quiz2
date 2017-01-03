@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { QuizService, Quiz, QuizState } from '../shared/quiz';
-import { ChatService } from '../shared/chat';
+import { Chat, ChatUser, ChatUserFactory } from '../shared/chat';
 
 @Component({
   selector: 'hdo-quiz',
@@ -13,11 +13,14 @@ export class QuizComponent {
   public responses: boolean[];
   public stack: Quiz;
   public entries: any[] = [];
+  public chat: Chat;
+  public responder: ChatUser;
+  public quizMaster: ChatUser;
 
   constructor(private route: ActivatedRoute,
               private service: QuizService,
               private router: Router,
-              private chatService: ChatService) {
+              private chatUserFactory: ChatUserFactory) {
   }
 
   ngOnInit() {
@@ -28,7 +31,13 @@ export class QuizComponent {
         this.stack = stack.start(this.responses);
       });
     });
-    this.chatService.entries.subscribe(entry => this.entries.push(entry));
+    this.responder = this.chatUserFactory.createAnonymousUser();
+    this.quizMaster = this.chatUserFactory.createSystemUser();
+    this.chat = new Chat(this.responder);
+    this.chat.addParticipant(this.quizMaster);
+    this.chat.addMessage(this.quizMaster, 'Hello World!');
+    setTimeout(() => this.chat.addMessage(this.responder, 'Hello back at ya!'), 1000);
+    setTimeout(() => this.chat.addMessage(this.responder, 'How about some questions?'), 2000);
   }
 
   answer(response: boolean) {

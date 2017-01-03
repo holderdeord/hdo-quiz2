@@ -1,1 +1,6 @@
-<div>hdo-chat-message-entry 2</div>
+<div *ngIf="data">
+  <div>{{data.originUser.name}}</div>
+  <ul>
+    <li *ngFor="let message of data.messages">{{message}}</li>
+  </ul>
+</div>

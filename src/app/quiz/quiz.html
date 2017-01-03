@@ -1,5 +1,5 @@
 <div class="quiz">
-  <div *ngFor="let entry of entries">
-    <hdo-chat-entry [component]="entry.type"></hdo-chat-entry>
+  <div *ngFor="let entry of chat.entries">
+    <hdo-chat-entry [component]="entry.type" [data]="entry"></hdo-chat-entry>
   </div>
 </div>

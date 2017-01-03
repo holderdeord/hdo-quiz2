@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IChatEntry } from '../';
+import { ChatMessageEntry } from '../';
 
 @Component({
   selector: 'hdo-chat-message-entry',
@@ -7,9 +7,8 @@ import { IChatEntry } from '../';
   template: require('./chat-message-entry.html')
 })
 export class ChatMessageEntryComponent {
-  constructor() {
-  }
+  public data: ChatMessageEntry;
 
-  ngOnInit() {
+  constructor() {
   }
 }
