@@ -10,8 +10,13 @@ export class QuizService {
 
   }
 
+  getManuscript(name: string): Observable<any> {
+    return this.http.get(`/assets/mock-data/manuscript-${name}.json`)
+      .map(response => response.json());
+  }
+
   getStacks(): Observable<Quiz[]> {
-    return this.http.get('/assets/stacks.json')
+    return this.http.get('/assets/mock-data/stacks.json')
       .map(res => res.json())
       .map(response => response.map(this.createStack));
   }

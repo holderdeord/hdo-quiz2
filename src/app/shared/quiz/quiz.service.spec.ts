@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { QuizService } from './';
-import { mockStackData } from './quiz.mock';
+import { mockManuscriptData, mockStackData } from './quiz.mock';
 import { configureTestBedWithHttp, mockResponse } from '../../../../testing';
 
 describe('Quiz, service (shared)', () => {
@@ -10,6 +10,15 @@ describe('Quiz, service (shared)', () => {
   beforeEach(() => {
     testBed = configureTestBedWithHttp([QuizService]);
     quizService = testBed.get(QuizService);
+  });
+
+  describe('getManuscript', () => {
+    beforeEach(() => mockResponse(testBed, mockManuscriptData('introduction')));
+
+    it('returns a manuscript', () => quizService.getManuscript('introduction').subscribe(manuscript => {
+      expect(manuscript.introduction).toBeDefined();
+      expect(manuscript.promises).toBeDefined();
+    }));
   });
 
   describe('getStacks', () => {

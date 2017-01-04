@@ -1,3 +1,8 @@
+export function mockManuscriptData(name: string) {
+  return require(`../../../assets/mock-data/manuscript-${name}.json`);
+}
+
+
 export function mockStackData() {
   return [
     {

@@ -2,7 +2,7 @@ import { Chat, ChatUserFactory } from './index';
 import { inject } from '../../../../testing';
 
 describe('Chat, class (shared)', () => {
-  let chat, subjectUser, participantA;
+  let chat: Chat, subjectUser, participantA;
   let clock;
 
   beforeEach(() => clock = sinon.useFakeTimers());
@@ -19,7 +19,6 @@ describe('Chat, class (shared)', () => {
 
     beforeEach(() => {
       result = chat.addMessage(subjectUser, 'message 1');
-      clock.tick(1);
     });
 
     it('creates a new entry', () => expect(chat.entries.length).toBe(1));
@@ -31,25 +30,16 @@ describe('Chat, class (shared)', () => {
 
     it('adds a new entry if another participant writes next message', () => {
       chat.addMessage(participantA, 'message 2');
+
       expect(chat.entries.length).toBe(2);
     });
 
     it('postpones message if someone else then subject user adds message', () => {
-      expect(chat.entries[0].messages.length).toBe(1);
-
       chat.addMessage(subjectUser, 'message 2');
-
-      expect(chat.entries[0].messages.length).toBe(1);
-
-      clock.tick(1);
 
       expect(chat.entries[0].messages.length).toBe(2);
 
       chat.addMessage(participantA, 'message 3');
-
-      expect(chat.entries[1].messages.length).toBe(0);
-
-      clock.tick(1);
 
       expect(chat.entries[1].messages.length).toBe(0);
 
@@ -59,6 +49,34 @@ describe('Chat, class (shared)', () => {
     });
 
     it('returns a promise', () => expect(result).toEqual(jasmine.any(Promise)));
+  });
+
+  describe('addMessages', () => {
+    let result;
+
+    describe('with no messages', () => {
+      beforeEach(() => result = chat.addMessages(subjectUser, []));
+
+      it('returns a promise', () => expect(result).toEqual(jasmine.any(Promise)));
+      it('resolves', done => result.then(done));
+    });
+
+    describe('with messages', () => {
+      beforeEach(() => result = chat.addMessages(subjectUser, ['message 1', 'message 2'], 1000));
+
+      it('adds messages', () => {
+        expect(chat.entries[0].messages.length).toBe(0);
+
+        clock.tick(1000);
+
+        expect(chat.entries[0].messages.length).toBe(1);
+
+        // clock.tick(Chat.DEFAULT_TIME_BEFORE_MESSAGE);
+        //
+        // expect(chat.entries.length).toBe(1);
+        // expect(chat.entries[0].messages.length).toBe(2);
+      });
+    });
   });
 
   describe('addParticipant', () => {

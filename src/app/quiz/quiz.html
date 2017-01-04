@@ -1,4 +1,4 @@
-<div class="quiz">
+<div class="chat" *ngIf="chat">
   <div *ngFor="let entry of chat.entries">
     <hdo-chat-entry [component]="entry.type" [data]="entry"></hdo-chat-entry>
   </div>

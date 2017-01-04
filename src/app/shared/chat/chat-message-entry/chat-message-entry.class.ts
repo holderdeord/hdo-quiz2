@@ -10,12 +10,18 @@ export class ChatMessageEntry implements IChatEntry {
 
   addMessage(message: string, timeout?: number): Promise<any> {
     this.isWritingMessage = true;
+    timeout = timeout || 0;
     return new Promise(resolve => {
-      setTimeout(() => {
-        this.messages.push(message);
-        this.isWritingMessage = false;
-        resolve();
-      }, timeout || 0);
+      if (timeout === 0) {
+        return this.pushMessage(message, resolve);
+      }
+      setTimeout(() => this.pushMessage(message, resolve), timeout);
     });
+  }
+
+  private pushMessage(message: string, resolve: Function) {
+    this.messages.push(message);
+    this.isWritingMessage = false;
+    resolve();
   }
 }

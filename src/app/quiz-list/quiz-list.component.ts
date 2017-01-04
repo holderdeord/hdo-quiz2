@@ -7,13 +7,14 @@ import { Quiz } from '../shared/quiz';
   template: require('./quiz-list.html')
 })
 export class QuizListComponent {
-  public quizList: Quiz[];
+  public quizList: any[];
 
-  constructor(
-    private service: QuizService) {
+  constructor(private service: QuizService) {
   }
 
   ngOnInit() {
-    this.service.getStacks().subscribe(quizList => this.quizList = quizList);
+    this.quizList = [
+      {id: 'introduction', name: 'Introduksjon'}
+    ];
   }
 }
