@@ -1,7 +1,9 @@
-<div *ngIf="data">
-  <div>{{data.originUser.name}}</div>
+<div *ngIf="entry">
+  <div>{{entry.originUser.name}}</div>
   <ul>
-    <li *ngFor="let message of data.messages">{{message}}</li>
-    <li *ngIf="data.isWritingMessage">Writing message...</li>
+    <li *ngFor="let message of entry.messages">
+      <hdo-chat-message [component]="message.type" [data]="message"></hdo-chat-message>
+    </li>
+    <li *ngIf="entry.isWritingMessage">Writing message...</li>
   </ul>
 </div>

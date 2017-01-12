@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ChatEntry } from '.';
 
 @Component({
   selector: 'hdo-chat-entry',
-  template: `<div>test</div>`
+  template: require('./chat-entry.html')
 })
 export class ChatEntryComponent {
+  @Input() entry: ChatEntry;
+
   constructor() {
   }
 }

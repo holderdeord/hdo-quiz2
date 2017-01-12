@@ -8,6 +8,7 @@ import {
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
+import { ChatMessageTextComponent } from '..';
 
 @Component({
   selector: 'hdo-chat-message',
