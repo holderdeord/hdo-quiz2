@@ -1,11 +1,11 @@
-import { ChatMessageEntry, IChatEntry, IChatUser } from './index';
+import { ChatEntry, ChatMessageText, IChatUser } from './index';
 
 export class Chat {
-  static DEFAULT_TIME_BEFORE_MESSAGE: number = 2000;
+  static DEFAULT_TIME_BEFORE_MESSAGE: number = 0;
 
-  private _entries: ChatMessageEntry[] = [];
+  private _entries: ChatEntry[] = [];
   private _participants: IChatUser[] = [];
-  private _currentEntry: ChatMessageEntry = null;
+  private _currentEntry: ChatEntry = null;
 
   constructor(private _subjectUser: IChatUser) {
     this._participants.push(_subjectUser);
@@ -13,11 +13,11 @@ export class Chat {
 
   public addMessage(participant: IChatUser, message: string, timeout?: number): Promise<any> {
     if (!this._currentEntry || this._currentEntry.originUser !== participant) {
-      this._currentEntry = new ChatMessageEntry(participant);
+      this._currentEntry = new ChatEntry(participant);
       this._entries.push(this._currentEntry);
     }
     timeout = timeout !== undefined ? timeout : participant === this._subjectUser ? 0 : Chat.DEFAULT_TIME_BEFORE_MESSAGE;
-    return this._currentEntry.addMessage(message, timeout);
+    return this._currentEntry.addMessage(new ChatMessageText(message), timeout);
   }
 
   public addMessages(participant: IChatUser, messages: string[], timeout?: number): Promise<any> {
@@ -34,7 +34,7 @@ export class Chat {
     this._participants.push(participant);
   }
 
-  public get entries(): IChatEntry[] {
+  public get entries(): ChatEntry[] {
     return this._entries;
   }
 

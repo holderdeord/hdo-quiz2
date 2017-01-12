@@ -1,2 +1,2 @@
+export * from './chat-entry.class';
 export * from './chat-entry.component';
-export * from './chat-entry.interface';

@@ -8,16 +8,18 @@ import { routing, appRoutingProviders } from './app.routes';
 import {
   ChatService,
   ChatUserFactory
-}                  from './shared/chat';
+}                                       from './shared/chat';
 import { NodeListService }              from './shared/node-list';
-import { QuizService }                 from './shared/quiz';
+import { QuizService }                  from './shared/quiz';
 import { LocalStorageService }          from './shared/storage';
 
 import { AboutComponent }               from './about';
 import { CardsDirective }               from './cards';
 import {
   ChatEntryComponent,
-  ChatMessageEntryComponent
+  ChatMessageComponent,
+  ChatMessageQuestionComponent,
+  ChatMessageTextComponent
 }                                       from './shared/chat';
 import { HomeComponent }                from './home';
 import { MainNavigationComponent }      from './main-navigation';
@@ -37,7 +39,9 @@ import { StackListComponent }           from './stack-list';
     AppComponent,
     AboutComponent,
     ChatEntryComponent,
-    ChatMessageEntryComponent,
+    ChatMessageComponent,
+    ChatMessageQuestionComponent,
+    ChatMessageTextComponent,
     CardsDirective,
     HomeComponent,
     MainNavigationComponent,
@@ -48,7 +52,10 @@ import { StackListComponent }           from './stack-list';
     StackListComponent
   ],
   entryComponents: [
-    ChatMessageEntryComponent
+    ChatEntryComponent,
+    ChatMessageComponent,
+    ChatMessageQuestionComponent,
+    ChatMessageTextComponent
   ],
   providers: [
     appRoutingProviders,

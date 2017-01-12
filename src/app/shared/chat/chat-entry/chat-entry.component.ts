@@ -1,44 +1,10 @@
-import {
-  Compiler,
-  Component,
-  ComponentFactoryResolver,
-  ComponentRef,
-  Input,
-  OnDestroy,
-  OnInit,
-  Type,
-  ViewChild,
-  ViewContainerRef
-} from '@angular/core';
-import { ChatMessageEntryComponent } from '../';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'hdo-chat-entry',
-  template: `<div #container></div>`
+  template: `<div>test</div>`
 })
-export class ChatEntryComponent implements OnInit, OnDestroy {
-  @Input() component: any; // Some dynamic component to render
-  @Input() data: any;      // Data to render within the component
-
-  // Inject the dynamic component onto the DOM
-  @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef;
-
-  private componentReference: ComponentRef<any>;
-
-  constructor(private resolver: ComponentFactoryResolver) {
-  }
-
-  ngOnInit() {
-    // Create our component now we're initialised
-    let componentFactory = this.resolver.resolveComponentFactory(ChatMessageEntryComponent);
-    this.componentReference = this.container.createComponent(componentFactory);
-    this.componentReference.instance.data = this.data;
-  }
-
-  ngOnDestroy() {
-    // If we have a component, make sure we destroy it when we lose our owner
-    if (this.componentReference) {
-      this.componentReference.destroy();
-    }
+export class ChatEntryComponent {
+  constructor() {
   }
 }

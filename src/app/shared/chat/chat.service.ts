@@ -1,6 +1,4 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { IChatEntry, ChatMessageEntryComponent } from './';
-import { ChatParticipant } from './chat-participant';
 
 @Injectable()
 export class ChatService {
@@ -8,7 +6,7 @@ export class ChatService {
 
 
   constructor() {
-    setTimeout(() => this.entries.emit({ type: ChatMessageEntryComponent }), 1000);
+    // setTimeout(() => this.entries.emit({ type: ChatMessageEntryComponent }), 1000);
   }
 
 

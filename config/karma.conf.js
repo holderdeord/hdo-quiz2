@@ -22,7 +22,8 @@ module.exports = function(config) {
      * we are building the test environment in ./spec-bundle.ts
      */
     files: [
-      { pattern: './config/spec-bundle.ts', watched: false }
+      { pattern: './config/spec-bundle.ts', watched: false },
+      './node_modules/jasmine-promises/dist/jasmine-promises.js'
     ],
 
     /*
