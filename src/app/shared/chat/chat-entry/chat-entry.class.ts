@@ -6,20 +6,10 @@ export class ChatEntry {
 
   constructor(public originUser: IChatUser) {}
 
-  addMessage(message: IChatMessage, timeout?: number): Promise<any> {
-    this.isWritingMessage = true;
-    timeout = timeout || 0;
+  addMessage(message: IChatMessage): Promise<any> {
     return new Promise(resolve => {
-      if (timeout === 0) {
-        return this.pushMessage(message, resolve);
-      }
-      setTimeout(() => this.pushMessage(message, resolve), timeout);
+      this.messages.push(message);
+      message.resolve(resolve)
     });
-  }
-
-  private pushMessage(message: IChatMessage, resolve: Function) {
-    this.messages.push(message);
-    this.isWritingMessage = false;
-    resolve();
   }
 }

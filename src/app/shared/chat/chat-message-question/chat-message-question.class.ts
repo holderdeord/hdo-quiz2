@@ -6,4 +6,8 @@ export class ChatMessageQuestion implements IChatMessage {
 
   constructor(public question: Question) {
   }
+
+  public resolve(callback: Function): void {
+    setTimeout(() => callback(), 1000);
+  }
 }

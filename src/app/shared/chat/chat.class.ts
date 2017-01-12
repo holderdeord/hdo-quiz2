@@ -1,7 +1,8 @@
-import { ChatEntry, ChatMessageText, IChatUser } from './index';
+import { ChatEntry, ChatMessageQuestion, ChatMessageText, IChatUser } from './index';
+import { Question } from '../../shared';
 
 export class Chat {
-  static DEFAULT_TIME_BEFORE_MESSAGE: number = 0;
+  static DEFAULT_TIME_BEFORE_MESSAGE: number = 3000;
 
   private _entries: ChatEntry[] = [];
   private _participants: IChatUser[] = [];
@@ -11,13 +12,9 @@ export class Chat {
     this._participants.push(_subjectUser);
   }
 
-  public addMessage(participant: IChatUser, message: string, timeout?: number): Promise<any> {
-    if (!this._currentEntry || this._currentEntry.originUser !== participant) {
-      this._currentEntry = new ChatEntry(participant);
-      this._entries.push(this._currentEntry);
-    }
-    timeout = timeout !== undefined ? timeout : participant === this._subjectUser ? 0 : Chat.DEFAULT_TIME_BEFORE_MESSAGE;
-    return this._currentEntry.addMessage(new ChatMessageText(message), timeout);
+  public addMessage(participant: IChatUser, message: string, timeout: number = Chat.DEFAULT_TIME_BEFORE_MESSAGE): Promise<any> {
+    const entry = this.getOrCreateEntry(participant);
+    return entry.addMessage(new ChatMessageText(message, timeout));
   }
 
   public addMessages(participant: IChatUser, messages: string[], timeout?: number): Promise<any> {
@@ -25,9 +22,14 @@ export class Chat {
       return new Promise(resolve => resolve());
     }
     const currentMessage = messages.shift();
-    return this.addMessage(participant, currentMessage, timeout || Chat.DEFAULT_TIME_BEFORE_MESSAGE).then(() => {
+    return this.addMessage(participant, currentMessage, timeout).then(() => {
       return this.addMessages(participant, messages);
     });
+  }
+
+  public addQuestion(participant: IChatUser, question: Question) {
+    const entry = this.getOrCreateEntry(participant);
+    return entry.addMessage(new ChatMessageQuestion(question));
   }
 
   public addParticipant(participant: IChatUser) {
@@ -40,5 +42,13 @@ export class Chat {
 
   public get participants(): IChatUser[] {
     return this._participants;
+  }
+
+  private getOrCreateEntry(participant: IChatUser) {
+    if (!this._currentEntry || this._currentEntry.originUser !== participant) {
+      this._currentEntry = new ChatEntry(participant);
+      this._entries.push(this._currentEntry);
+    }
+    return this._currentEntry;
   }
 }

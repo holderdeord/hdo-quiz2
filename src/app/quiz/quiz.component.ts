@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { QuizService, Quiz } from '../shared/quiz';
 import { Chat, ChatUser, ChatUserFactory } from '../shared/chat';
+import { Question } from '../shared/question';
 
 @Component({
   selector: 'hdo-quiz',
@@ -30,7 +31,8 @@ export class QuizComponent {
         this.chat = new Chat(this.responder);
         this.quizMaster = this.chatUserFactory.createSystemUser();
         this.chat.addParticipant(this.quizMaster);
-        this.chat.addMessages(this.quizMaster, manuscript.introduction, 0);
+        this.chat.addMessages(this.quizMaster, manuscript.introduction, 0)
+          .then(() => this.chat.addQuestion(this.quizMaster, new Question("test", true)));
       });
     });
   }
