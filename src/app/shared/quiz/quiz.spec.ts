@@ -181,7 +181,7 @@
 //         [MockBackend, QuizService],
 //         fakeAsync((backend: MockBackend, service: QuizService) => {
 //         backend.connections.subscribe((connection: MockConnection) => {
-//           let response = new ResponseOptions({ body: JSON.stringify(mockStackData()) });
+//           let response = new ResponseOptions({ questionText: JSON.stringify(mockStackData()) });
 //           connection.mockRespond(new Response(response));
 //         });
 
@@ -211,7 +211,7 @@
 //         [MockBackend, QuizService],
 //         fakeAsync((backend: MockBackend, service: QuizService) => {
 //         backend.connections.subscribe((connection: MockConnection) => {
-//           let response = new ResponseOptions({ body: JSON.stringify(mockStackData()) });
+//           let response = new ResponseOptions({ questionText: JSON.stringify(mockStackData()) });
 //           connection.mockRespond(new Response(response));
 //         });
 

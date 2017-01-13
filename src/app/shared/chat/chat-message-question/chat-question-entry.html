@@ -1,1 +1,4 @@
-<div>Question!</div>
+<div>
+  <p>{{data.question.text}}</p>
+  <button *ngFor="let alternative of data.question.alternatives" (click)="answer(alternative.value)">{{alternative.text}}</button>
+</div>

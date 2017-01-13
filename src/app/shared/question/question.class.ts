@@ -1,7 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Alternative } from '..';
 
-@Injectable()
 export class Question {
-  constructor(public body: string, public kept: boolean) {
+  public alternatives: Alternative[] = [];
+
+  constructor(public text: string, public kept: boolean) {}
+
+  public addAlternative(alternative: Alternative) {
+    this.alternatives.push(alternative);
   }
 }

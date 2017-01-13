@@ -21,6 +21,9 @@ import {
   ChatMessageQuestionComponent,
   ChatMessageTextComponent
 }                                       from './shared/chat';
+import {
+  QuestionFactory
+}                                       from './shared/question';
 import { HomeComponent }                from './home';
 import { MainNavigationComponent }      from './main-navigation';
 import { QuizComponent }                from './quiz';
@@ -61,6 +64,7 @@ import { StackListComponent }           from './stack-list';
     appRoutingProviders,
     ChatService,
     ChatUserFactory,
+    QuestionFactory,
     QuizService,
     LocalStorageService,
     NodeListService,

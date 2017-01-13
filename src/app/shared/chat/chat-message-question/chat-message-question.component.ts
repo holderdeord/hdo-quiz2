@@ -10,4 +10,9 @@ export class ChatMessageQuestionComponent {
 
   constructor() {
   }
+
+  answer(value: boolean) {
+    console.log(value);
+    this.data.giveAnswer();
+  }
 }

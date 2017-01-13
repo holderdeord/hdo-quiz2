@@ -5,6 +5,6 @@ describe('Question, class (shared)', () => {
 
   beforeEach(() => question = new Question('name', true));
 
-  it('sets property body', () => expect(question.body).toEqual('name'));
+  it('sets property text', () => expect(question.text).toEqual('name'));
   it('sets property kept', () => expect(question.kept).toBe(true));
 });

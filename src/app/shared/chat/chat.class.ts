@@ -1,8 +1,8 @@
 import { ChatEntry, ChatMessageQuestion, ChatMessageText, IChatUser } from './index';
-import { Question } from '../../shared';
+import { Question } from '../../shared/question/question.class';
 
 export class Chat {
-  static DEFAULT_TIME_BEFORE_MESSAGE: number = 3000;
+  static DEFAULT_TIME_BEFORE_MESSAGE: number = 0;
 
   private _entries: ChatEntry[] = [];
   private _participants: IChatUser[] = [];
