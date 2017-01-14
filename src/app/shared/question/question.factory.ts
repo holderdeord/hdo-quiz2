@@ -9,4 +9,10 @@ export class QuestionFactory {
     question.addAlternative(new Alternative(false, 'Ikke holdt', 'btn btn-danger'));
     return question;
   }
+
+  public createOpenQuestion(text: string, alternatives: any[]): Question {
+    const question = new Question(text, null);
+    // alternatives
+    return question;
+  }
 }

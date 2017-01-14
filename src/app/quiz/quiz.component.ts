@@ -31,11 +31,31 @@ export class QuizComponent {
         this.chat = new Chat(this.responder);
         this.quizMaster = this.chatUserFactory.createSystemUser();
         this.chat.addParticipant(this.quizMaster);
-        this.chat.addMessages(this.quizMaster, manuscript.introduction, 0)
-          .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#1', true)))
-          .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#2', true)))
-          .then(() => this.chat.addMessage(this.quizMaster, 'Du er ferdig!'));
+        this.parseManuscript(manuscript.script);
+        // this.chat.addMessages(this.quizMaster, manuscript.introduction, 0)
+        //   .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#1', true)))
+        //   .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#2', true)))
+        //   .then(() => this.chat.addMessage(this.quizMaster, 'Du er ferdig!'));
       });
     });
+  }
+
+  private parseManuscript(script: any[]): Promise<any> {
+    if (script.length === 0) {
+      return new Promise(resolve => resolve());
+    }
+    const currentEntry = script.shift();
+    return this.parseManuscriptEntry(currentEntry)
+      .then(() => this.parseManuscript(script));
+  }
+
+  private parseManuscriptEntry(entry: any): Promise<any> {
+    switch(entry.type) {
+      // case 'question':
+      //   const question = this.questionFactory.c
+      case 'text':
+        return this.chat.addMessage(this.quizMaster, entry.text);
+    }
+    return new Promise(resolve => resolve());
   }
 }

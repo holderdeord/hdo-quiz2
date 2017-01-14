@@ -1,54 +1,101 @@
 {
   "id": 1,
   "name": "Regjeringen Solberg",
-  "promises": [
+  "script": [
     {
-      "body": "Regjeringen vil myke opp arbeidsmiljøloven, blant annet når det gjelder gjennomsnittsberegning av arbeidstid, alternative turnusordninger og uttak av overtid.",
-      "kept": true
+      "type": "text",
+      "text": "Velkommen til Holder de ord sin Løftomat."
     },
     {
-      "body": "Regjeringen vil bevare kontantstøtten, og utvide ordningen til å inkludere toåringer.",
-      "kept": false
+      "type": "text",
+      "text": "Vi har gått gjennom alle løftene regjeringen Solberg har gitt, og sjekket om de er holdt eller ikke."
     },
     {
-      "body": "Regjeringen vil legge til rette for at eldre skal kunne stå lenger i arbeidslivet, blant annet ved å gå gjennom alle lovbestemte aldersgrenser i arbeidslivet i samråd med partene.",
-      "kept": true
+      "type": "text",
+      "text": "Hvert løfte er gjort om til et spørsmål, hvor du kan svare på om du tror det er holdt eller ikke."
     },
     {
-      "body": "Regjeringen vil legge til rette for at uføre skal kunne ta i bruk restarbeidsevnen ved å gjennomføre uførereformen. Det vil være et mål at uføregraden i hvert tilfelle skal reflektere den reelle arbeidsevnen, og at gradert uføretrygd skal tas i bruk i større grad enn i dag.",
-      "kept": true
+      "type": "text",
+      "text": "Vi lurer på hvilke løfter du tror er holdt, og hvilke du er interessert i."
     },
     {
-      "body": "Regjeringen vil pålegge kommunene å gjennomføre oppsøkende hjemmebesøk for å tilpasse hjelpetiltak til den enkelte.",
-      "kept": false
+      "type": "text",
+      "text": "Når du har svart på 10 spørsmål, viser vi deg resultatene."
     },
     {
-      "body": "Regjeringen vil i større grad bruke DNA-testing for å avklare identitet i forbindelse med familiegjenforening.",
-      "kept": false
+      "type": "text",
+      "text": "Om du vil kan du dele dette med dine venner, prøve å besvare på nytt, eller prøve å svare på andre løfter."
     },
     {
-      "body": "Regjeringen vil gå gjennom dagens velferdsordninger for å sikre at det lønner seg å jobbe, herunder utrede barnetillegget i uføretrygden.",
-      "kept": true
+      "type": "question",
+      "text": "What do you think?",
+      "alternatives": [
+        {
+          "text": "Number one"
+        },
+        {
+          "text": "Number two",
+          "value": "Some value we want to hold on to"
+        }
+      ]
     },
     {
-      "body": "Regjeringen vil videreføre dagens sykelønnsordning.",
-      "kept": true
-    },
-    {
-      "body": "Regjeringen vil heve kravet om botid for permanent oppholdstillatelse fra tre år til fem år. Gjennomgå reglene knyttet til personer som opplever mishandling.",
-      "kept": false
-    },
-    {
-      "body": "Regjeringen vil opprette et tvisteløsningsorgan som håndterer konflikter mellom stat og kommune.",
-      "kept": false
+      "type": "promises",
+      "links": {
+        "more": "http://api.holderdeord.no/promises?category=111"
+      },
+      "promises": [
+        {
+          "id": 1,
+          "body": "Regjeringen vil myke opp arbeidsmiljøloven, blant annet når det gjelder gjennomsnittsberegning av arbeidstid, alternative turnusordninger og uttak av overtid.",
+          "kept": true
+        },
+        {
+          "id": 2,
+          "body": "Regjeringen vil bevare kontantstøtten, og utvide ordningen til å inkludere toåringer.",
+          "kept": false
+        },
+        {
+          "id": 3,
+          "body": "Regjeringen vil legge til rette for at eldre skal kunne stå lenger i arbeidslivet, blant annet ved å gå gjennom alle lovbestemte aldersgrenser i arbeidslivet i samråd med partene.",
+          "kept": true
+        },
+        {
+          "id": 4,
+          "body": "Regjeringen vil legge til rette for at uføre skal kunne ta i bruk restarbeidsevnen ved å gjennomføre uførereformen. Det vil være et mål at uføregraden i hvert tilfelle skal reflektere den reelle arbeidsevnen, og at gradert uføretrygd skal tas i bruk i større grad enn i dag.",
+          "kept": true
+        },
+        {
+          "id": 5,
+          "body": "Regjeringen vil pålegge kommunene å gjennomføre oppsøkende hjemmebesøk for å tilpasse hjelpetiltak til den enkelte.",
+          "kept": false
+        },
+        {
+          "id": 6,
+          "body": "Regjeringen vil i større grad bruke DNA-testing for å avklare identitet i forbindelse med familiegjenforening.",
+          "kept": false
+        },
+        {
+          "id": 7,
+          "body": "Regjeringen vil gå gjennom dagens velferdsordninger for å sikre at det lønner seg å jobbe, herunder utrede barnetillegget i uføretrygden.",
+          "kept": true
+        },
+        {
+          "id": 8,
+          "body": "Regjeringen vil videreføre dagens sykelønnsordning.",
+          "kept": true
+        },
+        {
+          "id": 9,
+          "body": "Regjeringen vil heve kravet om botid for permanent oppholdstillatelse fra tre år til fem år. Gjennomgå reglene knyttet til personer som opplever mishandling.",
+          "kept": false
+        },
+        {
+          "id": 10,
+          "body": "Regjeringen vil opprette et tvisteløsningsorgan som håndterer konflikter mellom stat og kommune.",
+          "kept": false
+        }
+      ]
     }
-  ],
-  "introduction": [
-    "Velkommen til Holder de ord sin Løftomat.",
-    "Vi har gått gjennom alle løftene regjeringen Solberg har gitt, og sjekket om de er holdt eller ikke.",
-    "Hvert løfte er gjort om til et spørsmål, hvor du kan svare på om du tror det er holdt eller ikke.",
-    "Vi lurer på hvilke løfter du tror er holdt, og hvilke du er interessert i.",
-    "Når du har svart på 10 spørsmål, viser vi deg resultatene.",
-    "Om du vil kan du dele dette med dine venner, prøve å besvare på nytt, eller prøve å svare på andre løfter."
   ]
 }
