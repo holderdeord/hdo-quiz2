@@ -5,4 +5,12 @@
             (click)="answer(alternative)">{{alternative.text}}</button>
   </div>
   <p *ngIf="data.answer">{{data.answer.text}}</p>
+  <div *ngIf="data.answer && data.question.kept !== null && data.answer.value === data.question.kept">
+    <img src="http://i.giphy.com/3o6ZtfGTzp14i6C7Pq.gif" />
+    <p><strong>Du hadde rett!</strong></p>
+  </div>
+  <div *ngIf="data.answer && data.question.kept !== null && data.answer.value !== data.question.kept">
+    <img src="http://i.giphy.com/Ob7p7lDT99cd2.gif" />
+    <p><strong>Du svarte feil...!</strong></p>
+  </div>
 </div>
