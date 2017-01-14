@@ -12,7 +12,7 @@ export class QuestionFactory {
 
   public createOpenQuestion(text: string, alternatives: any[]): Question {
     const question = new Question(text, null);
-    // alternatives
+    alternatives.forEach(alternative => question.addAlternative(new Alternative(alternative.value, alternative.text)));
     return question;
   }
 }

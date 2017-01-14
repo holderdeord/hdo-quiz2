@@ -51,11 +51,13 @@ export class QuizComponent {
 
   private parseManuscriptEntry(entry: any): Promise<any> {
     switch(entry.type) {
-      // case 'question':
-      //   const question = this.questionFactory.c
+      case 'question':
+        const question = this.questionFactory.createOpenQuestion(entry.text, entry.alternatives);
+        return this.chat.addQuestion(this.quizMaster, this.responder, question);
       case 'text':
         return this.chat.addMessage(this.quizMaster, entry.text);
     }
+    console.log('Håndterer ikke typen enda', entry.type);
     return new Promise(resolve => resolve());
   }
 }
