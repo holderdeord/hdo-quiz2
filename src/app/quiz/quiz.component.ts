@@ -32,8 +32,8 @@ export class QuizComponent {
         this.quizMaster = this.chatUserFactory.createSystemUser();
         this.chat.addParticipant(this.quizMaster);
         this.chat.addMessages(this.quizMaster, manuscript.introduction, 0)
-          .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createPromiseQuestion('#1', true)))
-          .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createPromiseQuestion('#2', true)))
+          .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#1', true)))
+          .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#2', true)))
           .then(() => this.chat.addMessage(this.quizMaster, 'Du er ferdig!'));
       });
     });

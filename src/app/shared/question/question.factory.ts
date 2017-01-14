@@ -3,10 +3,10 @@ import { Alternative, Question } from '..';
 
 @Injectable()
 export class QuestionFactory {
-  public createPromiseQuestion(kept: string, answer: boolean): Question {
+  public createQuestionFromPromise(kept: string, answer: boolean): Question {
     const question = new Question(kept, answer);
-    question.addAlternative(new Alternative(true, 'Holdt'));
-    question.addAlternative(new Alternative(false, 'Ikke holdt'));
+    question.addAlternative(new Alternative(true, 'Holdt', 'btn btn-success'));
+    question.addAlternative(new Alternative(false, 'Ikke holdt', 'btn btn-danger'));
     return question;
   }
 }

@@ -8,5 +8,5 @@ export function mockQuestion(properties?: any): Question {
 }
 
 function mockQuestionData(): Question {
-  return factory.createPromiseQuestion('Holdt', true);
+  return factory.createQuestionFromPromise('Holdt', true);
 }

@@ -1,6 +1,8 @@
 <div>
   <div *ngIf="!data.answer" >
-    <button *ngFor="let alternative of data.question.alternatives" (click)="answer(alternative)">{{alternative.text}}</button>
+    <button *ngFor="let alternative of data.question.alternatives"
+            [class]="alternative.className"
+            (click)="answer(alternative)">{{alternative.text}}</button>
   </div>
   <p *ngIf="data.answer">{{data.answer.text}}</p>
 </div>
