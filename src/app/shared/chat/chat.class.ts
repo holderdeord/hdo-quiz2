@@ -27,9 +27,12 @@ export class Chat {
     });
   }
 
-  public addQuestion(participant: IChatUser, question: Question) {
-    const entry = this.getOrCreateEntry(participant);
-    return entry.addMessage(new ChatMessageQuestion(question));
+  public addQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question) {
+    return this.addMessage(quizMaster, question.text)
+      .then(() => {
+        const entry = this.getOrCreateEntry(responder);
+        return entry.addMessage(new ChatMessageQuestion(question))
+      });
   }
 
   public addParticipant(participant: IChatUser) {

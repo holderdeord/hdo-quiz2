@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { ChatMessageQuestion } from '.';
+import { ChatMessageQuestion } from '..';
+import { Alternative } from '../../../shared';
 
 @Component({
   selector: 'hdo-chat-message-question',
@@ -11,8 +12,8 @@ export class ChatMessageQuestionComponent {
   constructor() {
   }
 
-  answer(value: boolean) {
-    console.log(value);
+  answer(answer: Alternative) {
+    this.data.answer = answer;
     this.data.giveAnswer();
   }
 }
