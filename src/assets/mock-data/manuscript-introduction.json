@@ -28,14 +28,14 @@
     },
     {
       "type": "question",
-      "text": "What do you think?",
+      "text": "Er du klar for spørsmålene?!?!?",
       "alternatives": [
         {
-          "text": "Number one"
+          "text": "Ja!",
+          "className": "btn btn-primary"
         },
         {
-          "text": "Number two",
-          "value": "Some value we want to hold on to"
+          "text": "Nei..........."
         }
       ]
     },

@@ -51,6 +51,8 @@ export class QuizComponent {
 
   private parseManuscriptEntry(entry: any): Promise<any> {
     switch(entry.type) {
+      case 'promises':
+        return this.parsePromises(entry.promises);
       case 'question':
         const question = this.questionFactory.createOpenQuestion(entry.text, entry.alternatives);
         return this.chat.addQuestion(this.quizMaster, this.responder, question);
@@ -59,5 +61,19 @@ export class QuizComponent {
     }
     console.log('Håndterer ikke typen enda', entry.type);
     return new Promise(resolve => resolve());
+  }
+
+  private parsePromises(promises: any[]): Promise<any> {
+    if (promises.length === 0) {
+      return new Promise(resolve => resolve());
+    }
+    const currentPromise = promises.shift();
+    return this.parsePromisesEntry(currentPromise)
+      .then(() => this.parsePromises(promises));
+  }
+
+  private parsePromisesEntry(promise: any): Promise<any> {
+    const question = this.questionFactory.createQuestionFromPromise(promise.body, promise.kept);
+    return this.chat.addQuestion(this.quizMaster, this.responder, question);
   }
 }

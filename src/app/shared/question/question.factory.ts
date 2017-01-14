@@ -3,8 +3,8 @@ import { Alternative, Question } from '..';
 
 @Injectable()
 export class QuestionFactory {
-  public createQuestionFromPromise(kept: string, answer: boolean): Question {
-    const question = new Question(kept, answer);
+  public createQuestionFromPromise(text: string, answer: boolean): Question {
+    const question = new Question(text, answer);
     question.addAlternative(new Alternative(true, 'Holdt', 'btn btn-success'));
     question.addAlternative(new Alternative(false, 'Ikke holdt', 'btn btn-danger'));
     return question;
@@ -12,7 +12,10 @@ export class QuestionFactory {
 
   public createOpenQuestion(text: string, alternatives: any[]): Question {
     const question = new Question(text, null);
-    alternatives.forEach(alternative => question.addAlternative(new Alternative(alternative.value, alternative.text)));
+    alternatives.forEach(data => {
+      const alternative = new Alternative(data.value, data.text, data.className || 'btn');
+      question.addAlternative(alternative);
+    });
     return question;
   }
 }
