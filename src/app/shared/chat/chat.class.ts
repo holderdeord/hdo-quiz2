@@ -1,5 +1,5 @@
-import { ChatEntry, ChatMessageQuestion, ChatMessageText, IChatUser } from './index';
-import { Question } from '../../shared/question/question.class';
+import { ChatEntry, ChatMessageButtons, ChatMessageQuestion, ChatMessageText, IChatUser } from './index';
+import { Alternative, Question } from '../../shared';
 
 export class Chat {
   static DEFAULT_TIME_BEFORE_MESSAGE: number = 0;
@@ -10,6 +10,12 @@ export class Chat {
 
   constructor(private _subjectUser: IChatUser) {
     this._participants.push(_subjectUser);
+  }
+
+  public addButton(responder: IChatUser, buttonText: string): Promise<any> {
+    const entry = this.getOrCreateEntry(responder);
+    const alternative = new Alternative(null, buttonText);
+    return entry.addMessage(new ChatMessageButtons([alternative]));
   }
 
   public addMessage(participant: IChatUser, message: string, timeout: number = Chat.DEFAULT_TIME_BEFORE_MESSAGE): Promise<any> {

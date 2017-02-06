@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { ChatMessageQuestion } from '..';
+import { ChatMessageButtons } from '.';
 import { Alternative } from '../../../shared';
 
 @Component({
   selector: 'hdo-chat-message-question',
-  styles: [`${require('!raw!sass!./chat-message-question.scss')}`],
-  template: require('./chat-message-question.html')
+  styles: [`${require('!raw!sass!./chat-message-buttons.scss')}`],
+  template: require('./chat-message-buttons.html')
 })
-export class ChatMessageQuestionComponent {
-  public data: ChatMessageQuestion;
+export class ChatMessageButtonsComponent {
+  public data: ChatMessageButtons;
 
   constructor() {
   }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { QuizService, Quiz } from '../shared/quiz';
@@ -11,6 +11,8 @@ import { QuestionFactory } from '../shared/question';
   template: require('./quiz.html')
 })
 export class QuizComponent {
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+
   public responses: boolean[];
   public stack: Quiz;
   public chat: Chat;
@@ -50,17 +52,23 @@ export class QuizComponent {
   }
 
   private parseManuscriptEntry(entry: any): Promise<any> {
-    switch(entry.type) {
+    let promise;
+    switch (entry.type) {
+      case 'button':
+        promise = this.chat.addButton(this.responder, entry.text);
+        break;
       case 'promises':
-        return this.parsePromises(entry.promises);
-      case 'question':
-        const question = this.questionFactory.createOpenQuestion(entry.text, entry.alternatives);
-        return this.chat.addQuestion(this.quizMaster, this.responder, question);
+        promise = this.parsePromises(entry.promises);
+        break;
       case 'text':
-        return this.chat.addMessage(this.quizMaster, entry.text);
+        promise = this.chat.addMessage(this.quizMaster, entry.text);
+        break;
+      default:
+        console.log('Håndterer ikke typen enda', entry.type);
+        promise = new Promise(resolve => resolve());
     }
-    console.log('Håndterer ikke typen enda', entry.type);
-    return new Promise(resolve => resolve());
+    return promise
+      .then(() => this.scrollToBottom());
   }
 
   private parsePromises(promises: any[]): Promise<any> {
@@ -69,11 +77,18 @@ export class QuizComponent {
     }
     const currentPromise = promises.shift();
     return this.parsePromisesEntry(currentPromise)
+      .then(() => this.scrollToBottom())
       .then(() => this.parsePromises(promises));
   }
 
   private parsePromisesEntry(promise: any): Promise<any> {
     const question = this.questionFactory.createQuestionFromPromise(promise.body, promise.kept);
     return this.chat.addQuestion(this.quizMaster, this.responder, question);
+  }
+
+  private scrollToBottom() {
+    return setTimeout(() => {
+      this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+    }, 100);
   }
 }

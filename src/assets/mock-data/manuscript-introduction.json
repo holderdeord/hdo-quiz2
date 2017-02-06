@@ -19,6 +19,10 @@
       "text": "Vi lurer på hvilke løfter du tror er holdt, og hvilke du er interessert i."
     },
     {
+      "type": "button",
+      "text": "Interessant, fortell meg mer"
+    },
+    {
       "type": "text",
       "text": "Når du har svart på 10 spørsmål, viser vi deg resultatene."
     },
@@ -27,17 +31,8 @@
       "text": "Om du vil kan du dele dette med dine venner, prøve å besvare på nytt, eller prøve å svare på andre løfter."
     },
     {
-      "type": "question",
-      "text": "Er du klar for spørsmålene?!?!?",
-      "alternatives": [
-        {
-          "text": "Ja!",
-          "className": "btn btn-primary"
-        },
-        {
-          "text": "Nei..........."
-        }
-      ]
+      "type": "button",
+      "text": "Ok, spør i vei!"
     },
     {
       "type": "promises",

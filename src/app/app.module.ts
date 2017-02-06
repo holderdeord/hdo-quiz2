@@ -18,6 +18,7 @@ import { CardsDirective }               from './cards';
 import {
   ChatEntryComponent,
   ChatMessageComponent,
+  ChatMessageButtonsComponent,
   ChatMessageQuestionComponent,
   ChatMessageTextComponent
 }                                       from './shared/chat';
@@ -43,6 +44,7 @@ import { StackListComponent }           from './stack-list';
     AboutComponent,
     ChatEntryComponent,
     ChatMessageComponent,
+    ChatMessageButtonsComponent,
     ChatMessageQuestionComponent,
     ChatMessageTextComponent,
     CardsDirective,
@@ -57,6 +59,7 @@ import { StackListComponent }           from './stack-list';
   entryComponents: [
     ChatEntryComponent,
     ChatMessageComponent,
+    ChatMessageButtonsComponent,
     ChatMessageQuestionComponent,
     ChatMessageTextComponent
   ],

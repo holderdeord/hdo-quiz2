@@ -1,3 +1,8 @@
+.chat {
+  max-height: 100vh;
+  overflow-y: scroll;
+}
+
 .msg-group {
   margin: 1em 0;
 }
