@@ -1,0 +1,5 @@
+<div class="alert" [ngClass]="data.wasCorrect ? 'alert-success' : 'alert-danger'">
+  <p *ngIf="data.wasCorrect">Du svarte rett!</p>
+  <p *ngIf="!data.wasCorrect">Du svarte feil...</p>
+  <img [src]="data.imageUrl" />
+</div>

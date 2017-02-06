@@ -1,4 +1,4 @@
-import { ChatEntry, ChatMessageButtons, ChatMessageQuestion, ChatMessageText, IChatUser } from './index';
+import { ChatEntry, ChatMessageAnswer, ChatMessageButtons, ChatMessageQuestion, ChatMessageText, IChatUser } from './index';
 import { Alternative, Question } from '../../shared';
 
 export class Chat {
@@ -33,15 +33,16 @@ export class Chat {
     });
   }
 
-  public addQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question) {
+  public addQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question): Promise<any> {
     return this.addMessage(quizMaster, question.text)
       .then(() => {
         const entry = this.getOrCreateEntry(responder);
-        return entry.addMessage(new ChatMessageQuestion(this, question));
-      });
+        return entry.addMessage(new ChatMessageButtons(this, question.alternatives));
+      })
+      .then(answer => this.showAnswer(quizMaster, question, answer));
   }
 
-  public addParticipant(participant: IChatUser) {
+  public addParticipant(participant: IChatUser): void {
     this._participants.push(participant);
   }
 
@@ -57,11 +58,19 @@ export class Chat {
     return this._participants;
   }
 
-  private getOrCreateEntry(participant: IChatUser) {
+  private getOrCreateEntry(participant: IChatUser): ChatEntry {
     if (!this._currentEntry || this._currentEntry.originUser !== participant) {
       this._currentEntry = new ChatEntry(this, participant);
       this._entries.push(this._currentEntry);
     }
     return this._currentEntry;
+  }
+
+  private showAnswer(quizMaster: IChatUser, question: Question, answer: Alternative): Promise<any> {
+    const wasCorrect = question.kept === answer.value;
+    const entry = this.getOrCreateEntry(quizMaster);
+    const correctImageUrl = 'http://i.giphy.com/3o6ZtfGTzp14i6C7Pq.gif';
+    const wrongImageUrl = 'http://i.giphy.com/Ob7p7lDT99cd2.gif';
+    return entry.addMessage(new ChatMessageAnswer(wasCorrect, wasCorrect ? correctImageUrl : wrongImageUrl));
   }
 }

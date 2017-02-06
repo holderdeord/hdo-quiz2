@@ -15,6 +15,6 @@ export class ChatMessageQuestionComponent {
 
   answer(answer: Alternative) {
     this.data.answer = answer;
-    this.data.giveAnswer();
+    this.data.giveAnswer(answer);
   }
 }
