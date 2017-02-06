@@ -1,0 +1,13 @@
+.msg-group {
+  margin: 1em 0;
+  display: flex;
+  .participant {
+    order: 0;
+  }
+  .content {
+    order: 1;
+  }
+  .initiator {
+    order: 2;
+  }
+}

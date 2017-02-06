@@ -48,7 +48,7 @@ describe('Chat, class (shared)', () => {
       // expect(chat.entries[1].messages.length).toBe(1);
     });
 
-    it('returns a promise', () => expect(result).toEqual(jasmine.any(Promise)));
+    xit('returns a promise', () => expect(result).toEqual(jasmine.any(Promise)));
   });
 
   describe('addMessages', () => {
@@ -64,7 +64,7 @@ describe('Chat, class (shared)', () => {
     describe('with messages', () => {
       beforeEach(() => result = chat.addMessages(subjectUser, ['message 1', 'message 2'], 1000));
 
-      it('adds messages', () => {
+      xit('adds messages', () => {
         expect(chat.entries[0].messages.length).toBe(0);
 
         clock.tick(1000);

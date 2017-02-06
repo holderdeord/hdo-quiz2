@@ -1,8 +1,13 @@
-<div *ngIf="entry">
-  <div>{{entry.originUser.name}}</div>
-  <ul>
-    <li *ngFor="let message of entry.messages">
-      <hdo-chat-message [component]="message.type" [data]="message"></hdo-chat-message>
-    </li>
-  </ul>
+<div *ngIf="entry" class="row msg-group">
+  <div class="col-xs-2" [ngClass]="entry.chat.isInitiator(entry.originUser) ? 'initiator' : 'participant'">
+    <img class="img-thumbnail" [src]="entry.originUser.pictureUrl" />
+    <p>{{entry.originUser.name}}</p>
+  </div>
+  <div class="col-xs-10 content">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let message of entry.messages">
+        <hdo-chat-message [component]="message.type" [data]="message"></hdo-chat-message>
+      </li>
+    </ul>
+  </div>
 </div>

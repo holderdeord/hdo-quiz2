@@ -1,4 +1,5 @@
-import { ChatMessageQuestionComponent, IChatMessage } from '..';
+import { ChatMessageQuestionComponent } from '.';
+import { Chat, IChatMessage } from '..';
 import { Alternative, Question } from '../..';
 
 export class ChatMessageQuestion implements IChatMessage {
@@ -7,7 +8,7 @@ export class ChatMessageQuestion implements IChatMessage {
   giveAnswer: Function;
   answer: Alternative = null;
 
-  constructor(public question: Question) {
+  constructor(public chat: Chat, public question: Question) {
     this.resolved = new Promise(resolve => this.giveAnswer = resolve);
   }
 

@@ -15,12 +15,12 @@ export class Chat {
   public addButton(responder: IChatUser, buttonText: string): Promise<any> {
     const entry = this.getOrCreateEntry(responder);
     const alternative = new Alternative(null, buttonText);
-    return entry.addMessage(new ChatMessageButtons([alternative]));
+    return entry.addMessage(new ChatMessageButtons(this, [alternative]));
   }
 
   public addMessage(participant: IChatUser, message: string, timeout: number = Chat.DEFAULT_TIME_BEFORE_MESSAGE): Promise<any> {
     const entry = this.getOrCreateEntry(participant);
-    return entry.addMessage(new ChatMessageText(message, timeout));
+    return entry.addMessage(new ChatMessageText(this, message, timeout));
   }
 
   public addMessages(participant: IChatUser, messages: string[], timeout?: number): Promise<any> {
@@ -37,7 +37,7 @@ export class Chat {
     return this.addMessage(quizMaster, question.text)
       .then(() => {
         const entry = this.getOrCreateEntry(responder);
-        return entry.addMessage(new ChatMessageQuestion(question))
+        return entry.addMessage(new ChatMessageQuestion(this, question));
       });
   }
 
@@ -49,13 +49,17 @@ export class Chat {
     return this._entries;
   }
 
+  public isInitiator(user: IChatUser): boolean {
+    return this._subjectUser === user;
+  }
+
   public get participants(): IChatUser[] {
     return this._participants;
   }
 
   private getOrCreateEntry(participant: IChatUser) {
     if (!this._currentEntry || this._currentEntry.originUser !== participant) {
-      this._currentEntry = new ChatEntry(participant);
+      this._currentEntry = new ChatEntry(this, participant);
       this._entries.push(this._currentEntry);
     }
     return this._currentEntry;

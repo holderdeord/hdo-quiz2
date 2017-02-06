@@ -1,5 +1,5 @@
 import { ChatMessageButtonsComponent } from '.';
-import { IChatMessage } from '..';
+import { Chat, IChatMessage } from '..';
 import { Alternative } from '../..';
 
 export class ChatMessageButtons implements IChatMessage {
@@ -8,7 +8,7 @@ export class ChatMessageButtons implements IChatMessage {
   giveAnswer: Function;
   answer: Alternative = null;
 
-  constructor(public alternatives: Alternative[]) {
+  constructor(public chat: Chat, public alternatives: Alternative[]) {
     this.resolved = new Promise(resolve => this.giveAnswer = resolve);
   }
 
