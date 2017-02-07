@@ -37,6 +37,7 @@
     {
       "type": "promises",
       "links": {
+        "base": "http://api.holderdeord.no/promises?category=introduction",
         "more": "http://api.holderdeord.no/promises?category=111"
       },
       "promises": [

@@ -1,8 +1,11 @@
+import { EventEmitter } from '@angular/core';
 import { ChatEntry, ChatMessageAnswer, ChatMessageButtons, ChatMessageQuestion, ChatMessageText, IChatUser } from './index';
 import { Alternative, Question } from '../../shared';
 
 export class Chat {
   static DEFAULT_TIME_BEFORE_MESSAGE: number = 0;
+
+  public events: EventEmitter<any> = new EventEmitter<any>();
 
   private _entries: ChatEntry[] = [];
   private _participants: IChatUser[] = [];

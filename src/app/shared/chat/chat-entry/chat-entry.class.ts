@@ -9,6 +9,7 @@ export class ChatEntry {
   addMessage(message: IChatMessage): Promise<any> {
     return new Promise(resolve => {
       this.messages.push(message);
+      this.chat.events.emit('message added');
       message.resolve(resolve);
     });
   }

@@ -1,0 +1,14 @@
+{ // api for http://quiz-service/api && http://quiz-service/api?session=1234
+  "links": {
+    "self": {
+      "url": "http://quiz-service/api",
+      "query": [
+        {
+          "name": "session",
+          "type": "string",
+          "required": true
+        }
+      ]
+    }
+  }
+}

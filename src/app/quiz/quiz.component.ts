@@ -11,13 +11,13 @@ import { QuestionFactory } from '../shared/question';
   template: require('./quiz.html')
 })
 export class QuizComponent {
-  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
-
   public responses: boolean[];
   public stack: Quiz;
   public chat: Chat;
   public responder: ChatUser;
   public quizMaster: ChatUser;
+
+  @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
   constructor(private route: ActivatedRoute,
               private service: QuizService,
@@ -31,9 +31,10 @@ export class QuizComponent {
       this.service.getManuscript(id).subscribe(manuscript => {
         this.responder = this.chatUserFactory.createAnonymousUser();
         this.chat = new Chat(this.responder);
+        this.chat.events.subscribe(() => this.scrollToBottom());
         this.quizMaster = this.chatUserFactory.createSystemUser();
         this.chat.addParticipant(this.quizMaster);
-        this.parseManuscript(manuscript.script);
+        return this.parseManuscript(manuscript.script);
         // this.chat.addMessages(this.quizMaster, manuscript.introduction, 0)
         //   .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#1', true)))
         //   .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#2', true)))
@@ -67,8 +68,7 @@ export class QuizComponent {
         console.log('Håndterer ikke typen enda', entry.type);
         promise = new Promise(resolve => resolve());
     }
-    return promise
-      .then(() => this.scrollToBottom());
+    return promise;
   }
 
   private parsePromises(promises: any[]): Promise<any> {
@@ -77,7 +77,6 @@ export class QuizComponent {
     }
     const currentPromise = promises.shift();
     return this.parsePromisesEntry(currentPromise)
-      .then(() => this.scrollToBottom())
       .then(() => this.parsePromises(promises));
   }
 
