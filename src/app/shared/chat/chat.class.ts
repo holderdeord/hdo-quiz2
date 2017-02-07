@@ -1,6 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { ChatEntry, ChatMessageAnswer, ChatMessageButtons, ChatMessageQuestion, ChatMessageText, IChatUser } from './index';
-import { Alternative, Question } from '../../shared';
+import { Alternative, Question, Response } from '../../shared';
 
 export class Chat {
   static DEFAULT_TIME_BEFORE_MESSAGE: number = 0;
@@ -38,21 +38,35 @@ export class Chat {
     });
   }
 
-  public addQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question): Promise<any> {
+  public addParticipant(participant: IChatUser): void {
+    this._participants.push(participant);
+  }
+
+  public askQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question): Promise<Response> {
     return this.addMessage(quizMaster, question.text)
       .then(() => {
         const entry = this.getOrCreateEntry(responder);
         return entry.addMessage(new ChatMessageButtons(this, question.alternatives));
       })
-      .then(answer => this.showAnswer(quizMaster, question, answer))
-      .then(wasCorrect => {
-        const buttonText = wasCorrect ? 'Jippi, gi meg neste spørsmål!' : 'Æsj, la meg prøve igjen';
-        return this.addButton(responder, buttonText);
+      .then(answer => new Response(question, answer))
+      .then(response => this.showAnswer(quizMaster, response))
+      .then(response => {
+        const buttonText = response.wasCorrect ? 'Jippi, gi meg neste spørsmål!' : 'Æsj, la meg prøve igjen';
+        return this.addButton(responder, buttonText)
+          .then(() => response);
       });
   }
 
-  public addParticipant(participant: IChatUser): void {
-    this._participants.push(participant);
+  public askQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question[], responses: Response[] = []): Promise<Response[]> {
+    if (questions.length === 0) {
+      return new Promise(resolve => resolve(responses));
+    }
+    const question = questions.shift();
+    return this.askQuestion(quizMaster, responder, question)
+      .then(response => {
+        responses.push(response);
+        return this.askQuestions(quizMaster, responder, questions, responses);
+      });
   }
 
   public get entries(): ChatEntry[] {
@@ -88,11 +102,10 @@ export class Chat {
     this._images = images;
   }
 
-  private showAnswer(quizMaster: IChatUser, question: Question, answer: Alternative): Promise<any> {
-    const wasCorrect = question.kept === answer.value;
+  private showAnswer(quizMaster: IChatUser, response: Response): Promise<any> {
     const entry = this.getOrCreateEntry(quizMaster);
-    const image = this.getRandomPicture(wasCorrect ? this._images.correct : this._images.wrong);
-    return entry.addMessage(new ChatMessageAnswer(wasCorrect, image))
-      .then(() => wasCorrect);
+    const image = this.getRandomPicture(response.wasCorrect ? this._images.correct : this._images.wrong);
+    return entry.addMessage(new ChatMessageAnswer(response.wasCorrect, image))
+      .then(() => response);
   }
 }

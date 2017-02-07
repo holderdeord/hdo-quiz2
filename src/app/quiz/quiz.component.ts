@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { QuizService, Quiz } from '../shared/quiz';
 import { Chat, ChatUser, ChatUserFactory } from '../shared/chat';
+import { Response } from '../shared';
 import { QuestionFactory } from '../shared/question';
 
 @Component({
@@ -60,7 +61,12 @@ export class QuizComponent {
         break;
       case 'promises':
         this.chat.setImages(entry.images);
-        promise = this.parsePromises(entry.promises);
+        const questions = entry.promises.map(promise => this.questionFactory.createQuestionFromPromise(promise.body, promise.kept));
+        promise = this.chat.askQuestions(this.quizMaster, this.responder, questions)
+          .then((responses: Response[]) => {
+            const numberOfCorrectAnswers = responses.filter(response => response.wasCorrect).length;
+            return this.chat.addMessage(this.quizMaster, `Du fikk ${numberOfCorrectAnswers} av ${responses.length} riktige!`);
+          });
         break;
       case 'text':
         promise = this.chat.addMessage(this.quizMaster, entry.text);
@@ -70,20 +76,6 @@ export class QuizComponent {
         promise = new Promise(resolve => resolve());
     }
     return promise;
-  }
-
-  private parsePromises(promises: any[]): Promise<any> {
-    if (promises.length === 0) {
-      return new Promise(resolve => resolve());
-    }
-    const currentPromise = promises.shift();
-    return this.parsePromisesEntry(currentPromise)
-      .then(() => this.parsePromises(promises));
-  }
-
-  private parsePromisesEntry(promise: any): Promise<any> {
-    const question = this.questionFactory.createQuestionFromPromise(promise.body, promise.kept);
-    return this.chat.addQuestion(this.quizMaster, this.responder, question);
   }
 
   private scrollToBottom() {
