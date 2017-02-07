@@ -44,7 +44,11 @@ export class Chat {
         const entry = this.getOrCreateEntry(responder);
         return entry.addMessage(new ChatMessageButtons(this, question.alternatives));
       })
-      .then(answer => this.showAnswer(quizMaster, question, answer));
+      .then(answer => this.showAnswer(quizMaster, question, answer))
+      .then(wasCorrect => {
+        const buttonText = wasCorrect ? 'Jippi, gi meg neste spørsmål!' : 'Æsj, la meg prøve igjen';
+        return this.addButton(responder, buttonText);
+      });
   }
 
   public addParticipant(participant: IChatUser): void {
@@ -88,6 +92,7 @@ export class Chat {
     const wasCorrect = question.kept === answer.value;
     const entry = this.getOrCreateEntry(quizMaster);
     const image = this.getRandomPicture(wasCorrect ? this._images.correct : this._images.wrong);
-    return entry.addMessage(new ChatMessageAnswer(wasCorrect, image));
+    return entry.addMessage(new ChatMessageAnswer(wasCorrect, image))
+      .then(() => wasCorrect);
   }
 }
