@@ -1,5 +1,7 @@
-<div #scrollMe class="chat" *ngIf="chat">
-  <div *ngFor="let entry of chat.entries">
-    <hdo-chat-entry [entry]="entry"></hdo-chat-entry>
+<div class="chat" #scrollMe *ngIf="chat">
+  <div class="container">
+    <div *ngFor="let entry of chat.entries">
+      <hdo-chat-entry [entry]="entry"></hdo-chat-entry>
+    </div>
   </div>
 </div>
