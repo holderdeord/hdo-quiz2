@@ -10,9 +10,11 @@ export class Chat {
   private _entries: ChatEntry[] = [];
   private _participants: IChatUser[] = [];
   private _currentEntry: ChatEntry = null;
+  private _images: {correct: string[], wrong: string[]};
 
   constructor(private _subjectUser: IChatUser) {
     this._participants.push(_subjectUser);
+    this._images = {correct: [], wrong: []};
   }
 
   public addButton(responder: IChatUser, buttonText: string): Promise<any> {
@@ -53,6 +55,15 @@ export class Chat {
     return this._entries;
   }
 
+  private getRandomPicture(images: string[]): string {
+    return images[Math.floor(Math.random() * images.length)];
+  }
+
+
+  public get images(): string[] {
+    return this._images.correct.concat(this._images.wrong);
+  }
+
   public isInitiator(user: IChatUser): boolean {
     return this._subjectUser === user;
   }
@@ -69,11 +80,14 @@ export class Chat {
     return this._currentEntry;
   }
 
+  public setImages(images: {correct, wrong}) {
+    this._images = images;
+  }
+
   private showAnswer(quizMaster: IChatUser, question: Question, answer: Alternative): Promise<any> {
     const wasCorrect = question.kept === answer.value;
     const entry = this.getOrCreateEntry(quizMaster);
-    const correctImageUrl = 'http://i.giphy.com/3o6ZtfGTzp14i6C7Pq.gif';
-    const wrongImageUrl = 'http://i.giphy.com/Ob7p7lDT99cd2.gif';
-    return entry.addMessage(new ChatMessageAnswer(wasCorrect, wasCorrect ? correctImageUrl : wrongImageUrl));
+    const image = this.getRandomPicture(wasCorrect ? this._images.correct : this._images.wrong);
+    return entry.addMessage(new ChatMessageAnswer(wasCorrect, image));
   }
 }

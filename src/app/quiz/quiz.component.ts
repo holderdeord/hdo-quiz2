@@ -59,6 +59,7 @@ export class QuizComponent {
         promise = this.chat.addButton(this.responder, entry.text);
         break;
       case 'promises':
+        this.chat.setImages(entry.images);
         promise = this.parsePromises(entry.promises);
         break;
       case 'text':

@@ -4,4 +4,7 @@
       <hdo-chat-entry [entry]="entry"></hdo-chat-entry>
     </div>
   </div>
+  <div class="images">
+    <img *ngFor="let imageUrl of chat.images" [src]="imageUrl" />
+  </div>
 </div>

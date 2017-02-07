@@ -40,6 +40,21 @@
         "base": "http://api.holderdeord.no/promises?category=introduction",
         "more": "http://api.holderdeord.no/promises?category=111"
       },
+      "images": {
+        "correct": [
+          "http://i.giphy.com/3o6ZtfGTzp14i6C7Pq.gif",
+          "http://i3.kym-cdn.com/photos/images/original/000/204/096/epic-win.jpg",
+          "http://i3.kym-cdn.com/photos/images/original/000/068/108/HM446UQ6GA5GROAJXNHREYMR2VO7PKRA.jpeg",
+          "http://s2.quickmeme.com/img/0f/0ff49113f737f6725161e579f345863f0a8b6d82d260aca7a3726c18b760b024.jpg"
+        ],
+        "wrong": [
+          "http://s2.quickmeme.com/img/12/12b12a0b635a639e67f4db898c62db95b77e75b9436528800194bed9c0dfbf09.jpg",
+          "http://i.giphy.com/Ob7p7lDT99cd2.gif",
+          "http://www.mememaker.net/static/images/memes/4148672.jpg",
+          "https://cdn.meme.am/cache/instances/folder244/400x/54706244.jpg",
+          "https://cdn.meme.am/cache/instances/folder335/500x/66069335.jpg"
+        ]
+      },
       "promises": [
         {
           "id": 1,
