@@ -7,9 +7,11 @@ export interface IManuscriptEntryMultiple extends IManuscriptEntry {
 
 export interface IManuscriptEntryMultipleTexts {
   introduction: string;
+  cancelButton: string;
   followup: string;
   finishButton: string;
   conclusion: string;
+  cancelConclusion: string;
 }
 
 export interface IManuscriptEntryMultipleAlternativeEntry {

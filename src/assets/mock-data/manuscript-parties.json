@@ -6,9 +6,11 @@
       "type": "multiple",
       "texts": {
         "introduction": "Trykk på det partiet du vil følge mest",
+        "cancelButton": "Nei, jeg er ikke interessert i noen partier",
+        "cancelConclusion": "Ok, vi skal ikke holde deg oppdatert på noen partier",
         "followup": "Ok, du er interessert i partiene ${answers}; er det andre partier du gjerne vil følge?",
         "finishButton": "Ok, det er de jeg er interessert, enough now!",
-        "conclusion": "Vi skal holde deg oppdatert på ${answers}!"
+        "conclusion": "Vi skal holde deg oppdatert på partiene ${answers}!"
       },
       "alternatives": [
         {
@@ -26,6 +28,35 @@
         {
           "id": "MDG",
           "text": "Miljøpartiet de grønne"
+        }
+      ]
+    },
+    {
+      "type": "multiple",
+      "texts": {
+        "introduction": "Ok, er det nå noen områder av politikken du gjerne vil at vi skal oppdatere deg på?",
+        "cancelButton": "Nei, jeg er ikke interessert i noen temaer",
+        "cancelConclusion": "Ok, vi skal ikke holde deg oppdatert på noen temaer",
+        "followup": "Ok, du er interessert i temaene ${answers}; er det andre temaer du gjerne vil følge?",
+        "finishButton": "Ok, det er de jeg er interessert, enough now!",
+        "conclusion": "Vi skal holde deg oppdatert på temaene ${answers}!"
+      },
+      "alternatives": [
+        {
+          "id": "kunnskap",
+          "text": "Kunnskap"
+        },
+        {
+          "id": "justis",
+          "text": "Justis og beredskap"
+        },
+        {
+          "id": "innvandring",
+          "text": "Innvandring og integrering"
+        },
+        {
+          "id": "forsvar",
+          "text": "Forsvar"
         }
       ]
     }

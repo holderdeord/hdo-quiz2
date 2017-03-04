@@ -10,6 +10,7 @@ import {
   IManuscriptEntryMultipleAlternativeEntry,
   IManuscriptEntryPromises,
   IManuscriptEntryText,
+  IManuscriptItem,
   Response
 } from '../shared';
 import { QuestionFactory } from '../shared/question';
@@ -44,7 +45,7 @@ export class QuizComponent {
         this.chat.events.subscribe(() => this.scrollToBottom());
         this.quizMaster = this.chatUserFactory.createSystemUser();
         this.chat.addParticipant(this.quizMaster);
-        return this.parseManuscript(manuscript.script);
+        return this.parseManuscript(manuscript.items);
         // this.chat.addMessages(this.quizMaster, manuscript.introduction, 0)
         //   .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#1', true)))
         //   .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#2', true)))
@@ -53,32 +54,34 @@ export class QuizComponent {
     });
   }
 
-  private parseManuscript(script: any[]): Promise<any> {
-    if (script.length === 0) {
+  private parseManuscript(items: IManuscriptItem[]): Promise<any> {
+    if (items.length === 0) {
       return new Promise(resolve => resolve());
     }
-    const currentEntry = script.shift();
+    const currentEntry = items.shift();
     return this.parseManuscriptEntry(currentEntry)
-      .then(() => this.parseManuscript(script));
+      .then(() => this.parseManuscript(items));
   }
 
-  private parseManuscriptEntry(entry: any): Promise<any> {
+  private parseManuscriptEntry(entry: IManuscriptItem): Promise<any> {
     let promise;
     switch (entry.type) {
       case 'button':
         const buttonEntry: IManuscriptEntryButton = entry;
         promise = this.chat.addButton(this.responder, buttonEntry.text);
         break;
-      case 'multiple':
-        const multipleEntry: IManuscriptEntryMultiple = entry;
-        promise = this.askMultipleQuestions(multipleEntry.texts, multipleEntry.alternatives)
-          .then(response => this.chat.addMessage(this.quizMaster, this.interpolate(multipleEntry.texts.conclusion, {
-            answers: response.answers
-              .filter(answer => answer.value !== -1)
-              .map(answer => answer.text)
-              .join(', ')
-          })));
-        break;
+      // case 'multiple':
+      //   const multipleEntry: IManuscriptEntryMultiple = entry;
+      //   promise = this.askMultipleQuestions(multipleEntry.texts, multipleEntry.alternatives)
+      //     .then(response => response.answers.length > 0 ?
+      //       this.chat.addMessage(this.quizMaster, this.interpolate(multipleEntry.texts.conclusion, {
+      //         answers: response.answers
+      //           .filter(answer => answer.value !== -1)
+      //           .map(answer => answer.text)
+      //           .join(', ')
+      //       })) :
+      //       this.chat.addMessage(this.quizMaster, multipleEntry.texts.cancelConclusion));
+      //   break;
       case 'promises':
         const promisesEntry: IManuscriptEntryPromises = entry;
         this.chat.setImages(promisesEntry.images);
@@ -105,9 +108,7 @@ export class QuizComponent {
         answers: response.answers.map(answer => answer.text).join(', ')
       }) : texts.introduction;
     const question = this.questionFactory.createQuestionFromMultiple(questionText, alternatives);
-    if (response) {
-      question.addAlternative(new Alternative(-1, texts.finishButton));
-    }
+    question.addAlternative(new Alternative(-1, response ? texts.finishButton : texts.cancelButton));
     return this.chat.askMultipleSelectQuestion(this.quizMaster, this.responder, question, response)
       .then(response => {
         const answersValues = response.answers.map(answer => answer.value);

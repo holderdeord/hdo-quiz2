@@ -3,6 +3,7 @@ import { Http } from '@angular/http';
 import { Quiz } from './quiz.class';
 import { Question } from '../question/question.class';
 import { Observable } from 'rxjs';
+import { IManuscript } from '..';
 
 @Injectable()
 export class QuizService {
@@ -10,7 +11,12 @@ export class QuizService {
 
   }
 
-  getManuscript(name: string): Observable<any> {
+  getManuscriptById(id: number): Observable<IManuscript> {
+    return this.http.get(`http://localhost:8000/api/manuscripts/${id}/`)
+      .map(response => response.json());
+  }
+
+  getManuscript(name: string): Observable<IManuscript> {
     return this.http.get(`/assets/mock-data/manuscript-${name}.json`)
       .map(response => response.json());
   }
