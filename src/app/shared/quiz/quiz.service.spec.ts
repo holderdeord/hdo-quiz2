@@ -16,7 +16,7 @@ describe('Quiz, service (shared)', () => {
     beforeEach(() => mockResponse(testBed, mockManuscriptData('introduction')));
 
     xit('returns a manuscript', () => quizService.getManuscript('introduction').subscribe(manuscript => {
-      expect(manuscript.introduction).toBeDefined();
+      // expect(manuscript.introduction).toBeDefined();
       expect(manuscript.promises).toBeDefined();
     }));
   });

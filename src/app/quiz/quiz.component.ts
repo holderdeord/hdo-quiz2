@@ -10,7 +10,9 @@ import {
   IManuscriptEntryMultipleAlternativeEntry,
   IManuscriptEntryPromises,
   IManuscriptEntryText,
+  IManuscript,
   IManuscriptItem,
+  ManuscriptPromiseStatus,
   Response
 } from '../shared';
 import { QuestionFactory } from '../shared/question';
@@ -39,13 +41,13 @@ export class QuizComponent {
   ngOnInit() {
     this.route.params.subscribe(params => {
       const id: string = params['id'];
-      this.service.getManuscript(id).subscribe(manuscript => {
+      this.service.getManuscript(id).subscribe((manuscript: IManuscript) => {
         this.responder = this.chatUserFactory.createAnonymousUser();
         this.chat = new Chat(this.responder);
         this.chat.events.subscribe(() => this.scrollToBottom());
         this.quizMaster = this.chatUserFactory.createSystemUser();
         this.chat.addParticipant(this.quizMaster);
-        return this.parseManuscript(manuscript.items);
+        return this.parseManuscript(manuscript, manuscript.items);
         // this.chat.addMessages(this.quizMaster, manuscript.introduction, 0)
         //   .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#1', true)))
         //   .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#2', true)))
@@ -54,21 +56,20 @@ export class QuizComponent {
     });
   }
 
-  private parseManuscript(items: IManuscriptItem[]): Promise<any> {
+  private parseManuscript(manuscript: IManuscript, items: IManuscriptItem[]): Promise<any> {
     if (items.length === 0) {
       return new Promise(resolve => resolve());
     }
     const currentEntry = items.shift();
-    return this.parseManuscriptEntry(currentEntry)
-      .then(() => this.parseManuscript(items));
+    return this.parseManuscriptEntry(manuscript, currentEntry)
+      .then(() => this.parseManuscript(manuscript, items));
   }
 
-  private parseManuscriptEntry(entry: IManuscriptItem): Promise<any> {
+  private parseManuscriptEntry(manuscript: IManuscript, entry: IManuscriptItem): Promise<any> {
     let promise;
     switch (entry.type) {
       case 'button':
-        const buttonEntry: IManuscriptEntryButton = entry;
-        promise = this.chat.addButton(this.responder, buttonEntry.text);
+        promise = this.chat.addButton(this.responder, entry.text);
         break;
       // case 'multiple':
       //   const multipleEntry: IManuscriptEntryMultiple = entry;
@@ -83,9 +84,8 @@ export class QuizComponent {
       //       this.chat.addMessage(this.quizMaster, multipleEntry.texts.cancelConclusion));
       //   break;
       case 'promises':
-        const promisesEntry: IManuscriptEntryPromises = entry;
-        this.chat.setImages(promisesEntry.images);
-        const questions = promisesEntry.promises.map(promise => this.questionFactory.createQuestionFromPromise(promise.body, promise.kept));
+        this.chat.setImages(manuscript.images);
+        const questions = manuscript.promises.map(promise => this.questionFactory.createQuestionFromPromise(promise.body, promise.status === 'fulfilled'));
         promise = this.chat.askSingleSelectQuestions(this.quizMaster, this.responder, questions)
           .then((responses: Response[]) => {
             const numberOfCorrectAnswers = responses.filter(response => response.wasCorrect).length;
@@ -93,8 +93,7 @@ export class QuizComponent {
           });
         break;
       case 'text':
-        const textEntry: IManuscriptEntryText = entry;
-        promise = this.chat.addMessage(this.quizMaster, textEntry.text);
+        promise = this.chat.addMessage(this.quizMaster, entry.text);
         break;
       default:
         console.log('Håndterer ikke typen enda', entry.type);

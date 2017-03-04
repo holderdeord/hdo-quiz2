@@ -27,4 +27,4 @@ export interface IManuscriptPromise {
   categories: string[]
 }
 
-export type ManuscriptPromiseStatus = "fulfilled" | "broken";
+export type ManuscriptPromiseStatus = 'fulfilled' | 'broken';
