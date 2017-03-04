@@ -1,7 +1,6 @@
-export interface IManuscript {
-  pk: number;
-  name: string;
-  category: number;
+import { IManuscriptsItem } from '..';
+
+export interface IManuscript extends IManuscriptsItem {
   items: IManuscriptItem[];
   promises: IManuscriptPromise[];
   links: {

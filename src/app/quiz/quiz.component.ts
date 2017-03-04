@@ -4,16 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { QuizService, Quiz } from '../shared/quiz';
 import { Chat, ChatUser, ChatUserFactory } from '../shared/chat';
 import {
-  IManuscriptEntryButton,
-  IManuscriptEntryMultiple,
   IManuscriptEntryMultipleTexts,
   IManuscriptEntryMultipleAlternativeEntry,
-  IManuscriptEntryPromises,
-  IManuscriptEntryText,
   IManuscript,
   IManuscriptItem,
-  ManuscriptPromiseStatus,
-  Response
+  Response,
+  StringTools
 } from '../shared';
 import { QuestionFactory } from '../shared/question';
 import { Alternative } from "../shared/alternative/alternative.class";
@@ -40,20 +36,26 @@ export class QuizComponent {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      const id: string = params['id'];
-      this.service.getManuscript(id).subscribe((manuscript: IManuscript) => {
-        this.responder = this.chatUserFactory.createAnonymousUser();
-        this.chat = new Chat(this.responder);
-        this.chat.events.subscribe(() => this.scrollToBottom());
-        this.quizMaster = this.chatUserFactory.createSystemUser();
-        this.chat.addParticipant(this.quizMaster);
-        return this.parseManuscript(manuscript, manuscript.items);
-        // this.chat.addMessages(this.quizMaster, manuscript.introduction, 0)
-        //   .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#1', true)))
-        //   .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#2', true)))
-        //   .then(() => this.chat.addMessage(this.quizMaster, 'Du er ferdig!'));
-      });
+      const id = parseInt(params['id'], 10);
+      if (isNaN(id)) {
+        this.service.getManuscript(params['id']).subscribe(manuscript => this.activate(manuscript));
+      } else {
+        this.service.getManuscriptById(id).subscribe(manuscript => this.activate(manuscript));
+      }
     });
+  }
+
+  private activate(manuscript: IManuscript) {
+    this.responder = this.chatUserFactory.createAnonymousUser();
+    this.chat = new Chat(this.responder);
+    this.chat.events.subscribe(() => this.scrollToBottom());
+    this.quizMaster = this.chatUserFactory.createSystemUser();
+    this.chat.addParticipant(this.quizMaster);
+    return this.parseManuscript(manuscript, manuscript.items);
+    // this.chat.addMessages(this.quizMaster, manuscript.introduction, 0)
+    //   .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#1', true)))
+    //   .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#2', true)))
+    //   .then(() => this.chat.addMessage(this.quizMaster, 'Du er ferdig!'));
   }
 
   private parseManuscript(manuscript: IManuscript, items: IManuscriptItem[]): Promise<any> {
@@ -75,7 +77,7 @@ export class QuizComponent {
       //   const multipleEntry: IManuscriptEntryMultiple = entry;
       //   promise = this.askMultipleQuestions(multipleEntry.texts, multipleEntry.alternatives)
       //     .then(response => response.answers.length > 0 ?
-      //       this.chat.addMessage(this.quizMaster, this.interpolate(multipleEntry.texts.conclusion, {
+      //       this.chat.addMessage(this.quizMaster, StringTools.interpolate(multipleEntry.texts.conclusion, {
       //         answers: response.answers
       //           .filter(answer => answer.value !== -1)
       //           .map(answer => answer.text)
@@ -103,7 +105,7 @@ export class QuizComponent {
   }
 
   private askMultipleQuestions(texts: IManuscriptEntryMultipleTexts, alternatives: IManuscriptEntryMultipleAlternativeEntry[], response?: Response): Promise<Response> {
-    const questionText = response ? this.interpolate(texts.followup, {
+    const questionText = response ? StringTools.interpolate(texts.followup, {
         answers: response.answers.map(answer => answer.text).join(', ')
       }) : texts.introduction;
     const question = this.questionFactory.createQuestionFromMultiple(questionText, alternatives);
@@ -126,12 +128,5 @@ export class QuizComponent {
     return setTimeout(() => {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     }, 100);
-  }
-
-  private interpolate(template: string, params): string {
-    const keys = Object.keys(params);
-    const values = Object.values(params);
-    return new Function(...keys, `return \`${template}\`;`)(...values);
-
   }
 }

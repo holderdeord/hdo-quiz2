@@ -3,7 +3,10 @@ import { Http } from '@angular/http';
 import { Quiz } from './quiz.class';
 import { Question } from '../question/question.class';
 import { Observable } from 'rxjs';
-import { IManuscript } from '..';
+import {
+  IManuscript,
+  IManuscriptsItem
+} from '..';
 
 @Injectable()
 export class QuizService {
@@ -11,8 +14,14 @@ export class QuizService {
 
   }
 
+  getManuscripts(): Observable<IManuscriptsItem[]> {
+    return this.http.get('http://hdo-quiz.herokuapp.com/api/manuscripts/')
+      .map(response => response.json());
+  }
+
   getManuscriptById(id: number): Observable<IManuscript> {
-    return this.http.get(`http://localhost:8000/api/manuscripts/${id}/`)
+    // return this.http.get(`http://localhost:8000/api/manuscripts/${id}/`)
+    return this.http.get(`http://hdo-quiz.herokuapp.com/api/manuscripts/${id}/`)
       .map(response => response.json());
   }
 
