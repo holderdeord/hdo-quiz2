@@ -5,7 +5,7 @@
 // // import { StackComponent } from './';
 // // import { Quiz, QuizService } from '../shared/quiz';
 // // import { mockStackData } from '../shared/quiz/quiz.mock';
-// // import { BaseRequestOptions, Http, RequestMethod, ResponseOptions, Response } from '@angular/http';
+// // import { BaseRequestOptions, Http, RequestMethod, ResponseOptions, ResponseWithAnswer } from '@angular/http';
 
 // class MockActivatedRoute {}
 

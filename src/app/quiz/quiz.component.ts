@@ -3,8 +3,17 @@ import { ActivatedRoute } from '@angular/router';
 
 import { QuizService, Quiz } from '../shared/quiz';
 import { Chat, ChatUser, ChatUserFactory } from '../shared/chat';
-import { Response } from '../shared';
+import {
+  IManuscriptEntryButton,
+  IManuscriptEntryMultiple,
+  IManuscriptEntryMultipleTexts,
+  IManuscriptEntryMultipleAlternativeEntry,
+  IManuscriptEntryPromises,
+  IManuscriptEntryText,
+  Response
+} from '../shared';
 import { QuestionFactory } from '../shared/question';
+import { Alternative } from "../shared/alternative/alternative.class";
 
 @Component({
   selector: 'hdo-quiz',
@@ -57,19 +66,32 @@ export class QuizComponent {
     let promise;
     switch (entry.type) {
       case 'button':
-        promise = this.chat.addButton(this.responder, entry.text);
+        const buttonEntry: IManuscriptEntryButton = entry;
+        promise = this.chat.addButton(this.responder, buttonEntry.text);
+        break;
+      case 'multiple':
+        const multipleEntry: IManuscriptEntryMultiple = entry;
+        promise = this.askMultipleQuestions(multipleEntry.texts, multipleEntry.alternatives)
+          .then(response => this.chat.addMessage(this.quizMaster, this.interpolate(multipleEntry.texts.conclusion, {
+            answers: response.answers
+              .filter(answer => answer.value !== -1)
+              .map(answer => answer.text)
+              .join(', ')
+          })));
         break;
       case 'promises':
-        this.chat.setImages(entry.images);
-        const questions = entry.promises.map(promise => this.questionFactory.createQuestionFromPromise(promise.body, promise.kept));
-        promise = this.chat.askQuestions(this.quizMaster, this.responder, questions)
+        const promisesEntry: IManuscriptEntryPromises = entry;
+        this.chat.setImages(promisesEntry.images);
+        const questions = promisesEntry.promises.map(promise => this.questionFactory.createQuestionFromPromise(promise.body, promise.kept));
+        promise = this.chat.askSingleSelectQuestions(this.quizMaster, this.responder, questions)
           .then((responses: Response[]) => {
             const numberOfCorrectAnswers = responses.filter(response => response.wasCorrect).length;
             return this.chat.addMessage(this.quizMaster, `Du fikk ${numberOfCorrectAnswers} av ${responses.length} riktige!`);
           });
         break;
       case 'text':
-        promise = this.chat.addMessage(this.quizMaster, entry.text);
+        const textEntry: IManuscriptEntryText = entry;
+        promise = this.chat.addMessage(this.quizMaster, textEntry.text);
         break;
       default:
         console.log('Håndterer ikke typen enda', entry.type);
@@ -78,9 +100,38 @@ export class QuizComponent {
     return promise;
   }
 
+  private askMultipleQuestions(texts: IManuscriptEntryMultipleTexts, alternatives: IManuscriptEntryMultipleAlternativeEntry[], response?: Response): Promise<Response> {
+    const questionText = response ? this.interpolate(texts.followup, {
+        answers: response.answers.map(answer => answer.text).join(', ')
+      }) : texts.introduction;
+    const question = this.questionFactory.createQuestionFromMultiple(questionText, alternatives);
+    if (response) {
+      question.addAlternative(new Alternative(-1, texts.finishButton));
+    }
+    return this.chat.askMultipleSelectQuestion(this.quizMaster, this.responder, question, response)
+      .then(response => {
+        const answersValues = response.answers.map(answer => answer.value);
+        if (answersValues.some(value => value === -1)) {
+          return response;
+        }
+        const newAlternatives = alternatives.filter(alternative => answersValues.indexOf(alternative.id) === -1);
+        if (newAlternatives.length === 0) {
+          return response;
+        }
+        return this.askMultipleQuestions(texts, newAlternatives, response);
+      });
+  }
+
   private scrollToBottom() {
     return setTimeout(() => {
       this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
     }, 100);
+  }
+
+  private interpolate(template: string, params): string {
+    const keys = Object.keys(params);
+    const values = Object.values(params);
+    return new Function(...keys, `return \`${template}\`;`)(...values);
+
   }
 }

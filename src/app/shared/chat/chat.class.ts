@@ -1,6 +1,16 @@
 import { EventEmitter } from '@angular/core';
-import { ChatEntry, ChatMessageAnswer, ChatMessageButtons, ChatMessageQuestion, ChatMessageText, IChatUser } from './index';
-import { Alternative, Question, Response } from '../../shared';
+import {
+  ChatEntry,
+  ChatMessageAnswer,
+  ChatMessageButtons,
+  ChatMessageQuestion,
+  ChatMessageText,
+  IChatUser } from './index';
+import {
+  Alternative,
+  Question,
+  Response
+} from '../../shared';
 
 export class Chat {
   static DEFAULT_TIME_BEFORE_MESSAGE: number = 0;
@@ -42,7 +52,20 @@ export class Chat {
     this._participants.push(participant);
   }
 
-  public askQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question): Promise<Response> {
+  public askMultipleSelectQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question, response?: Response): Promise<Response> {
+    return this.addMessage(quizMaster, question.text)
+      .then(() => {
+        const entry = this.getOrCreateEntry(responder);
+        return entry.addMessage(new ChatMessageButtons(this, question.alternatives));
+      })
+      .then(answer => {
+        response = response || new Response(question);
+        response.addAnswer(answer);
+        return response;
+      });
+  }
+
+  public askSingleSelectQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question): Promise<Response> {
     return this.addMessage(quizMaster, question.text)
       .then(() => {
         const entry = this.getOrCreateEntry(responder);
@@ -57,15 +80,15 @@ export class Chat {
       });
   }
 
-  public askQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question[], responses: Response[] = []): Promise<Response[]> {
+  public askSingleSelectQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question[], responses: Response[] = []): Promise<Response[]> {
     if (questions.length === 0) {
       return new Promise(resolve => resolve(responses));
     }
     const question = questions.shift();
-    return this.askQuestion(quizMaster, responder, question)
+    return this.askSingleSelectQuestion(quizMaster, responder, question)
       .then(response => {
         responses.push(response);
-        return this.askQuestions(quizMaster, responder, questions, responses);
+        return this.askSingleSelectQuestions(quizMaster, responder, questions, responses);
       });
   }
 

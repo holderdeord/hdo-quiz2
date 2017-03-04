@@ -34,7 +34,7 @@ export class QuizService {
   private createStack(stackData: any): Quiz {
     const stack = new Quiz(stackData.id, stackData.name);
     stackData.promises.forEach(promiseData => {
-      stack.addQuestion(new Question(promiseData.text, promiseData.kept));
+      stack.addQuestion(new Question(promiseData.text, promiseData.answer));
     });
     return stack;
   }

@@ -12,11 +12,11 @@ export class Answer {
     if (!this._response === undefined) {
       throw new Error('No _response given yet');
     }
-    return this._response === this.question.kept;
+    return this._response === this.question.answer;
   }
 
   setResponse(response: boolean): boolean {
     this._response = response;
-    return this._response === this.question.kept;
+    return this._response === this.question.answer;
   }
 }

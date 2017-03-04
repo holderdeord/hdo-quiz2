@@ -1,0 +1,33 @@
+{
+  "id": 1,
+  "name": "Velg parti du vil følge",
+  "script": [
+    {
+      "type": "multiple",
+      "texts": {
+        "introduction": "Trykk på det partiet du vil følge mest",
+        "followup": "Ok, du er interessert i partiene ${answers}; er det andre partier du gjerne vil følge?",
+        "finishButton": "Ok, det er de jeg er interessert, enough now!",
+        "conclusion": "Vi skal holde deg oppdatert på ${answers}!"
+      },
+      "alternatives": [
+        {
+          "id": "AP",
+          "text": "Arbeiderpartiet"
+        },
+        {
+          "id": "H",
+          "text": "Høyre"
+        },
+        {
+          "id": "SV",
+          "text": "Sosialistisk Venstreparti"
+        },
+        {
+          "id": "MDG",
+          "text": "Miljøpartiet de grønne"
+        }
+      ]
+    }
+  ]
+}

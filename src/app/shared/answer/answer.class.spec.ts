@@ -25,7 +25,7 @@ describe('Answer, class (shared)', () => {
       expect(answer.setResponse(true)).toBe(true);
       expect(answer.setResponse(false)).toBe(false);
 
-      promise.kept = false;
+      promise.answer = false;
       expect(answer.setResponse(true)).toBe(false);
       expect(answer.setResponse(false)).toBe(true);
     });
