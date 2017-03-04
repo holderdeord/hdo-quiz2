@@ -3,14 +3,7 @@ import { IManuscriptsItem } from '..';
 export interface IManuscript extends IManuscriptsItem {
   items: IManuscriptItem[];
   promises: IManuscriptPromise[];
-  links: {
-    base: string;
-    more: string;
-  };
-  images: {
-    correct: string[];
-    wrong: string[];
-  };
+  images: IManuscriptImage[];
 }
 
 export interface IManuscriptItem {
@@ -24,6 +17,11 @@ export interface IManuscriptPromise {
   body: string;
   status: ManuscriptPromiseStatus,
   categories: string[]
+}
+
+export interface IManuscriptImage {
+  url: string;
+  type: ManuscriptPromiseStatus;
 }
 
 export type ManuscriptPromiseStatus = 'fulfilled' | 'broken';

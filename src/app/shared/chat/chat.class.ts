@@ -3,11 +3,13 @@ import {
   ChatEntry,
   ChatMessageAnswer,
   ChatMessageButtons,
-  ChatMessageQuestion,
   ChatMessageText,
-  IChatUser } from './index';
+  IChatUser
+} from './index';
 import {
   Alternative,
+  IManuscriptImage,
+  ManuscriptPromiseStatus,
   Question,
   Response
 } from '../../shared';
@@ -20,11 +22,10 @@ export class Chat {
   private _entries: ChatEntry[] = [];
   private _participants: IChatUser[] = [];
   private _currentEntry: ChatEntry = null;
-  private _images: {correct: string[], wrong: string[]};
+  private _images: IManuscriptImage[] = [];
 
   constructor(private _subjectUser: IChatUser) {
     this._participants.push(_subjectUser);
-    this._images = {correct: [], wrong: []};
   }
 
   public addButton(responder: IChatUser, buttonText: string): Promise<any> {
@@ -100,9 +101,14 @@ export class Chat {
     return images[Math.floor(Math.random() * images.length)];
   }
 
+  private getPicturesForStatus(images: IManuscriptImage[], status: ManuscriptPromiseStatus): string[] {
+    return images
+      .filter(image => image.type === status)
+      .map(image => image.url);
+  }
 
   public get images(): string[] {
-    return this._images.correct.concat(this._images.wrong);
+    return this._images.map(image => image.url);
   }
 
   public isInitiator(user: IChatUser): boolean {
@@ -121,13 +127,14 @@ export class Chat {
     return this._currentEntry;
   }
 
-  public setImages(images: {correct, wrong}) {
+  public setImages(images: IManuscriptImage[]) {
     this._images = images;
   }
 
   private showAnswer(quizMaster: IChatUser, response: Response): Promise<any> {
     const entry = this.getOrCreateEntry(quizMaster);
-    const image = this.getRandomPicture(response.wasCorrect ? this._images.correct : this._images.wrong);
+    let images = this.getPicturesForStatus(this._images, response.wasCorrect ? 'fulfilled' : 'broken');
+    const image = this.getRandomPicture(images);
     return entry.addMessage(new ChatMessageAnswer(response.wasCorrect, image))
       .then(() => response);
   }
