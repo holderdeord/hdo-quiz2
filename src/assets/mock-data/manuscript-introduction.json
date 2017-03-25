@@ -1,113 +1,76 @@
 {
-  "id": 1,
-  "name": "Regjeringen Solberg",
   "items": [
     {
       "type": "text",
-      "text": "Velkommen til Holder de ord sin Løftomat."
+      "text": "Velkommen til Holder de ord sin Valgomat."
     },
     {
       "type": "text",
-      "text": "Vi har gått gjennom alle løftene regjeringen Solberg har gitt, og sjekket om de er holdt eller ikke."
-    },
-    {
-      "type": "text",
-      "text": "Hvert løfte er gjort om til et spørsmål, hvor du kan svare på om du tror det er holdt eller ikke."
-    },
-    {
-      "type": "text",
-      "text": "Vi lurer på hvilke løfter du tror er holdt, og hvilke du er interessert i."
+      "text": "Sammen skal vi prøve å finne noen temaer du er interessert i, og finne hvilket parti du føler mest tilhørighet innenfor disse temaene."
     },
     {
       "type": "button",
-      "text": "Interessant, fortell meg mer"
+      "text": "Kult! Hvordan fungerer det?"
     },
     {
       "type": "text",
-      "text": "Når du har svart på 10 spørsmål, viser vi deg resultatene."
+      "text": "Holder de ord har flere tusen løfter gitt av partiene gitt ifm stortingsvalg, og vi har valgt ut et sett av de som vi mener er representative for partiene."
     },
     {
       "type": "text",
-      "text": "Om du vil kan du dele dette med dine venner, prøve å besvare på nytt, eller prøve å svare på andre løfter."
+      "text": "Løftene er gruppert etter tema, og etter at vi har funnet hvilke temaer du er interessert i, så presenterer vi de som er relevante for deg."
+    },
+    {
+      "type": "text",
+      "text": "Ved å velge de løftene du er mest enig, prøver vi å konkludere noe om hvilket parti du er mest enig i."
     },
     {
       "type": "button",
-      "text": "Ok, spør i vei!"
+      "text": "Ok, la oss sette i gang!"
     },
     {
-      "type": "promises",
-      "text": "Svar på disse tingene"
+      "type": "text",
+      "text": "Først må vi finne noen temaer du er interessert i. Vi har gruppert disse i kategorier, så la oss starte med å velge de du er intererssert i."
+    },
+    {
+      "type": "random",
+      "text": "Velg den kategorien du syns virker mest interessant"
     }
   ],
-  "promises": [
-    {
-      "id": 1,
-      "body": "Regjeringen vil myke opp arbeidsmiljøloven, blant annet når det gjelder gjennomsnittsberegning av arbeidstid, alternative turnusordninger og uttak av overtid.",
-      "kept": true
+  "random": {
+    "selection": 3,
+    "links": {
+      "next": "someApi/{id}"
     },
-    {
-      "id": 2,
-      "body": "Regjeringen vil bevare kontantstøtten, og utvide ordningen til å inkludere toåringer.",
-      "kept": false
+    "texts": {
+      "more": "Ingen av disse er interessante, vis meg flere",
+      "end": "Her var det ingenting jeg var interessert i"
     },
-    {
-      "id": 3,
-      "body": "Regjeringen vil legge til rette for at eldre skal kunne stå lenger i arbeidslivet, blant annet ved å gå gjennom alle lovbestemte aldersgrenser i arbeidslivet i samråd med partene.",
-      "kept": true
-    },
-    {
-      "id": 4,
-      "body": "Regjeringen vil legge til rette for at uføre skal kunne ta i bruk restarbeidsevnen ved å gjennomføre uførereformen. Det vil være et mål at uføregraden i hvert tilfelle skal reflektere den reelle arbeidsevnen, og at gradert uføretrygd skal tas i bruk i større grad enn i dag.",
-      "kept": true
-    },
-    {
-      "id": 5,
-      "body": "Regjeringen vil pålegge kommunene å gjennomføre oppsøkende hjemmebesøk for å tilpasse hjelpetiltak til den enkelte.",
-      "kept": false
-    },
-    {
-      "id": 6,
-      "body": "Regjeringen vil i større grad bruke DNA-testing for å avklare identitet i forbindelse med familiegjenforening.",
-      "kept": false
-    },
-    {
-      "id": 7,
-      "body": "Regjeringen vil gå gjennom dagens velferdsordninger for å sikre at det lønner seg å jobbe, herunder utrede barnetillegget i uføretrygden.",
-      "kept": true
-    },
-    {
-      "id": 8,
-      "body": "Regjeringen vil videreføre dagens sykelønnsordning.",
-      "kept": true
-    },
-    {
-      "id": 9,
-      "body": "Regjeringen vil heve kravet om botid for permanent oppholdstillatelse fra tre år til fem år. Gjennomgå reglene knyttet til personer som opplever mishandling.",
-      "kept": false
-    },
-    {
-      "id": 10,
-      "body": "Regjeringen vil opprette et tvisteløsningsorgan som håndterer konflikter mellom stat og kommune.",
-      "kept": false
-    }
-  ],
-  "links": {
-    "base": "http://api.holderdeord.no/promises?category=introduction",
-    "more": "http://api.holderdeord.no/promises?category=111"
-  },
-  "images": {
-    "correct": [
-      "http://i.giphy.com/3o6ZtfGTzp14i6C7Pq.gif",
-      "http://i3.kym-cdn.com/photos/images/original/000/204/096/epic-win.jpg",
-      "http://i3.kym-cdn.com/photos/images/original/000/068/108/HM446UQ6GA5GROAJXNHREYMR2VO7PKRA.jpeg",
-      "http://s2.quickmeme.com/img/0f/0ff49113f737f6725161e579f345863f0a8b6d82d260aca7a3726c18b760b024.jpg"
-    ],
-    "wrong": [
-      "http://s2.quickmeme.com/img/12/12b12a0b635a639e67f4db898c62db95b77e75b9436528800194bed9c0dfbf09.jpg",
-      "http://i.giphy.com/Ob7p7lDT99cd2.gif",
-      "http://www.mememaker.net/static/images/memes/4148672.jpg",
-      "https://cdn.meme.am/cache/instances/folder244/400x/54706244.jpg",
-      "https://cdn.meme.am/cache/instances/folder335/500x/66069335.jpg"
+    "items": [
+      {
+        "id": 1,
+        "text": "Kunnskap"
+      },
+      {
+        "id": 2,
+        "text": "Justis og beredskap"
+      },
+      {
+        "id": 3,
+        "text": "Forsvar"
+      },
+      {
+        "id": 4,
+        "text": "Arbeid og sosial"
+      },
+      {
+        "id": 5,
+        "text": "Samferdsel"
+      },
+      {
+        "id": 6,
+        "text": "Finans"
+      }
     ]
   }
 }

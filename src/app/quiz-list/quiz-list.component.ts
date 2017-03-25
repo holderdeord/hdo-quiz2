@@ -17,7 +17,8 @@ export class QuizListComponent {
   ngOnInit() {
     this.service.getManuscripts().subscribe((manuscriptsItem: IManuscriptsItem[]) => {
       this.quizList = [
-        new QuizListItem('introduction', 'Introduksjon (local)'),
+        new QuizListItem('introduction', 'Valgomat (local)'),
+        new QuizListItem('quiz', 'Quiz (local)'),
         new QuizListItem('parties', 'Partier (local)'),
         ...manuscriptsItem.map(item => new QuizListItem(item.pk, `${item.name} (API)`)),
       ];
