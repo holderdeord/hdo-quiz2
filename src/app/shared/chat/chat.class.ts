@@ -101,7 +101,6 @@ export class Chat {
           case RandomSpecialAlternatives.ShowMeMore:
             return this.askRandomQuestions(quizMaster, responder, questions, randomManuscript);
           case RandomSpecialAlternatives.NoneAreInteresting:
-            console.log('test');
             return new Response(question, new Alternative(RandomSpecialAlternatives.NoneAreInteresting, randomManuscript.texts.end))
         }
         return response;

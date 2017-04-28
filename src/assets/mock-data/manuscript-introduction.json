@@ -39,6 +39,9 @@
   ],
   "random": {
     "selection": 3,
+    "links": {
+      "end": "randomend"
+    },
     "texts": {
       "introduction": "Er noen av disse kategoriene interessante å utforske?",
       "followup": "Hva med noen av disse?",

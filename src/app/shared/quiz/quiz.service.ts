@@ -19,13 +19,24 @@ export class QuizService {
       .map(response => response.json());
   }
 
+  getManuscript(manuscriptId): Promise<IManuscript> {
+    const id = parseInt(manuscriptId, 10);
+    return new Promise(resolve => {
+      if (isNaN(id)) {
+        return this.getManuscriptByString(manuscriptId).subscribe(manuscript => resolve(manuscript));
+      } else {
+        return this.getManuscriptById(id).subscribe(manuscript => resolve(manuscript));
+      }
+    });
+  }
+
   getManuscriptById(id: number): Observable<IManuscript> {
     // return this.http.get(`http://localhost:8000/api/manuscripts/${id}/`)
     return this.http.get(`http://hdo-quiz.herokuapp.com/api/manuscripts/${id}/`)
       .map(response => response.json());
   }
 
-  getManuscript(name: string): Observable<IManuscript> {
+  getManuscriptByString(name: string): Observable<IManuscript> {
     return this.http.get(`/assets/mock-data/manuscript-${name}.json`)
       .map(response => response.json());
   }

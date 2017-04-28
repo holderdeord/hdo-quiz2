@@ -11,6 +11,9 @@
   ],
   "random": {
     "selection": 3,
+    "links": {
+      "end": "randomend"
+    },
     "texts": {
       "introduction": "Hei igjen",
       "followup": "Tja, hva med disse?",

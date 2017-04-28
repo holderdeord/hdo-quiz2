@@ -12,10 +12,10 @@ describe('Quiz, service (shared)', () => {
     quizService = testBed.get(QuizService);
   });
 
-  describe('getManuscript', () => {
+  describe('getManuscriptByString', () => {
     beforeEach(() => mockResponse(testBed, mockManuscriptData('introduction')));
 
-    xit('returns a manuscript', () => quizService.getManuscript('introduction').subscribe(manuscript => {
+    xit('returns a manuscript', () => quizService.getManuscriptByString('introduction').subscribe(manuscript => {
       // expect(manuscript.introduction).toBeDefined();
       expect(manuscript.promises).toBeDefined();
     }));

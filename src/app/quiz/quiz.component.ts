@@ -37,20 +37,20 @@ export class QuizComponent {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => this.loadManuscriptUrl(params['id'])
+    this.route.params.subscribe(params => this.service.getManuscript(params['id'])
       .then(manuscript => this.activate(manuscript)));
   }
 
-  private loadManuscriptUrl(url): Promise<IManuscript> {
-    const id = parseInt(url, 10);
-    return new Promise(resolve => {
-      if (isNaN(id)) {
-        this.service.getManuscript(url).subscribe(manuscript => resolve(manuscript));
-      } else {
-        return this.service.getManuscriptById(id).subscribe(manuscript => resolve(manuscript));
-      }
-    });
-  }
+  // private loadManuscriptUrl(url): Promise<IManuscript> {
+  //   const id = parseInt(url, 10);
+  //   return new Promise(resolve => {
+  //     if (isNaN(id)) {
+  //       this.service.getManuscriptByString(url).subscribe(manuscript => resolve(manuscript));
+  //     } else {
+  //       return this.service.getManuscriptById(id).subscribe(manuscript => resolve(manuscript));
+  //     }
+  //   });
+  // }
 
   private activate(manuscript: IManuscript) {
     this.responder = this.chatUserFactory.createAnonymousUser();
@@ -106,11 +106,10 @@ export class QuizComponent {
         promise = this.chat.askRandomQuestions(this.quizMaster, this.responder, randomQuestions, manuscript.random)
           .then((response: Response) => {
             let responseValue = response.answers[0].value;
-            if (responseValue === RandomSpecialAlternatives.NoneAreInteresting) {
-              console.log('end conversation');
-              return ;
-            }
-            return this.loadManuscriptUrl(responseValue)
+            let urlToGet = responseValue === RandomSpecialAlternatives.NoneAreInteresting ?
+              manuscript.random.links.end :
+              responseValue;
+            return this.service.getManuscript(urlToGet)
               .then(manuscript => this.parseManuscript(manuscript, manuscript.items))
           });
         break;

@@ -35,7 +35,7 @@ export interface IManuscriptRandom {
 }
 
 export interface IManuscriptRandomLinks {
-  next: string;
+  end: string;
 }
 
 export interface IManuscriptRandomTexts {
