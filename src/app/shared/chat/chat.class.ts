@@ -11,6 +11,7 @@ import {
   IManuscriptImage,
   ManuscriptPromiseStatus,
   Question,
+  RandomSpecialAlternatives,
   Response
 } from '../../shared';
 
@@ -78,6 +79,27 @@ export class Chat {
         const buttonText = response.wasCorrect ? 'Jippi, gi meg neste spørsmål!' : 'Æsj, la meg prøve igjen';
         return this.addButton(responder, buttonText)
           .then(() => response);
+      });
+  }
+
+  public askOpenQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question): Promise<Response> {
+    return this.addMessage(quizMaster, question.text)
+      .then(() => {
+        const entry = this.getOrCreateEntry(responder);
+        return entry.addMessage(new ChatMessageButtons(this, question.alternatives))
+      })
+      .then(answer => new Response(question, answer));
+  }
+
+  public askRandomQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question[]): Promise<Response> {
+    const question = questions.shift();
+    return this.askOpenQuestion(quizMaster, responder, question)
+      .then((response: Response) => {
+        switch(response.answers[0].value) {
+          case RandomSpecialAlternatives.ShowMeMore:
+            return this.askRandomQuestions(quizMaster, responder, questions);
+        }
+        return response;
       });
   }
 

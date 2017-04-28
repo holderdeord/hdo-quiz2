@@ -9,7 +9,8 @@ import {
   IManuscript,
   IManuscriptItem,
   Response,
-  StringTools
+  StringTools,
+  RandomSpecialAlternatives
 } from '../shared';
 import { QuestionFactory } from '../shared/question';
 import { Alternative } from "../shared/alternative/alternative.class";
@@ -87,12 +88,17 @@ export class QuizComponent {
       //   break;
       case 'promises':
         this.chat.setImages(manuscript.images);
-        const questions = manuscript.promises.map(promise => this.questionFactory.createQuestionFromPromise(promise.body, promise.status === 'fulfilled'));
-        promise = this.chat.askSingleSelectQuestions(this.quizMaster, this.responder, questions)
+        const promiseQuestions = manuscript.promises.map(promise => this.questionFactory.createQuestionFromPromise(promise.body, promise.status === 'fulfilled'));
+        promise = this.chat.askSingleSelectQuestions(this.quizMaster, this.responder, promiseQuestions)
           .then((responses: Response[]) => {
             const numberOfCorrectAnswers = responses.filter(response => response.wasCorrect).length;
             return this.chat.addMessage(this.quizMaster, `Du fikk ${numberOfCorrectAnswers} av ${responses.length} riktige!`);
           });
+        break;
+      case 'random':
+        const randomQuestions = this.questionFactory.createQuestionsFromRandom(manuscript.random);
+        promise = this.chat.askRandomQuestions(this.quizMaster, this.responder, randomQuestions)
+          .then(response => console.log(response));
         break;
       case 'text':
         promise = this.chat.addMessage(this.quizMaster, entry.text);

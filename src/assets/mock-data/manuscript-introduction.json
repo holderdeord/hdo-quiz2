@@ -43,6 +43,8 @@
       "next": "someApi/{id}"
     },
     "texts": {
+      "introduction": "Er noen av disse kategoriene interessante å utforske?",
+      "followup": "Hva med noen av disse?",
       "more": "Ingen av disse er interessante, vis meg flere",
       "end": "Her var det ingenting jeg var interessert i"
     },

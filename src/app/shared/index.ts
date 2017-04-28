@@ -7,6 +7,7 @@ export * from './manuscript-entry';
 export * from './manuscripts';
 export * from './question';
 export * from './quiz';
+export * from './random';
 export * from './response';
 export * from './storage';
 export * from './string-tools';
