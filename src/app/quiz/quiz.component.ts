@@ -103,10 +103,14 @@ export class QuizComponent {
         break;
       case 'random':
         const randomQuestions = this.questionFactory.createQuestionsFromRandom(manuscript.random);
-        promise = this.chat.askRandomQuestions(this.quizMaster, this.responder, randomQuestions)
+        promise = this.chat.askRandomQuestions(this.quizMaster, this.responder, randomQuestions, manuscript.random)
           .then((response: Response) => {
-            console.log(response);
-            return this.loadManuscriptUrl(response.answers[0].value)
+            let responseValue = response.answers[0].value;
+            if (responseValue === RandomSpecialAlternatives.NoneAreInteresting) {
+              console.log('end conversation');
+              return ;
+            }
+            return this.loadManuscriptUrl(responseValue)
               .then(manuscript => this.parseManuscript(manuscript, manuscript.items))
           });
         break;

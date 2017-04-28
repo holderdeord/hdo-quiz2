@@ -12,7 +12,8 @@ import {
   ManuscriptPromiseStatus,
   Question,
   RandomSpecialAlternatives,
-  Response
+  Response,
+  IManuscriptRandom
 } from '../../shared';
 
 export class Chat {
@@ -91,13 +92,17 @@ export class Chat {
       .then(answer => new Response(question, answer));
   }
 
-  public askRandomQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question[]): Promise<Response> {
+  public askRandomQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question[], randomManuscript: IManuscriptRandom): Promise<Response> {
     const question = questions.shift();
     return this.askOpenQuestion(quizMaster, responder, question)
       .then((response: Response) => {
-        switch(response.answers[0].value) {
+        console.log('test', response, RandomSpecialAlternatives.NoneAreInteresting);
+        switch (response.answers[0].value) {
           case RandomSpecialAlternatives.ShowMeMore:
-            return this.askRandomQuestions(quizMaster, responder, questions);
+            return this.askRandomQuestions(quizMaster, responder, questions, randomManuscript);
+          case RandomSpecialAlternatives.NoneAreInteresting:
+            console.log('test');
+            return new Response(question, new Alternative(RandomSpecialAlternatives.NoneAreInteresting, randomManuscript.texts.end))
         }
         return response;
       });
