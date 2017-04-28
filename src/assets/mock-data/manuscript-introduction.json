@@ -39,9 +39,6 @@
   ],
   "random": {
     "selection": 3,
-    "links": {
-      "next": "someApi/{id}"
-    },
     "texts": {
       "introduction": "Er noen av disse kategoriene interessante å utforske?",
       "followup": "Hva med noen av disse?",
@@ -50,27 +47,27 @@
     },
     "items": [
       {
-        "id": 1,
+        "id": "random2",
         "text": "Kunnskap"
       },
       {
-        "id": 2,
+        "id": "random2",
         "text": "Justis og beredskap"
       },
       {
-        "id": 3,
+        "id": "random2",
         "text": "Forsvar"
       },
       {
-        "id": 4,
+        "id": "random2",
         "text": "Arbeid og sosial"
       },
       {
-        "id": 5,
+        "id": "random2",
         "text": "Samferdsel"
       },
       {
-        "id": 6,
+        "id": "random2",
         "text": "Finans"
       }
     ]

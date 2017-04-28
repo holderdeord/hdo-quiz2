@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 import { QuizService, Quiz } from '../shared/quiz';
 import { Chat, ChatUser, ChatUserFactory } from '../shared/chat';
@@ -36,12 +37,17 @@ export class QuizComponent {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      const id = parseInt(params['id'], 10);
+    this.route.params.subscribe(params => this.loadManuscriptUrl(params['id'])
+      .then(manuscript => this.activate(manuscript)));
+  }
+
+  private loadManuscriptUrl(url): Promise<IManuscript> {
+    const id = parseInt(url, 10);
+    return new Promise(resolve => {
       if (isNaN(id)) {
-        this.service.getManuscript(params['id']).subscribe(manuscript => this.activate(manuscript));
+        this.service.getManuscript(url).subscribe(manuscript => resolve(manuscript));
       } else {
-        this.service.getManuscriptById(id).subscribe(manuscript => this.activate(manuscript));
+        return this.service.getManuscriptById(id).subscribe(manuscript => resolve(manuscript));
       }
     });
   }
@@ -98,7 +104,11 @@ export class QuizComponent {
       case 'random':
         const randomQuestions = this.questionFactory.createQuestionsFromRandom(manuscript.random);
         promise = this.chat.askRandomQuestions(this.quizMaster, this.responder, randomQuestions)
-          .then(response => console.log(response));
+          .then((response: Response) => {
+            console.log(response);
+            return this.loadManuscriptUrl(response.answers[0].value)
+              .then(manuscript => this.parseManuscript(manuscript, manuscript.items))
+          });
         break;
       case 'text':
         promise = this.chat.addMessage(this.quizMaster, entry.text);

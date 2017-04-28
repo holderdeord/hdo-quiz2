@@ -1,0 +1,47 @@
+{
+  "items": [
+    {
+      "type": "text",
+      "text": "Kult valg!"
+    },
+    {
+      "type": "random",
+      "text": "Velg den kategorien du syns virker mest interessant"
+    }
+  ],
+  "random": {
+    "selection": 3,
+    "texts": {
+      "introduction": "Hei igjen",
+      "followup": "Tja, hva med disse?",
+      "more": "Hoff nei, mer!",
+      "end": "Nei, beklager, I'm out"
+    },
+    "items": [
+      {
+        "id": "random3",
+        "text": "Hei 1"
+      },
+      {
+        "id": "random3",
+        "text": "Hei 2"
+      },
+      {
+        "id": "random3",
+        "text": "Hei 3"
+      },
+      {
+        "id": "random3",
+        "text": "Hei 4"
+      },
+      {
+        "id": "random3",
+        "text": "Hei 5"
+      },
+      {
+        "id": "random3",
+        "text": "Hei 6"
+      }
+    ]
+  }
+}
