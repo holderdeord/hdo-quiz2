@@ -1,10 +1,15 @@
 import { IManuscriptsItem } from '..';
 
 export interface IManuscript extends IManuscriptsItem {
+  electoralGuide: IManuscriptElectoralGuide;
   items: IManuscriptItem[];
-  promises: IManuscriptPromise[];
   images: IManuscriptImage[];
+  promises: IManuscriptPromise[];
   random: IManuscriptRandom;
+}
+
+export interface IManuscriptElectoralGuide {
+
 }
 
 export interface IManuscriptItem {

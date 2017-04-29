@@ -1,13 +1,12 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 
 import { QuizService, Quiz } from '../shared/quiz';
 import { Chat, ChatUser, ChatUserFactory } from '../shared/chat';
 import {
+  IManuscript,
   IManuscriptEntryMultipleTexts,
   IManuscriptEntryMultipleAlternativeEntry,
-  IManuscript,
   IManuscriptItem,
   Response,
   StringTools,
@@ -15,6 +14,7 @@ import {
 } from '../shared';
 import { QuestionFactory } from '../shared/question';
 import { Alternative } from "../shared/alternative/alternative.class";
+import { ManuscriptEntryType } from '../shared/manuscript-entry';
 
 @Component({
   selector: 'hdo-quiz',
@@ -77,8 +77,11 @@ export class QuizComponent {
   private parseManuscriptEntry(manuscript: IManuscript, entry: IManuscriptItem): Promise<any> {
     let promise;
     switch (entry.type) {
-      case 'button':
+      case ManuscriptEntryType.button:
         promise = this.chat.addButton(this.responder, entry.text);
+        break;
+      case ManuscriptEntryType.electoralGuide:
+        promise = this.chat.addMessage(this.responder, entry.text);
         break;
       // case 'multiple':
       //   const multipleEntry: IManuscriptEntryMultiple = entry;
@@ -92,7 +95,7 @@ export class QuizComponent {
       //       })) :
       //       this.chat.addMessage(this.quizMaster, multipleEntry.texts.cancelConclusion));
       //   break;
-      case 'promises':
+      case ManuscriptEntryType.promises:
         this.chat.setImages(manuscript.images);
         const promiseQuestions = manuscript.promises.map(promise => this.questionFactory.createQuestionFromPromise(promise.body, promise.status === 'fulfilled'));
         promise = this.chat.askSingleSelectQuestions(this.quizMaster, this.responder, promiseQuestions)
@@ -101,7 +104,7 @@ export class QuizComponent {
             return this.chat.addMessage(this.quizMaster, `Du fikk ${numberOfCorrectAnswers} av ${responses.length} riktige!`);
           });
         break;
-      case 'random':
+      case ManuscriptEntryType.random:
         const randomQuestions = this.questionFactory.createQuestionsFromRandom(manuscript.random);
         promise = this.chat.askRandomQuestions(this.quizMaster, this.responder, randomQuestions, manuscript.random)
           .then((response: Response) => {
@@ -113,7 +116,7 @@ export class QuizComponent {
               .then(manuscript => this.parseManuscript(manuscript, manuscript.items))
           });
         break;
-      case 'text':
+      case ManuscriptEntryType.text:
         promise = this.chat.addMessage(this.quizMaster, entry.text);
         break;
       default:

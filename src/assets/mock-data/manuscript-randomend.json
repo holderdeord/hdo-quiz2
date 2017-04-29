@@ -3,6 +3,13 @@
     {
       "type": "text",
       "text": "Takk for din deltagelse!"
+    },
+    {
+      "type": "electoralGuide",
+      "text": "Her er oversikt over dine resultater"
     }
-  ]
+  ],
+  "electoralGuide": {
+
+  }
 }
