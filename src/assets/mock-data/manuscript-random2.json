@@ -12,7 +12,7 @@
   "random": {
     "selection": 3,
     "links": {
-      "end": "randomend"
+      "next": "randomend"
     },
     "texts": {
       "introduction": "Hei igjen",
@@ -22,27 +22,27 @@
     },
     "items": [
       {
-        "id": "randomend",
+        "id": 100,
         "text": "Hei 1"
       },
       {
-        "id": "randomend",
+        "id": 101,
         "text": "Hei 2"
       },
       {
-        "id": "randomend",
+        "id": 102,
         "text": "Hei 3"
       },
       {
-        "id": "randomend",
+        "id": 103,
         "text": "Hei 4"
       },
       {
-        "id": "randomend",
+        "id": 104,
         "text": "Hei 5"
       },
       {
-        "id": "randomend",
+        "id": 105,
         "text": "Hei 6"
       }
     ]

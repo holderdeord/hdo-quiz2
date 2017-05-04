@@ -50,28 +50,46 @@
     },
     "items": [
       {
-        "id": "random2",
-        "text": "Kunnskap"
+        "id": 1,
+        "text": "Kunnskap",
+        "links": {
+          "next": "random2"
+        }
       },
       {
-        "id": "random2",
-        "text": "Justis og beredskap"
+        "id": 2,
+        "text": "Justis og beredskap",
+        "links": {
+          "next": "random3"
+        }
       },
       {
-        "id": "random2",
-        "text": "Forsvar"
+        "id": 3,
+        "text": "Forsvar",
+        "links": {
+          "next": "random4"
+        }
       },
       {
-        "id": "random2",
-        "text": "Arbeid og sosial"
+        "id": 4,
+        "text": "Arbeid og sosial",
+        "links": {
+          "next": "random2"
+        }
       },
       {
-        "id": "random2",
-        "text": "Samferdsel"
+        "id": 5,
+        "text": "Samferdsel",
+        "links": {
+          "next": "random2"
+        }
       },
       {
-        "id": "random2",
-        "text": "Finans"
+        "id": 6,
+        "text": "Finans",
+        "links": {
+          "next": "random2"
+        }
       }
     ]
   }
