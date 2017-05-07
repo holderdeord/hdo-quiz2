@@ -1,19 +1,19 @@
 import { Alternative, Question } from '..';
 
-export class Response {
-  public answers: Alternative[] = [];
+export class Response<T> {
+  public answers: Alternative<T>[] = [];
 
-  constructor(public question: Question, answer?: Alternative) {
+  constructor(public question: Question<T>, answer?: Alternative<T>) {
     if (answer) {
       this.answers = [answer];
     }
   }
 
-  public addAnswer(answer: Alternative) {
+  public addAnswer(answer: Alternative<T>) {
     this.answers.push(answer);
   }
 
   public get wasCorrect(): boolean {
-    return this.answers.some(answer => this.question.answer === answer.value);
+    return this.answers.some(answer => this.question.isCorrectAnswer(answer.value));
   }
 }

@@ -8,13 +8,14 @@ import {
 } from './index';
 import {
   Alternative,
-  IManuscriptImage,
-  ManuscriptPromiseStatus,
+  TManuscriptImage,
+  TManuscriptPromiseStatus,
   Question,
   RandomSpecialAlternatives,
   Response,
-  IManuscriptRandom
+  TManuscriptRandom
 } from '../../shared';
+import { TManuscriptRandomItem } from "../manuscript/manuscript.types";
 
 export class Chat {
   static DEFAULT_TIME_BEFORE_MESSAGE: number = 0;
@@ -24,7 +25,7 @@ export class Chat {
   private _entries: ChatEntry[] = [];
   private _participants: IChatUser[] = [];
   private _currentEntry: ChatEntry = null;
-  private _images: IManuscriptImage[] = [];
+  private _images: TManuscriptImage[] = [];
 
   constructor(private _subjectUser: IChatUser) {
     this._participants.push(_subjectUser);
@@ -55,7 +56,7 @@ export class Chat {
     this._participants.push(participant);
   }
 
-  public askMultipleSelectQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question, response?: Response): Promise<Response> {
+  public askMultipleSelectQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question<number>, response?: Response<number>): Promise<Response<number>> {
     return this.addMessage(quizMaster, question.text)
       .then(() => {
         const entry = this.getOrCreateEntry(responder);
@@ -68,7 +69,7 @@ export class Chat {
       });
   }
 
-  public askSingleSelectQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question): Promise<Response> {
+  public askSingleSelectQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question<boolean>): Promise<Response<boolean>> {
     return this.addMessage(quizMaster, question.text)
       .then(() => {
         const entry = this.getOrCreateEntry(responder);
@@ -83,7 +84,7 @@ export class Chat {
       });
   }
 
-  public askOpenQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question): Promise<Response> {
+  public askOpenQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question<any>): Promise<Response<any>> {
     return this.addMessage(quizMaster, question.text)
       .then(() => {
         const entry = this.getOrCreateEntry(responder);
@@ -92,22 +93,24 @@ export class Chat {
       .then(answer => new Response(question, answer));
   }
 
-  public askRandomQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question[], randomManuscript: IManuscriptRandom): Promise<Response> {
+  public askRandomQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question<TManuscriptRandomItem>[], randomManuscript: TManuscriptRandom): Promise<Response<TManuscriptRandomItem>> {
     const question = questions.shift();
     return this.askOpenQuestion(quizMaster, responder, question)
-      .then((response: Response) => {
-        console.log('test', response, RandomSpecialAlternatives.NoneAreInteresting);
-        switch (response.answers[0].value) {
+      .then((response: Response<TManuscriptRandomItem>) => {
+        switch (response.answers[0].value.id) {
           case RandomSpecialAlternatives.ShowMeMore:
             return this.askRandomQuestions(quizMaster, responder, questions, randomManuscript);
           case RandomSpecialAlternatives.NoneAreInteresting:
-            return new Response(question, new Alternative(RandomSpecialAlternatives.NoneAreInteresting, randomManuscript.texts.end))
+            return new Response<TManuscriptRandomItem>(question, new Alternative<TManuscriptRandomItem>({
+              id: RandomSpecialAlternatives.NoneAreInteresting,
+              text: randomManuscript.texts.end
+            }, randomManuscript.texts.end))
         }
         return response;
       });
   }
 
-  public askSingleSelectQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question[], responses: Response[] = []): Promise<Response[]> {
+  public askSingleSelectQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question<boolean>[], responses: Response<boolean>[] = []): Promise<Response<boolean>[]> {
     if (questions.length === 0) {
       return new Promise(resolve => resolve(responses));
     }
@@ -127,7 +130,7 @@ export class Chat {
     return images[Math.floor(Math.random() * images.length)];
   }
 
-  private getPicturesForStatus(images: IManuscriptImage[], status: ManuscriptPromiseStatus): string[] {
+  private getPicturesForStatus(images: TManuscriptImage[], status: TManuscriptPromiseStatus): string[] {
     return images
       .filter(image => image.type === status)
       .map(image => image.url);
@@ -153,11 +156,11 @@ export class Chat {
     return this._currentEntry;
   }
 
-  public setImages(images: IManuscriptImage[]) {
+  public setImages(images: TManuscriptImage[]) {
     this._images = images;
   }
 
-  private showAnswer(quizMaster: IChatUser, response: Response): Promise<any> {
+  private showAnswer(quizMaster: IChatUser, response: Response<boolean>): Promise<any> {
     const entry = this.getOrCreateEntry(quizMaster);
     let images = this.getPicturesForStatus(this._images, response.wasCorrect ? 'fulfilled' : 'broken');
     const image = this.getRandomPicture(images);

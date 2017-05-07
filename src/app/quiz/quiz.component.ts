@@ -4,10 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { QuizService, Quiz } from '../shared/quiz';
 import { Chat, ChatUser, ChatUserFactory } from '../shared/chat';
 import {
-  IManuscript,
+  TManuscript,
   IManuscriptEntryMultipleTexts,
   IManuscriptEntryMultipleAlternativeEntry,
-  IManuscriptItem,
+  TManuscriptItem,
   Response,
   StringTools,
   RandomSpecialAlternatives
@@ -15,6 +15,7 @@ import {
 import { QuestionFactory } from '../shared/question';
 import { Alternative } from "../shared/alternative/alternative.class";
 import { ManuscriptEntryType } from '../shared/manuscript-entry';
+import { TManuscriptRandomItem } from "../shared/manuscript/manuscript.types";
 
 @Component({
   selector: 'hdo-quiz',
@@ -41,7 +42,7 @@ export class QuizComponent {
       .then(manuscript => this.activate(manuscript)));
   }
 
-  // private loadManuscriptUrl(url): Promise<IManuscript> {
+  // private loadManuscriptUrl(url): Promise<TManuscript> {
   //   const id = parseInt(url, 10);
   //   return new Promise(resolve => {
   //     if (isNaN(id)) {
@@ -52,7 +53,7 @@ export class QuizComponent {
   //   });
   // }
 
-  private activate(manuscript: IManuscript) {
+  private activate(manuscript: TManuscript) {
     this.responder = this.chatUserFactory.createAnonymousUser();
     this.chat = new Chat(this.responder);
     this.chat.events.subscribe(() => this.scrollToBottom());
@@ -65,7 +66,7 @@ export class QuizComponent {
     //   .then(() => this.chat.addMessage(this.quizMaster, 'Du er ferdig!'));
   }
 
-  private parseManuscript(manuscript: IManuscript, items: IManuscriptItem[]): Promise<any> {
+  private parseManuscript(manuscript: TManuscript, items: TManuscriptItem[]): Promise<any> {
     if (items.length === 0) {
       return new Promise(resolve => resolve());
     }
@@ -74,7 +75,7 @@ export class QuizComponent {
       .then(() => this.parseManuscript(manuscript, items));
   }
 
-  private parseManuscriptEntry(manuscript: IManuscript, entry: IManuscriptItem): Promise<any> {
+  private parseManuscriptEntry(manuscript: TManuscript, entry: TManuscriptItem): Promise<any> {
     let promise;
     switch (entry.type) {
       case ManuscriptEntryType.button:
@@ -99,7 +100,7 @@ export class QuizComponent {
         this.chat.setImages(manuscript.images);
         const promiseQuestions = manuscript.promises.map(promise => this.questionFactory.createQuestionFromPromise(promise.body, promise.status === 'fulfilled'));
         promise = this.chat.askSingleSelectQuestions(this.quizMaster, this.responder, promiseQuestions)
-          .then((responses: Response[]) => {
+          .then((responses: Response<boolean>[]) => {
             const numberOfCorrectAnswers = responses.filter(response => response.wasCorrect).length;
             return this.chat.addMessage(this.quizMaster, `Du fikk ${numberOfCorrectAnswers} av ${responses.length} riktige!`);
           });
@@ -107,11 +108,13 @@ export class QuizComponent {
       case ManuscriptEntryType.random:
         const randomQuestions = this.questionFactory.createQuestionsFromRandom(manuscript.random);
         promise = this.chat.askRandomQuestions(this.quizMaster, this.responder, randomQuestions, manuscript.random)
-          .then((response: Response) => {
+          .then((response: Response<TManuscriptRandomItem>) => {
             let responseValue = response.answers[0].value;
-            let urlToGet = responseValue === RandomSpecialAlternatives.NoneAreInteresting ?
-              manuscript.random.links.end :
-              responseValue;
+            let urlToGet = responseValue.id === RandomSpecialAlternatives.NoneAreInteresting ?
+              manuscript.random.links.next :
+              responseValue.links ?
+                responseValue.links.next :
+                manuscript.random.links.next;
             return this.service.getManuscript(urlToGet)
               .then(manuscript => this.parseManuscript(manuscript, manuscript.items))
           });
@@ -126,14 +129,14 @@ export class QuizComponent {
     return promise;
   }
 
-  private askMultipleQuestions(texts: IManuscriptEntryMultipleTexts, alternatives: IManuscriptEntryMultipleAlternativeEntry[], response?: Response): Promise<Response> {
+  private askMultipleQuestions(texts: IManuscriptEntryMultipleTexts, alternatives: IManuscriptEntryMultipleAlternativeEntry[], response?: Response<number>): Promise<Response<number>> {
     const questionText = response ? StringTools.interpolate(texts.followup, {
         answers: response.answers.map(answer => answer.text).join(', ')
       }) : texts.introduction;
     const question = this.questionFactory.createQuestionFromMultiple(questionText, alternatives);
     question.addAlternative(new Alternative(-1, response ? texts.finishButton : texts.cancelButton));
     return this.chat.askMultipleSelectQuestion(this.quizMaster, this.responder, question, response)
-      .then(response => {
+      .then((response: Response<number>) => {
         const answersValues = response.answers.map(answer => answer.value);
         if (answersValues.some(value => value === -1)) {
           return response;

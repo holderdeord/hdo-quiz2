@@ -5,7 +5,7 @@ export class Answer {
 
   public get response(): boolean { return this._response; }
 
-  constructor(private question: Question) {
+  constructor(private question: Question<boolean>) {
   }
 
   hadCorrectResponse(): boolean {

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {
-  IManuscriptsItem,
-  QuizService
+  QuizService,
+  TManuscriptsItem
 } from '../shared';
 
 @Component({
@@ -15,7 +15,7 @@ export class QuizListComponent {
   }
 
   ngOnInit() {
-    this.service.getManuscripts().subscribe((manuscriptsItem: IManuscriptsItem[]) => {
+    this.service.getManuscripts().subscribe((manuscriptsItem: TManuscriptsItem[]) => {
       this.quizList = [
         new QuizListItem('introduction', 'Valgomat (local)'),
         new QuizListItem('quiz', 'Quiz (local)'),

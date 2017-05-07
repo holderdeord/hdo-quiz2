@@ -13,7 +13,7 @@ export class ChatMessageButtonsComponent {
   constructor() {
   }
 
-  answer(answer: Alternative) {
+  answer(answer: Alternative<any>) {
     this.data.answer = answer;
     this.data.giveAnswer(answer);
   }

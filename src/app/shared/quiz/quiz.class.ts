@@ -3,16 +3,16 @@ import { Answer } from '../answer';
 
 export class Quiz {
   private _answers: Answer[];
-  private _current: Question;
+  private _current: Question<boolean>;
   private _index: number;
-  private _questions: Question[];
+  private _questions: Question<boolean>[];
   private _state: QuizState;
 
   public get answers(): Answer[] {
     return this._answers;
   }
 
-  public get current(): Question {
+  public get current(): Question<boolean> {
     return this._current;
   }
 
@@ -28,7 +28,7 @@ export class Quiz {
     return this._name;
   }
 
-  public get questions(): Question[] {
+  public get questions(): Question<boolean>[] {
     return this._questions;
   }
 
@@ -43,7 +43,7 @@ export class Quiz {
     this._state = QuizState.NotStarted;
   }
 
-  addQuestion(question: Question): void {
+  addQuestion(question: Question<boolean>): void {
     if (this.state !== QuizState.NotStarted) {
       throw new Error('Quiz is started');
     }

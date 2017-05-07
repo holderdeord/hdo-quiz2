@@ -4,11 +4,11 @@ import { Alternative } from '../..';
 
 export class ChatMessageButtons implements IChatMessage {
   type: any = ChatMessageButtonsComponent;
-  resolved: Promise<Alternative>;
+  resolved: Promise<Alternative<any>>;
   giveAnswer: (answer) => void;
-  answer: Alternative = null;
+  answer: Alternative<any> = null;
 
-  constructor(public chat: Chat, public alternatives: Alternative[]) {
+  constructor(public chat: Chat, public alternatives: Alternative<any>[]) {
     this.resolved = new Promise(resolve => this.giveAnswer = resolve);
   }
 

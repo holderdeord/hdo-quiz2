@@ -4,8 +4,8 @@ import { Quiz } from './quiz.class';
 import { Question } from '../question/question.class';
 import { Observable } from 'rxjs';
 import {
-  IManuscript,
-  IManuscriptsItem
+  TManuscript,
+  TManuscriptsItem
 } from '..';
 
 @Injectable()
@@ -14,12 +14,12 @@ export class QuizService {
 
   }
 
-  getManuscripts(): Observable<IManuscriptsItem[]> {
+  getManuscripts(): Observable<TManuscriptsItem[]> {
     return this.http.get('http://hdo-quiz.herokuapp.com/api/manuscripts/')
       .map(response => response.json());
   }
 
-  getManuscript(manuscriptId): Promise<IManuscript> {
+  getManuscript(manuscriptId): Promise<TManuscript> {
     const id = parseInt(manuscriptId, 10);
     return new Promise(resolve => {
       if (isNaN(id)) {
@@ -30,13 +30,13 @@ export class QuizService {
     });
   }
 
-  getManuscriptById(id: number): Observable<IManuscript> {
+  getManuscriptById(id: number): Observable<TManuscript> {
     // return this.http.get(`http://localhost:8000/api/manuscripts/${id}/`)
     return this.http.get(`http://hdo-quiz.herokuapp.com/api/manuscripts/${id}/`)
       .map(response => response.json());
   }
 
-  getManuscriptByString(name: string): Observable<IManuscript> {
+  getManuscriptByString(name: string): Observable<TManuscript> {
     return this.http.get(`/assets/mock-data/manuscript-${name}.json`)
       .map(response => response.json());
   }

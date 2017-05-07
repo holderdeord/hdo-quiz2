@@ -1,1 +1,1 @@
-export * from './manuscript.interface';
+export * from './manuscript.types';

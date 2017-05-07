@@ -1,3 +1,3 @@
-export class Alternative {
-  constructor(public value: any, public text: string, public className?: string) {}
+export class Alternative<T> {
+  constructor(public value: T, public text: string, public className?: string) {}
 }

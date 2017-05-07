@@ -40,7 +40,7 @@
   "random": {
     "selection": 3,
     "links": {
-      "end": "randomend"
+      "next": "randomend"
     },
     "texts": {
       "introduction": "Er noen av disse kategoriene interessante å utforske?",
@@ -60,14 +60,14 @@
         "id": 2,
         "text": "Justis og beredskap",
         "links": {
-          "next": "random3"
+          "next": "random2"
         }
       },
       {
         "id": 3,
         "text": "Forsvar",
         "links": {
-          "next": "random4"
+          "next": "random2"
         }
       },
       {
