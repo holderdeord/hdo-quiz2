@@ -21,12 +21,14 @@ export class QuizService {
 
   getManuscript(manuscriptId): Promise<TManuscript> {
     const id = parseInt(manuscriptId, 10);
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
+      let manuscriptObservable: Observable<TManuscript>;
       if (isNaN(id)) {
-        return this.getManuscriptByString(manuscriptId).subscribe(manuscript => resolve(manuscript));
+        manuscriptObservable = this.getManuscriptByString(manuscriptId);
       } else {
-        return this.getManuscriptById(id).subscribe(manuscript => resolve(manuscript));
+        manuscriptObservable = this.getManuscriptById(id);
       }
+      return manuscriptObservable.subscribe(manuscript => resolve(manuscript), error => reject(error));
     });
   }
 

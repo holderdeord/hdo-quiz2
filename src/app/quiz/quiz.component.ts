@@ -16,6 +16,8 @@ import { QuestionFactory } from '../shared/question';
 import { Alternative } from "../shared/alternative/alternative.class";
 import { ManuscriptEntryType } from '../shared/manuscript-entry';
 import { TManuscriptRandomItem } from "../shared/manuscript/manuscript.types";
+import { HttpErrorResponseData } from "../shared/httpResponse/httpResponse.types";
+import IPromise = Q.IPromise;
 
 @Component({
   selector: 'hdo-quiz',
@@ -38,32 +40,17 @@ export class QuizComponent {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => this.service.getManuscript(params['id'])
-      .then(manuscript => this.activate(manuscript)));
+    this.route.params.subscribe(params => this.activate(params['id']));
   }
 
-  // private loadManuscriptUrl(url): Promise<TManuscript> {
-  //   const id = parseInt(url, 10);
-  //   return new Promise(resolve => {
-  //     if (isNaN(id)) {
-  //       this.service.getManuscriptByString(url).subscribe(manuscript => resolve(manuscript));
-  //     } else {
-  //       return this.service.getManuscriptById(id).subscribe(manuscript => resolve(manuscript));
-  //     }
-  //   });
-  // }
-
-  private activate(manuscript: TManuscript) {
+  private activate(manuscriptUrl: string) {
     this.responder = this.chatUserFactory.createAnonymousUser();
     this.chat = new Chat(this.responder);
     this.chat.events.subscribe(() => this.scrollToBottom());
     this.quizMaster = this.chatUserFactory.createSystemUser();
     this.chat.addParticipant(this.quizMaster);
-    return this.parseManuscript(manuscript, manuscript.items);
-    // this.chat.addMessages(this.quizMaster, manuscript.introduction, 0)
-    //   .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#1', true)))
-    //   .then(() => this.chat.addQuestion(this.quizMaster, this.responder, this.questionFactory.createQuestionFromPromise('#2', true)))
-    //   .then(() => this.chat.addMessage(this.quizMaster, 'Du er ferdig!'));
+    return this.getManuscript(manuscriptUrl)
+      .then(manuscript => this.parseManuscript(manuscript, manuscript.items));
   }
 
   private parseManuscript(manuscript: TManuscript, items: TManuscriptItem[]): Promise<any> {
@@ -115,8 +102,7 @@ export class QuizComponent {
               responseValue.links ?
                 responseValue.links.next :
                 manuscript.random.links.next;
-            return this.service.getManuscript(urlToGet)
-              .then(manuscript => this.parseManuscript(manuscript, manuscript.items))
+            return this.getManuscript(urlToGet);
           });
         break;
       case ManuscriptEntryType.text:
@@ -146,6 +132,27 @@ export class QuizComponent {
           return response;
         }
         return this.askMultipleQuestions(texts, newAlternatives, response);
+      });
+  }
+
+  private getManuscript(manuscriptUrl, waitTime = [10, 20, 30, 60, 120, 240, 600]): Promise<TManuscript> {
+    return this.service.getManuscript(manuscriptUrl)
+      .then(manuscript => this.parseManuscript(manuscript, manuscript.items))
+      .catch((error: HttpErrorResponseData) => {
+        // console.warn(error);
+        let timeUntilNextReload = waitTime.length > 1 ? waitTime.shift() : waitTime[0];
+        const reloadManuscriptQuestion = this.questionFactory.createReloadManuscriptQuestion(timeUntilNextReload);
+        return new Promise(resolve => {
+          const timeoutHandleId = setTimeout(() => {
+            this.chat.removeLastEntry();
+            this.getManuscript(manuscriptUrl, waitTime)
+              .then(manuscript => resolve(manuscript))
+          }, timeUntilNextReload * 1000);
+          this.chat.askOpenQuestion(this.quizMaster, this.responder, reloadManuscriptQuestion)
+            .then(() => clearTimeout(timeoutHandleId))
+            .then(() => this.getManuscript(manuscriptUrl))
+            .then(manuscript => resolve(manuscript));
+        });
       });
   }
 

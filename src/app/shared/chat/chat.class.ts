@@ -156,6 +156,10 @@ export class Chat {
     return this._currentEntry;
   }
 
+  public removeLastEntry(): void {
+    this._entries.pop();
+  }
+
   public setImages(images: TManuscriptImage[]) {
     this._images = images;
   }

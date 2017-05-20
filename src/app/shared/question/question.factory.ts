@@ -57,4 +57,11 @@ export class QuestionFactory {
     });
     return question;
   }
+
+  public createReloadManuscriptQuestion(timeUntilNextReload: number): Question<any> {
+    const question = new Question(`Beklager, jeg får ikke kontakt med serveren akkurat nå =( Vent litt, så skal jeg prøve igjen om ${timeUntilNextReload} sekunder, eller si i fra når du tror jeg skal ha tilgang igjen.`, null);
+    const alternative = new Alternative(null, 'Prøv igjen nå');
+    question.addAlternative(alternative);
+    return question;
+  }
 }

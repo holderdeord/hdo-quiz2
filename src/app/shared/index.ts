@@ -1,6 +1,7 @@
 export * from './alternative';
 export * from './answer';
 export * from './chat';
+export * from './httpResponse';
 export * from './node-list';
 export * from './manuscript';
 export * from './manuscript-entry';
