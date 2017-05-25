@@ -23,27 +23,35 @@
     "items": [
       {
         "id": 100,
-        "text": "Hei 1"
+        "text": "[Partiet] vil i Kyoto-protokollens første forpliktelsesperiode har Norge overoppfylt Kyotoforpliktelsen med 10 prosentpoeng."
       },
       {
         "id": 101,
-        "text": "Hei 2"
+        "text": "[Partiet] vil at det gjennomføres fullskala CO2-rensing av minimum to store punktutslipp på land, samt rensing av et nytt kullkraftverk på Svalbard, innen 2020."
       },
       {
         "id": 102,
-        "text": "Hei 3"
+        "text": "[Partiet] jobber for fullskala rensing av CO2-utslipp slik at det ikke er utslipp fra noen gasskraftverk."
       },
       {
         "id": 103,
-        "text": "Hei 4"
+        "text": "[Partiet] vil inkludere utslipp av CO₂ i forurensningsloven."
       },
       {
         "id": 104,
-        "text": "Hei 5"
+        "text": "[Partiet] vil konkurransestimulere avfallssektoren."
       },
       {
         "id": 105,
-        "text": "Hei 6"
+        "text": "[Partiet] vil ta vare på naturen og det biologiske mangfoldet i Norge."
+      },
+      {
+        "id": 106,
+        "text": "[Partiet] vil redusere nasjonale utslipp i alle sektorer gjennom å oppfylle klimaforliket."
+      },
+      {
+        "id": 107,
+        "text": "[Partiet] vil endre engangsavgiften for biler ved å øke CO2-komponenten på bekostning av vekt og effekt."
       }
     ]
   }

@@ -103,8 +103,8 @@ export class QuizComponent {
           });
         break;
       case ManuscriptEntryType.random:
-        const randomQuestions = this.questionFactory.createQuestionsFromRandom(manuscript.random);
-        promise = this.chat.askRandomQuestions(this.quizMaster, this.responder, randomQuestions, manuscript.random)
+        const randomQuestion = this.questionFactory.createQuestionsFromRandom(manuscript.random);
+        promise = this.chat.askRandomQuestions(this.quizMaster, this.responder, [randomQuestion], manuscript.random)
           .then((response: Response<TManuscriptRandomItem>) => {
             let responseValue = response.answers[0].value;
             let urlToGet = responseValue.id === RandomSpecialAlternatives.NoneAreInteresting ?

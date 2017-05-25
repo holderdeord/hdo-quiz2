@@ -1,2 +1,2 @@
 <div *ngIf="data.isWritingMessage">Skriver melding...</div>
-<div *ngIf="!data.isWritingMessage">{{data.message}}</div>
+<div *ngIf="!data.isWritingMessage" [innerHTML]="data.message"></div>
