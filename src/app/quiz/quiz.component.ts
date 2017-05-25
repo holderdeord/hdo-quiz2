@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { QuizService, Quiz } from '../shared/quiz';
 import { Chat, ChatUser, ChatUserFactory } from '../shared/chat';
@@ -36,7 +36,8 @@ export class QuizComponent {
   constructor(private route: ActivatedRoute,
               private service: QuizService,
               private chatUserFactory: ChatUserFactory,
-              private questionFactory: QuestionFactory) {
+              private questionFactory: QuestionFactory,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -50,16 +51,25 @@ export class QuizComponent {
     this.quizMaster = this.chatUserFactory.createSystemUser();
     this.chat.addParticipant(this.quizMaster);
     return this.getManuscript(manuscriptUrl)
-      .then(manuscript => this.parseManuscript(manuscript, manuscript.items));
+      .then(manuscript => {
+        if (manuscript) {
+          return this.parseManuscript(manuscript, manuscript.items)
+        }
+      });
   }
 
   private parseManuscript(manuscript: TManuscript, items: TManuscriptItem[]): Promise<any> {
-    if (items.length === 0) {
+    if (!items || items.length === 0) {
       return new Promise(resolve => resolve());
     }
     const currentEntry = items.shift();
     return this.parseManuscriptEntry(manuscript, currentEntry)
-      .then(() => this.parseManuscript(manuscript, items));
+      .then((response) => {
+        if (typeof response === 'string') {
+          return this.router.navigateByUrl(`/quiz/${response}`);
+        }
+        return this.parseManuscript(manuscript, items)
+      });
   }
 
   private parseManuscriptEntry(manuscript: TManuscript, entry: TManuscriptItem): Promise<any> {
@@ -102,7 +112,9 @@ export class QuizComponent {
               responseValue.links ?
                 responseValue.links.next :
                 manuscript.random.links.next;
-            return this.getManuscript(urlToGet);
+            return urlToGet;
+            // this.router.navigateByUrl(`/quiz/${urlToGet}`);
+            // return this.getManuscript(urlToGet);
           });
         break;
       case ManuscriptEntryType.text:
@@ -117,8 +129,8 @@ export class QuizComponent {
 
   private askMultipleQuestions(texts: IManuscriptEntryMultipleTexts, alternatives: IManuscriptEntryMultipleAlternativeEntry[], response?: Response<number>): Promise<Response<number>> {
     const questionText = response ? StringTools.interpolate(texts.followup, {
-        answers: response.answers.map(answer => answer.text).join(', ')
-      }) : texts.introduction;
+      answers: response.answers.map(answer => answer.text).join(', ')
+    }) : texts.introduction;
     const question = this.questionFactory.createQuestionFromMultiple(questionText, alternatives);
     question.addAlternative(new Alternative(-1, response ? texts.finishButton : texts.cancelButton));
     return this.chat.askMultipleSelectQuestion(this.quizMaster, this.responder, question, response)
