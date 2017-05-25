@@ -15,4 +15,8 @@ export class ChatMessageButtons implements IChatMessage {
   public resolve(callback: (answer) => void): void {
     this.resolved.then(answer => callback(answer));
   }
+
+  public toText(): string {
+    return this.answer.text;
+  }
 }

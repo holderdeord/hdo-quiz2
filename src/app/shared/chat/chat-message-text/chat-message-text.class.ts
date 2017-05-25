@@ -14,4 +14,8 @@ export class ChatMessageText implements IChatMessage {
       callback();
     }, this.timeout);
   }
+
+  public toText(): string {
+    return this.message;
+  }
 }

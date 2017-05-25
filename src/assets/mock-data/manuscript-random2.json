@@ -1,4 +1,5 @@
 {
+  "pk": "random2",
   "items": [
     {
       "type": "text",
@@ -9,11 +10,11 @@
       "text": "Velg den kategorien du syns virker mest interessant"
     }
   ],
+  "links": {
+    "next": "randomend"
+  },
   "random": {
-    "selection": 3,
-    "links": {
-      "next": "randomend"
-    },
+    "selection": 8,
     "texts": {
       "introduction": "Hei igjen",
       "followup": "Tja, hva med disse?",

@@ -2,11 +2,16 @@ export type TManuscript  = {
   pk: number;
   name: string;
   category: number;
+  links: TManuscriptLinks;
   electoralGuide: TManuscriptElectoralGuide;
   items: TManuscriptItem[];
   images: TManuscriptImage[];
   promises: TManuscriptPromise[];
   random: TManuscriptRandom;
+};
+
+export type TManuscriptLinks = {
+  next: string;
 };
 
 export type TManuscriptElectoralGuide = {

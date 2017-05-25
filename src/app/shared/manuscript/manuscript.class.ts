@@ -1,22 +1,36 @@
-import { TManuscript, TManuscriptItem, TManuscriptRandomItem } from "./manuscript.types";
+import { TManuscript, TManuscriptItem } from "./manuscript.types";
 import { ManuscriptEntryType } from "../manuscript-entry/manuscript-entry.types";
 import { Chat } from "../chat/chat.class";
 import { ChatUser } from "../chat/chat-user/chat-user.class";
-import { RandomSpecialAlternatives } from "../random/random.enums";
 import { QuestionFactory } from "../question/question.factory";
 import { ChatResponse } from "../chat/chat-response/chat-response.class";
 
 export class Manuscript {
   public responses: ChatResponse<any>[] = [];
+  public done: Promise<Manuscript>;
 
   constructor(private manuscript: TManuscript, private questionFactory: QuestionFactory, private chat: Chat,
-              private bot: ChatUser, private responder: ChatUser, private onParsed: Function) {
-    this.parseManuscript(manuscript, manuscript.items);
+              private bot: ChatUser, private responder: ChatUser) {
+    this.done = new Promise(resolve => this.parseManuscript(manuscript, manuscript.items).then(() => resolve(this)));
+  }
+
+  public getNextManuscriptUrl(): string {
+    let lastResponse = this.responses.slice(-1)[0];
+    if (lastResponse && lastResponse.answers) {
+      let lastResponseAnswer = lastResponse.answers[0];
+      if (lastResponseAnswer.links && lastResponseAnswer.links.next) {
+        return lastResponseAnswer.links.next;
+      }
+    }
+    if (this.manuscript.links && this.manuscript.links.next) {
+      return this.manuscript.links.next;
+    }
+    return null;
   }
 
   private parseManuscript(manuscript: TManuscript, items: TManuscriptItem[]): Promise<any> {
     if (!items || items.length === 0) {
-      return this.onParsed(this, this.responses.slice(-1)[0]);
+      return null;
     }
     const currentEntry = items.shift();
     return this.parseManuscriptEntry(manuscript, currentEntry)
@@ -24,12 +38,12 @@ export class Manuscript {
       .then(() => this.parseManuscript(manuscript, items));
   }
 
-  private parseManuscriptEntry(manuscript: TManuscript, entry: TManuscriptItem): Promise<any> {
+  private parseManuscriptEntry(manuscript: TManuscript, entry: TManuscriptItem): Promise<ChatResponse<any>> {
     switch (entry.type) {
       case ManuscriptEntryType.button:
         return this.chat.addButton(this.responder, entry.text);
       case ManuscriptEntryType.electoralGuide:
-        return this.chat.addMessage(this.responder, entry.text);
+        return this.chat.addMessage(this.bot, entry.text);
       // case 'multiple':
       //   const multipleEntry: IManuscriptEntryMultiple = entry;
       //   promise = this.askMultipleQuestions(multipleEntry.texts, multipleEntry.alternatives)
@@ -52,15 +66,7 @@ export class Manuscript {
           });
       case ManuscriptEntryType.random:
         const randomQuestion = this.questionFactory.createQuestionsFromRandom(manuscript.random);
-        return this.chat.askRandomQuestions(this.bot, this.responder, [randomQuestion], manuscript.random)
-          .then((response: ChatResponse<TManuscriptRandomItem>) => {
-            let responseValue = response.answers[0].value;
-            return responseValue.id === RandomSpecialAlternatives.NoneAreInteresting ?
-              manuscript.random.links.next :
-              responseValue.links ?
-                responseValue.links.next :
-                manuscript.random.links.next;
-          });
+        return this.chat.askRandomQuestions(this.bot, this.responder, [randomQuestion], manuscript.random);
       case ManuscriptEntryType.text:
         return this.chat.addMessage(this.bot, entry.text);
       default:

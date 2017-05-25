@@ -27,8 +27,7 @@ export class QuestionFactory {
 
   public createQuestionFromRandom(questionText: string, random: TManuscriptRandom, items: TManuscriptRandomItem[]): Question<TManuscriptRandomItem> {
     const selection: TManuscriptRandomItem[] = [];
-    const numberOfAlternatives = items.length;
-    while (selection.length < numberOfAlternatives && items.length > 0) {
+    while (selection.length < random.selection && items.length > 0) {
       const index = Math.floor(Math.random()*items.length);
       const item = items.splice(index, 1);
       selection.push(item[0]);
@@ -37,7 +36,7 @@ export class QuestionFactory {
     selection.forEach(item => text += `<li>${item.text}</li>`);
     text += '</ol>';
     const question = new Question(text, null);
-    selection.forEach((item, index) => question.addAlternative(new Alternative(item, `Valg #${index+1}`, 'btn btn-primary')));
+    selection.forEach((item, index) => question.addAlternative(new Alternative(item, `Valg #${index+1}`, 'btn btn-primary', item.links)));
     // question.addAlternative(items.length > 0 ?
     //   new Alternative(RandomSpecialAlternatives.ShowMeMore, random.texts.more, 'btn') :
     //   new Alternative(RandomSpecialAlternatives.NoneAreInteresting, random.texts.end, 'btn'));

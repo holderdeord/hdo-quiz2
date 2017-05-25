@@ -7,10 +7,10 @@ describe('ChatUser, factory (shared)', () => {
   beforeEach(inject([ChatUserFactory], chatUserFactory => factory = chatUserFactory));
 
   describe('createAnonymousUser', () => {
-    it('creates an anonymous user', () => expect(factory.createAnonymousUser()).toEqual(new ChatUser('Anonym', '/assets/img/fallback_avatar.png')));
+    it('creates an anonymous user', () => expect(factory.createAnonymousUser()).toEqual(new ChatUser('Anonym', '/assets/img/fallback_avatar.png', false)));
   });
 
   describe('createSystemUser', () => {
-    it('creates the system user', () => expect(factory.createSystemUser()).toEqual(new ChatUser('Holder de ord', '/assets/img/oldlogo.png')));
+    it('creates the system user', () => expect(factory.createSystemUser()).toEqual(new ChatUser('Holder de ord', '/assets/img/oldlogo.png', true)));
   });
 });

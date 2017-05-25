@@ -16,6 +16,7 @@ import {
   TManuscriptRandom
 } from '../../shared';
 import { TManuscriptRandomItem } from "../manuscript/manuscript.types";
+import { TChatLog, TChatLogTextEntry } from "./chat.types";
 
 export class Chat {
   static DEFAULT_TIME_BEFORE_MESSAGE: number = 0;
@@ -90,7 +91,10 @@ export class Chat {
         const entry = this.getOrCreateEntry(responder);
         return entry.addMessage(new ChatMessageButtons(this, question.alternatives))
       })
-      .then(answer => new ChatResponse(question, answer));
+      .then((answer: Alternative<any>) => {
+        console.log(answer.links);
+        return new ChatResponse(question, answer)
+      });
   }
 
   public askRandomQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question<TManuscriptRandomItem>[], randomManuscript: TManuscriptRandom): Promise<ChatResponse<TManuscriptRandomItem>> {
@@ -101,10 +105,11 @@ export class Chat {
           case RandomSpecialAlternatives.ShowMeMore:
             return this.askRandomQuestions(quizMaster, responder, questions, randomManuscript);
           case RandomSpecialAlternatives.NoneAreInteresting:
-            return new ChatResponse<TManuscriptRandomItem>(question, new Alternative<TManuscriptRandomItem>({
+            let alternative = new Alternative<TManuscriptRandomItem>({
               id: RandomSpecialAlternatives.NoneAreInteresting,
               text: randomManuscript.texts.end
-            }, randomManuscript.texts.end))
+            }, randomManuscript.texts.end);
+            return new ChatResponse<TManuscriptRandomItem>(question, alternative)
         }
         return response;
       });
@@ -170,5 +175,17 @@ export class Chat {
     const image = this.getRandomPicture(images);
     return entry.addMessage(new ChatMessageAnswer(response.wasCorrect, image))
       .then(() => response);
+  }
+
+  public toJson(): TChatLog {
+    return {
+      entries: this.entries.reduce((memo: TChatLogTextEntry[], entry: ChatEntry) => {
+        entry.messages.forEach(message => memo.push({
+          bot: entry.originUser.isBot,
+          text: message.toText()
+        }));
+        return memo;
+      }, [])
+    };
   }
 }

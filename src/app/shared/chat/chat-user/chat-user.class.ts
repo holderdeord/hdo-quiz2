@@ -1,7 +1,7 @@
 import { IChatUser } from './chat-user.interface';
 
 export class ChatUser implements IChatUser {
-  constructor(private _name: string, private _pictureUrl: string) {
+  constructor(private _name: string, private _pictureUrl: string, public isBot: boolean = false) {
   }
 
   public get name(): string {

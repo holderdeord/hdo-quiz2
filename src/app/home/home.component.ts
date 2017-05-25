@@ -16,6 +16,7 @@ export class HomeComponent {
   constructor(private storageService: LocalStorageService, private window: Window) {}
 
   clearStorage() {
+    this.storageService.clearStorage('chat');
     this.storageService.clearStorage('stacks');
     window.location.reload();
   }

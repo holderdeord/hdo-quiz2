@@ -7,10 +7,10 @@ export class ChatUserFactory {
   }
 
   createAnonymousUser() {
-    return new ChatUser('Anonym', '/assets/img/fallback_avatar.png');
+    return new ChatUser('Anonym', '/assets/img/fallback_avatar.png', false);
   }
 
   createSystemUser() {
-    return new ChatUser('Holder de ord', '/assets/img/oldlogo.png');
+    return new ChatUser('Holder de ord', '/assets/img/oldlogo.png', true);
   }
 }

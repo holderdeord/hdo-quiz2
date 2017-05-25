@@ -10,4 +10,8 @@ export class ChatMessageAnswer implements IChatMessage {
   public resolve(callback: () => void): void {
     callback();
   }
+
+  public toText() {
+    return null;
+  }
 }

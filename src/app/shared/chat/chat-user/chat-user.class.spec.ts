@@ -4,7 +4,7 @@ describe('ChatUser, class (shared)', () => {
   let user;
 
   beforeEach(() => {
-    user = new ChatUser('name', 'pictureUrl');
+    user = new ChatUser('name', 'pictureUrl', false);
   });
 
   it('exposes property name', () => expect(user.name).toEqual('name'));

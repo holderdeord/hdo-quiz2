@@ -10,7 +10,7 @@ export class LocalStorageService {
     window.localStorage.removeItem(name);
   }
 
-  setupStorage(name: string, defaultValue: any): LocalStorage {
+  setupStorage(name: string, defaultValue?: any): LocalStorage {
     let window = this._window;
     return new LocalStorage(window.localStorage, name, defaultValue);
   }
