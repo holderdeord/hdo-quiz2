@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { LocalStorageService } from '../shared/storage';
+import { LocalStorageService } from '../shared';
 import { MainNavigationComponent } from '../main-navigation';
 import { StackListComponent } from '../stack-list';
 

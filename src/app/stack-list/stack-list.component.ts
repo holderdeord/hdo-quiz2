@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Quiz, QuizState, QuizService } from '../shared/quiz';
-import { LocalStorageService } from '../shared/storage';
+import { LocalStorageService } from '../shared';
 
 @Component({
   selector: 'hdo-stack-list',
@@ -19,8 +19,8 @@ export class StackListComponent {
     let storage = this.storageService.setupStorage('stacks', {});
     this.service.getStacks().subscribe(stacks => {
       stacks
-        .filter(stack => !!storage()[stack.id])
-        .forEach(stack => stack.start(storage()[stack.id]));
+        .filter(stack => !!storage.get(stack.id))
+        .forEach(stack => stack.start(storage.get(stack.id)));
       this.stacks = stacks;
     });
   }

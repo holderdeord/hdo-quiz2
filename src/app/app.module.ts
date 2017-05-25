@@ -11,7 +11,7 @@ import {
 }                                       from './shared/chat';
 import { NodeListService }              from './shared/node-list';
 import { QuizService }                  from './shared/quiz';
-import { LocalStorageService }          from './shared/storage';
+import { LocalStorageService }          from './shared/local-storage';
 
 import { AboutComponent }               from './about';
 import { CardsDirective }               from './cards';

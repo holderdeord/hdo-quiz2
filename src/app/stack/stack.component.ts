@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizService, Quiz, QuizState } from '../shared/quiz';
-import { LocalStorageService } from '../shared/storage';
+import { LocalStorageService } from '../shared';
 import { swingStack, swingCard, ISwingCard } from '../shared/swing';
+import { LocalStorage } from "../shared/local-storage/local-storage.class";
 
 @Component({
   selector: 'stack',
@@ -15,7 +16,7 @@ export class StackComponent {
   public answeredLastCorrectly: boolean;
   public stackStates = QuizState;
 
-  private _storage: Function;
+  private _storage: LocalStorage;
   private _responses: boolean[];
   private _cards: ISwingCard[] = [];
 
@@ -47,7 +48,7 @@ export class StackComponent {
     this.answeredLastCorrectly = this.quiz.setResponse(response);
 
     this._responses.push(response);
-    this._storage(this.quiz.id, this._responses);
+    this._storage.set(this.quiz.id, this._responses);
     if (this.quiz.state === QuizState.Complete) {
       this.router.navigate(['/result', this.quiz.id, this.quiz.getResponsesAsString()]);
     }
