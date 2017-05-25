@@ -1,6 +1,6 @@
-import { Alternative, Question } from '..';
+import { Alternative, Question } from '../..';
 
-export class Response<T> {
+export class ChatResponse<T> {
   public answers: Alternative<T>[] = [];
 
   constructor(public question: Question<T>, answer?: Alternative<T>) {

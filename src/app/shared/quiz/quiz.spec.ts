@@ -5,7 +5,7 @@
 
 // import { Question } from '../question';
 // import { Quiz, QuizService, QuizState } from './';
-// import { BaseRequestOptions, Http, RequestMethod, ResponseOptions, Response } from '@angular/http';
+// import { BaseRequestOptions, Http, RequestMethod, ResponseOptions, ChatResponse } from '@angular/http';
 
 // describe('Quiz (shared)', () => {
 //   beforeEach(() => addProviders([
@@ -182,7 +182,7 @@
 //         fakeAsync((backend: MockBackend, service: QuizService) => {
 //         backend.connections.subscribe((connection: MockConnection) => {
 //           let response = new ResponseOptions({ questionText: JSON.stringify(mockStackData()) });
-//           connection.mockRespond(new Response(response));
+//           connection.mockRespond(new ChatResponse(response));
 //         });
 
 //         service.getStacks().subscribe(stacks => {
@@ -212,7 +212,7 @@
 //         fakeAsync((backend: MockBackend, service: QuizService) => {
 //         backend.connections.subscribe((connection: MockConnection) => {
 //           let response = new ResponseOptions({ questionText: JSON.stringify(mockStackData()) });
-//           connection.mockRespond(new Response(response));
+//           connection.mockRespond(new ChatResponse(response));
 //         });
 
 //         service.getStack(1).subscribe(quiz => {

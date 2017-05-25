@@ -10,6 +10,5 @@ export * from './manuscripts';
 export * from './question';
 export * from './quiz';
 export * from './random';
-export * from './response';
 export * from './string-tools';
 export * from './swing';
