@@ -7,6 +7,7 @@ import {
   Question,
   RandomSpecialAlternatives
 } from '..';
+import { TManuscriptItem } from "../manuscript/manuscript.types";
 
 @Injectable()
 export class QuestionFactory {
@@ -23,6 +24,27 @@ export class QuestionFactory {
       question.addAlternative(new Alternative(data.id, data.text));
     });
     return question;
+  }
+
+  public createQuestionFromQuickReply(entry: TManuscriptItem): Question<TManuscriptItem> {
+    const question = new Question(entry.text, null);
+    question.addAlternative(this.createQuickReplyAlternative(entry.reply_action_1, entry.reply_text_1));
+    if (entry.reply_text_2 !== '') {
+      question.addAlternative(this.createQuickReplyAlternative(entry.reply_action_2, entry.reply_text_2));
+    }
+    if (entry.reply_text_3 !== '') {
+      question.addAlternative(this.createQuickReplyAlternative(entry.reply_action_3, entry.reply_text_3));
+    }
+    return question;
+  }
+
+  private createQuickReplyAlternative(reply_action: number, reply_text: string) {
+    if (reply_action) {
+      return new Alternative(reply_action, reply_text, null, {
+        next: reply_action.toString()
+      });
+    }
+    return new Alternative(reply_action, reply_text);
   }
 
   public createQuestionFromRandom(questionText: string, random: TManuscriptRandom, items: TManuscriptRandomItem[]): Question<TManuscriptRandomItem> {
@@ -53,7 +75,7 @@ export class QuestionFactory {
     // return questions;
   }
 
-  public createOpenQuestion(text: string, alternatives: any[]): Question<any> {
+  public createOpenQuestion(text: string, alternatives: any[] = []): Question<any> {
     const question = new Question(text, null);
     alternatives.forEach(data => {
       const alternative = new Alternative(data.value, data.text, data.className || 'btn');

@@ -8,6 +8,8 @@ import {
   TManuscriptsItem
 } from '..';
 
+const apiUrl = 'http://localhost:8000/api';
+
 @Injectable()
 export class QuizService {
   constructor(private http: Http) {
@@ -15,7 +17,8 @@ export class QuizService {
   }
 
   getManuscripts(): Observable<TManuscriptsItem[]> {
-    return this.http.get('http://hdo-quiz.herokuapp.com/api/manuscripts/')
+    // return this.http.get('http://hdo-quiz.herokuapp.com/api/manuscripts/')
+    return this.http.get(`${apiUrl}/manuscripts`)
       .map(response => response.json());
   }
 
@@ -34,7 +37,7 @@ export class QuizService {
 
   getManuscriptById(id: number): Observable<TManuscript> {
     // return this.http.get(`http://localhost:8000/api/manuscripts/${id}/`)
-    return this.http.get(`http://hdo-quiz.herokuapp.com/api/manuscripts/${id}/`)
+    return this.http.get(`${apiUrl}/manuscripts/${id}/`)
       .map(response => response.json());
   }
 

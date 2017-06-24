@@ -64,6 +64,9 @@ export class Manuscript {
             const numberOfCorrectAnswers = responses.filter(response => response.wasCorrect).length;
             return this.chat.addMessage(this.bot, `Du fikk ${numberOfCorrectAnswers} av ${responses.length} riktige!`);
           });
+      case ManuscriptEntryType.quick_reply:
+        const question = this.questionFactory.createQuestionFromQuickReply(entry)
+        return this.chat.askOpenQuestion(this.bot, this.responder, question);
       case ManuscriptEntryType.random:
         const randomQuestion = this.questionFactory.createQuestionsFromRandom(manuscript.random);
         return this.chat.askRandomQuestions(this.bot, this.responder, [randomQuestion], manuscript.random);
