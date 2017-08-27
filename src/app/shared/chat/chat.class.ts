@@ -8,14 +8,10 @@ import {
 } from './index';
 import {
   Alternative,
-  TManuscriptImage,
-  TManuscriptPromiseStatus,
   Question,
   RandomSpecialAlternatives,
-  ChatResponse,
-  TManuscriptRandom
+  ChatResponse
 } from '../../shared';
-import { TManuscriptRandomItem } from "../manuscript/manuscript.types";
 import { TChatLog, TChatLogTextEntry } from "./chat.types";
 
 export class Chat {
@@ -26,7 +22,7 @@ export class Chat {
   private _entries: ChatEntry[] = [];
   private _participants: IChatUser[] = [];
   private _currentEntry: ChatEntry = null;
-  private _images: TManuscriptImage[] = [];
+  // private _images: TManuscriptImage[] = [];
 
   constructor(private _subjectUser: IChatUser) {
     this._participants.push(_subjectUser);
@@ -77,7 +73,7 @@ export class Chat {
         return entry.addMessage(new ChatMessageButtons(this, question.alternatives));
       })
       .then(answer => new ChatResponse(question, answer))
-      .then(response => this.showAnswer(quizMaster, response))
+      // .then(response => this.showAnswer(quizMaster, response))
       .then(response => {
         const buttonText = response.wasCorrect ? 'Jippi, gi meg neste spørsmål!' : 'Æsj, la meg prøve igjen';
         return this.addButton(responder, buttonText)
@@ -97,23 +93,23 @@ export class Chat {
       });
   }
 
-  public askRandomQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question<TManuscriptRandomItem>[], randomManuscript: TManuscriptRandom): Promise<ChatResponse<TManuscriptRandomItem>> {
-    const question = questions.shift();
-    return this.askOpenQuestion(quizMaster, responder, question)
-      .then((response: ChatResponse<TManuscriptRandomItem>) => {
-        switch (response.answers[0].value.id) {
-          case RandomSpecialAlternatives.ShowMeMore:
-            return this.askRandomQuestions(quizMaster, responder, questions, randomManuscript);
-          case RandomSpecialAlternatives.NoneAreInteresting:
-            let alternative = new Alternative<TManuscriptRandomItem>({
-              id: RandomSpecialAlternatives.NoneAreInteresting,
-              text: randomManuscript.texts.end
-            }, randomManuscript.texts.end);
-            return new ChatResponse<TManuscriptRandomItem>(question, alternative)
-        }
-        return response;
-      });
-  }
+  // public askRandomQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question<TManuscriptRandomItem>[], randomManuscript: TManuscriptRandom): Promise<ChatResponse<TManuscriptRandomItem>> {
+  //   const question = questions.shift();
+  //   return this.askOpenQuestion(quizMaster, responder, question)
+  //     .then((response: ChatResponse<TManuscriptRandomItem>) => {
+  //       switch (response.answers[0].value.id) {
+  //         case RandomSpecialAlternatives.ShowMeMore:
+  //           return this.askRandomQuestions(quizMaster, responder, questions, randomManuscript);
+  //         case RandomSpecialAlternatives.NoneAreInteresting:
+  //           let alternative = new Alternative<TManuscriptRandomItem>({
+  //             id: RandomSpecialAlternatives.NoneAreInteresting,
+  //             text: randomManuscript.texts.end
+  //           }, randomManuscript.texts.end);
+  //           return new ChatResponse<TManuscriptRandomItem>(question, alternative)
+  //       }
+  //       return response;
+  //     });
+  // }
 
   public askSingleSelectQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question<boolean>[], responses: ChatResponse<boolean>[] = []): Promise<ChatResponse<boolean>[]> {
     if (questions.length === 0) {
@@ -135,15 +131,15 @@ export class Chat {
     return images[Math.floor(Math.random() * images.length)];
   }
 
-  private getPicturesForStatus(images: TManuscriptImage[], status: TManuscriptPromiseStatus): string[] {
-    return images
-      .filter(image => image.type === status)
-      .map(image => image.url);
-  }
+  // private getPicturesForStatus(images: TManuscriptImage[], status: TManuscriptPromiseStatus): string[] {
+  //   return images
+  //     .filter(image => image.type === status)
+  //     .map(image => image.url);
+  // }
 
-  public get images(): string[] {
-    return this._images.map(image => image.url);
-  }
+  // public get images(): string[] {
+  //   return this._images.map(image => image.url);
+  // }
 
   public isInitiator(user: IChatUser): boolean {
     return this._subjectUser === user;
@@ -165,17 +161,17 @@ export class Chat {
     this._entries.pop();
   }
 
-  public setImages(images: TManuscriptImage[]) {
-    this._images = images;
-  }
+  // public setImages(images: TManuscriptImage[]) {
+  //   this._images = images;
+  // }
 
-  private showAnswer(quizMaster: IChatUser, response: ChatResponse<boolean>): Promise<any> {
-    const entry = this.getOrCreateEntry(quizMaster);
-    let images = this.getPicturesForStatus(this._images, response.wasCorrect ? 'fulfilled' : 'broken');
-    const image = this.getRandomPicture(images);
-    return entry.addMessage(new ChatMessageAnswer(response.wasCorrect, image))
-      .then(() => response);
-  }
+  // private showAnswer(quizMaster: IChatUser, response: ChatResponse<boolean>): Promise<any> {
+  //   const entry = this.getOrCreateEntry(quizMaster);
+  //   let images = this.getPicturesForStatus(this._images, response.wasCorrect ? 'fulfilled' : 'broken');
+  //   const image = this.getRandomPicture(images);
+  //   return entry.addMessage(new ChatMessageAnswer(response.wasCorrect, image))
+  //     .then(() => response);
+  // }
 
   public toJson(): TChatLog {
     return {

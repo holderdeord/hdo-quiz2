@@ -1,21 +1,17 @@
-export type TManuscript  = {
+import { TPromise } from "../promise/promise.types";
+
+export type TManuscript = {
   pk: number;
   name: string;
   category: number;
-  links: TManuscriptLinks;
-  electoralGuide: TManuscriptElectoralGuide;
+  default: string;
+  is_first_in_category: boolean;
   items: TManuscriptItem[];
-  images: TManuscriptImage[];
-  promises: TManuscriptPromise[];
-  random: TManuscriptRandom;
-};
-
-export type TManuscriptLinks = {
   next: string;
-};
-
-export type TManuscriptElectoralGuide = {
-
+  type: string;
+  updated: string;
+  url: string;
+  voter_guide_alternatives: TManuscriptVoterGuideAlternative[];
 };
 
 export type TManuscriptItem = {
@@ -31,44 +27,11 @@ export type TManuscriptItem = {
   reply_text_3: string;
 };
 
-export type TManuscriptPromise = {
+export type TManuscriptVoterGuideAlternative = {
+  full_promises: TPromise[];
+  no_answer: boolean;
+  parties: string[];
   pk: number;
-  body: string;
-  status: TManuscriptPromiseStatus,
-  categories: string[]
-};
-
-export type TManuscriptImage = {
-  url: string;
-  type: TManuscriptPromiseStatus;
-};
-
-export type TManuscriptPromiseStatus = 'fulfilled' | 'broken';
-
-export type TManuscriptRandom = {
-  selection: number;
-  links: TManuscriptRandomLinks;
-  texts: TManuscriptRandomTexts;
-  items: TManuscriptRandomItem[];
-};
-
-export type TManuscriptRandomLinks = {
-  next: string;
-};
-
-export type TManuscriptRandomTexts = {
-  introduction: string;
-  followup: string;
-  more: string;
-  end: string;
-};
-
-export type TManuscriptRandomItem = {
-  id: number;
+  promises: number[];
   text: string;
-  links?: TManuscriptRandomItemLinks;
-};
-
-export type TManuscriptRandomItemLinks = {
-  next: string;
-};
+}

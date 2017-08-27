@@ -4,8 +4,7 @@ import { Quiz } from './quiz.class';
 import { Question } from '../question/question.class';
 import { Observable } from 'rxjs';
 import {
-  TManuscript,
-  TManuscriptsItem
+  TManuscript
 } from '..';
 
 const apiUrl = 'http://localhost:8000/api';
@@ -16,9 +15,10 @@ export class QuizService {
 
   }
 
-  getManuscripts(): Observable<TManuscriptsItem[]> {
+  getManuscripts(): Observable<TManuscript[]> {
     // return this.http.get('http://hdo-quiz.herokuapp.com/api/manuscripts/')
-    return this.http.get(`${apiUrl}/manuscripts`)
+    return this.http.get('https://snakk.holderdeord.no/api/manuscripts/')
+    // return this.http.get(`${apiUrl}/manuscripts`)
       .map(response => response.json());
   }
 
@@ -37,7 +37,8 @@ export class QuizService {
 
   getManuscriptById(id: number): Observable<TManuscript> {
     // return this.http.get(`http://localhost:8000/api/manuscripts/${id}/`)
-    return this.http.get(`${apiUrl}/manuscripts/${id}/`)
+    return this.http.get(`https://snakk.holderdeord.no/api/manuscripts/${id}/`)
+    // return this.http.get(`${apiUrl}/manuscripts/${id}/`)
       .map(response => response.json());
   }
 

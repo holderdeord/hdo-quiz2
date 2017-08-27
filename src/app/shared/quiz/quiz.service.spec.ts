@@ -17,7 +17,7 @@ describe('Quiz, service (shared)', () => {
 
     xit('returns a manuscript', () => quizService.getManuscriptByString('introduction').subscribe(manuscript => {
       // expect(manuscript.introduction).toBeDefined();
-      expect(manuscript.promises).toBeDefined();
+      // expect(manuscript.promises).toBeDefined();
     }));
   });
 

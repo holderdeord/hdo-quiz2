@@ -45,7 +45,8 @@ export class QuizComponent {
     this.chat.events.subscribe(() => this.scrollToBottom());
     this.bot = this.chatUserFactory.createSystemUser();
     this.chat.addParticipant(this.bot);
-    const oldChat: TChatLog = this.chatLocalStorage.get();
+    // const oldChat: TChatLog = this.chatLocalStorage.get();
+    const oldChat: TChatLog = {entries: []};
     if (oldChat) {
       oldChat.entries.forEach(entry => this.chat.addMessage(entry.bot ? this.bot : this.responder, entry.text, 0));
     }

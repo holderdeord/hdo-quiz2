@@ -22,9 +22,9 @@ export class Manuscript {
         return lastResponseAnswer.links.next;
       }
     }
-    if (this.manuscript.links && this.manuscript.links.next) {
-      return this.manuscript.links.next;
-    }
+    // if (this.manuscript.links && this.manuscript.links.next) {
+    //   return this.manuscript.links.next;
+    // }
     return null;
   }
 
@@ -56,20 +56,20 @@ export class Manuscript {
       //       })) :
       //       this.chat.addMessage(this.bot, multipleEntry.texts.cancelConclusion));
       //   break;
-      case ManuscriptEntryType.promises:
-        this.chat.setImages(manuscript.images);
-        const promiseQuestions = manuscript.promises.map(promise => this.questionFactory.createQuestionFromPromise(promise.body, promise.status === 'fulfilled'));
-        return this.chat.askSingleSelectQuestions(this.bot, this.responder, promiseQuestions)
-          .then((responses: ChatResponse<boolean>[]) => {
-            const numberOfCorrectAnswers = responses.filter(response => response.wasCorrect).length;
-            return this.chat.addMessage(this.bot, `Du fikk ${numberOfCorrectAnswers} av ${responses.length} riktige!`);
-          });
+      // case ManuscriptEntryType.promises:
+      //   this.chat.setImages(manuscript.images);
+      //   const promiseQuestions = manuscript.promises.map(promise => this.questionFactory.createQuestionFromPromise(promise.body, promise.status === 'fulfilled'));
+      //   return this.chat.askSingleSelectQuestions(this.bot, this.responder, promiseQuestions)
+      //     .then((responses: ChatResponse<boolean>[]) => {
+      //       const numberOfCorrectAnswers = responses.filter(response => response.wasCorrect).length;
+      //       return this.chat.addMessage(this.bot, `Du fikk ${numberOfCorrectAnswers} av ${responses.length} riktige!`);
+      //     });
       case ManuscriptEntryType.quick_reply:
         const question = this.questionFactory.createQuestionFromQuickReply(entry)
         return this.chat.askOpenQuestion(this.bot, this.responder, question);
-      case ManuscriptEntryType.random:
-        const randomQuestion = this.questionFactory.createQuestionsFromRandom(manuscript.random);
-        return this.chat.askRandomQuestions(this.bot, this.responder, [randomQuestion], manuscript.random);
+      // case ManuscriptEntryType.random:
+      //   const randomQuestion = this.questionFactory.createQuestionsFromRandom(manuscript.random);
+      //   return this.chat.askRandomQuestions(this.bot, this.responder, [randomQuestion], manuscript.random);
       case ManuscriptEntryType.text:
         return this.chat.addMessage(this.bot, entry.text);
       default:

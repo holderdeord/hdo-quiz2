@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {
   QuizService,
-  TManuscriptsItem
+  TManuscript
 } from '../shared';
 
 @Component({
@@ -15,11 +15,11 @@ export class QuizListComponent {
   }
 
   ngOnInit() {
-    this.service.getManuscripts().subscribe((manuscriptsItem: TManuscriptsItem[]) => {
+    this.service.getManuscripts().subscribe((manuscriptsItem: TManuscript[]) => {
       this.quizList = [
-        new QuizListItem('introduction', 'Valgomat (local)'),
-        new QuizListItem('quiz', 'Quiz (local)'),
-        new QuizListItem('parties', 'Partier (local)'),
+        // new QuizListItem('introduction', 'Valgomat (local)'),
+        // new QuizListItem('quiz', 'Quiz (local)'),
+        // new QuizListItem('parties', 'Partier (local)'),
         ...manuscriptsItem.map(item => new QuizListItem(item.pk, `${item.name} (API)`)),
       ];
     });

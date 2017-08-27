@@ -33,6 +33,7 @@ import { QuizListComponent }            from './quiz-list';
 import { ResultComponent }              from './result';
 import { StackComponent }               from './stack';
 import { StackListComponent }           from './stack-list';
+import { StartComponent } from "./start/start.component";
 
 @NgModule({
   imports: [
@@ -56,7 +57,8 @@ import { StackListComponent }           from './stack-list';
     QuizListComponent,
     ResultComponent,
     StackComponent,
-    StackListComponent
+    StackListComponent,
+    StartComponent
   ],
   entryComponents: [
     ChatEntryComponent,

@@ -6,7 +6,6 @@ export * from './local-storage';
 export * from './node-list';
 export * from './manuscript';
 export * from './manuscript-entry';
-export * from './manuscripts';
 export * from './question';
 export * from './quiz';
 export * from './random';
