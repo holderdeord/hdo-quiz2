@@ -4,18 +4,21 @@ import { Chat } from "../chat/chat.class";
 import { ChatUser } from "../chat/chat-user/chat-user.class";
 import { QuestionFactory } from "../question/question.factory";
 import { ChatResponse } from "../chat/chat-response/chat-response.class";
+import { HdoCategoryService } from "../hdo-category/hdo-category.service";
+import { Alternative } from "../alternative/alternative.class";
 
 export class Manuscript {
   public responses: ChatResponse<any>[] = [];
   public done: Promise<Manuscript>;
 
   constructor(private manuscript: TManuscript, private questionFactory: QuestionFactory, private chat: Chat,
-              private bot: ChatUser, private responder: ChatUser) {
+              private bot: ChatUser, private responder: ChatUser, private hdoCategoryService: HdoCategoryService) {
     this.done = new Promise(resolve => this.parseManuscript(manuscript, manuscript.items).then(() => resolve(this)));
   }
 
   public getNextManuscriptUrl(): string {
     let lastResponse = this.responses.slice(-1)[0];
+    console.log(lastResponse);
     if (lastResponse && lastResponse.answers) {
       let lastResponseAnswer = lastResponse.answers[0];
       if (lastResponseAnswer.links && lastResponseAnswer.links.next) {
@@ -65,13 +68,23 @@ export class Manuscript {
       //       return this.chat.addMessage(this.bot, `Du fikk ${numberOfCorrectAnswers} av ${responses.length} riktige!`);
       //     });
       case ManuscriptEntryType.quick_reply:
-        const question = this.questionFactory.createQuestionFromQuickReply(entry)
+        const question = this.questionFactory.createQuestionFromQuickReply(entry);
         return this.chat.askOpenQuestion(this.bot, this.responder, question);
       // case ManuscriptEntryType.random:
       //   const randomQuestion = this.questionFactory.createQuestionsFromRandom(manuscript.random);
       //   return this.chat.askRandomQuestions(this.bot, this.responder, [randomQuestion], manuscript.random);
       case ManuscriptEntryType.text:
         return this.chat.addMessage(this.bot, entry.text);
+      case ManuscriptEntryType.vg_categories:
+        return this.hdoCategoryService.getList()
+          .then(categories => {
+            const voterGuideSelectionQuestion = this.questionFactory.createQuestionFromVoterGuideCategories(entry, categories);
+            return this.chat.askOpenQuestion(this.bot, this.responder, voterGuideSelectionQuestion)
+              .then(response => this.hdoCategoryService.getRandomManuscriptInCategory(response.answers[0].text)
+                .then(hdoCategoryManuscript => new ChatResponse(voterGuideSelectionQuestion, new Alternative(null, response.answers[0].text, null, {
+                  next: hdoCategoryManuscript.pk.toString()
+                }))));
+          });
       default:
         console.log('Håndterer ikke typen enda', entry.type);
     }

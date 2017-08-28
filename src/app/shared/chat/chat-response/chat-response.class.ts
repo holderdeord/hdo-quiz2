@@ -4,7 +4,7 @@ import { TChatResponseLinks } from "./chat-response.types";
 export class ChatResponse<T> {
   public answers: Alternative<T>[] = [];
 
-  constructor(public question: Question<T>, answer?: Alternative<T>, public links?: TChatResponseLinks) {
+  constructor(public question: Question<T>, answer?: Alternative<T>) {
     if (answer) {
       this.answers = [answer];
     }

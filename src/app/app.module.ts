@@ -34,6 +34,8 @@ import { ResultComponent }              from './result';
 import { StackComponent }               from './stack';
 import { StackListComponent }           from './stack-list';
 import { StartComponent } from "./start/start.component";
+import { HdoCategoryService } from "./shared/hdo-category/hdo-category.service";
+import { RandomService } from "./shared/random/random.service";
 
 @NgModule({
   imports: [
@@ -72,10 +74,12 @@ import { StartComponent } from "./start/start.component";
     appRoutingProviders,
     ChatService,
     ChatUserFactory,
-    QuestionFactory,
-    QuizService,
+    HdoCategoryService,
     LocalStorageService,
     NodeListService,
+    QuestionFactory,
+    QuizService,
+    RandomService,
     {provide: Window, useValue: window}
   ],
   bootstrap: [AppComponent],

@@ -5,11 +5,11 @@ import { QuizService, Quiz } from '../shared/quiz';
 import { Chat, ChatUser, ChatUserFactory } from '../shared/chat';
 import { QuestionFactory } from '../shared/question';
 import { HttpErrorResponseData } from "../shared/httpResponse/httpResponse.types";
-import IPromise = Q.IPromise;
 import { Manuscript } from "../shared/manuscript/manuscript.class";
 import { LocalStorageService } from "../shared/local-storage/local-storage.service";
 import { LocalStorage } from "../shared/local-storage/local-storage.class";
 import { TChatLog } from "../shared/chat/chat.types";
+import { HdoCategoryService } from "../shared/hdo-category/hdo-category.service";
 
 @Component({
   selector: 'hdo-quiz',
@@ -31,7 +31,8 @@ export class QuizComponent {
               private chatUserFactory: ChatUserFactory,
               private questionFactory: QuestionFactory,
               private router: Router,
-              private localStorageService: LocalStorageService) {
+              private localStorageService: LocalStorageService,
+              private hdoCategoryService: HdoCategoryService) {
   }
 
   ngOnInit() {
@@ -45,8 +46,7 @@ export class QuizComponent {
     this.chat.events.subscribe(() => this.scrollToBottom());
     this.bot = this.chatUserFactory.createSystemUser();
     this.chat.addParticipant(this.bot);
-    // const oldChat: TChatLog = this.chatLocalStorage.get();
-    const oldChat: TChatLog = {entries: []};
+    const oldChat: TChatLog = this.chatLocalStorage.get();
     if (oldChat) {
       oldChat.entries.forEach(entry => this.chat.addMessage(entry.bot ? this.bot : this.responder, entry.text, 0));
     }
@@ -58,7 +58,7 @@ export class QuizComponent {
           return this.chat.addMessage(this.bot, `
           Beklager, vi gikk tom for ting å si =/ 
           (Dette skal egentlig ikke skje, så gi oss gjerne beskjed)
-          <a href="/home">Tilbake til start</a>
+          <a href="/">Tilbake til start</a>
           `)
         }
         this.chatLocalStorage.set(this.chat.toJson());
@@ -68,7 +68,7 @@ export class QuizComponent {
 
   private getManuscript(manuscriptUrl: string, waitTime = [10, 20, 30, 60, 120, 240, 600]): Promise<Manuscript> {
     return this.service.getManuscript(manuscriptUrl)
-      .then(data => new Manuscript(data, this.questionFactory, this.chat, this.bot, this.responder))
+      .then(data => new Manuscript(data, this.questionFactory, this.chat, this.bot, this.responder, this.hdoCategoryService))
       .catch((error: HttpErrorResponseData) => {
         console.warn(error);
         let timeUntilNextReload = waitTime.length > 1 ? waitTime.shift() : waitTime[0];

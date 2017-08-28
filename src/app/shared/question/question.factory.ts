@@ -8,6 +8,7 @@ import {
   RandomSpecialAlternatives
 } from '..';
 import { TManuscriptItem } from "../manuscript/manuscript.types";
+import { THdoCategory } from "../hdo-category/hdo-category.types";
 
 @Injectable()
 export class QuestionFactory {
@@ -35,6 +36,14 @@ export class QuestionFactory {
     if (entry.reply_text_3 !== '') {
       question.addAlternative(this.createQuickReplyAlternative(entry.reply_action_3, entry.reply_text_3));
     }
+    return question;
+  }
+
+  public createQuestionFromVoterGuideCategories(entry: TManuscriptItem, categories: THdoCategory[]) {
+    const question = new Question(entry.text, null);
+    categories.forEach((category) => {
+      question.addAlternative(this.createQuickReplyAlternative(null, category.name));
+    });
     return question;
   }
 

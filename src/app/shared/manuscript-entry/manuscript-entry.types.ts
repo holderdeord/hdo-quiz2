@@ -6,7 +6,8 @@ const ManuscriptEntryType = Enum.strEnum([
   'promises',
   'quick_reply',
   'random',
-  'text'
+  'text',
+  'vg_categories'
 ]);
 
 type ManuscriptEntryType = keyof typeof ManuscriptEntryType;
