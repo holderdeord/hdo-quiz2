@@ -62,6 +62,7 @@ export class QuizComponent {
           `)
         }
         this.chatLocalStorage.set(this.chat.toJson());
+        manuscript.save();
         return this.router.navigateByUrl(`/quiz/${nextManuscriptUrl}`);
       });
   }

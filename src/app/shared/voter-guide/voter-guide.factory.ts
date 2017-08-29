@@ -13,7 +13,7 @@ export class VoterGuideFactory {
 
   }
 
-  public create(manuscriptId: number): Promise<VoterGuide> {
+  public create(manuscriptId: number = null): Promise<VoterGuide> {
     const localStorage = this.localStorageService.setupStorage('voterGuide');
     const data: VoterGuideData = localStorage.get();
     if (data) {

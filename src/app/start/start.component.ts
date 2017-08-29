@@ -1,19 +1,23 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { QuizService } from "../shared/quiz/quiz.service";
+import { VoterGuideFactory } from "../shared/voter-guide/voter-guide.factory";
+import { TManuscript } from "../shared/manuscript/manuscript.types";
 
 @Component({
   selector: 'hdo-start',
   template: require('./start.component.html')
 })
 export class StartComponent {
-  constructor(private service: QuizService,
-              private router: Router) {
+  constructor(private router: Router,
+              private voterGuideFactory: VoterGuideFactory) {
   }
 
   ngOnInit() {
-    this.service.getDefaultManuscript()
-      .then(startManuscript => {
+    this.voterGuideFactory.create(null)
+      .then(voterGuide => {
+        const startManuscript: TManuscript = voterGuide.hasStartedAnswering() ?
+          voterGuide.getCategoryManuscript() :
+          voterGuide.getStartManuscript();
         if (!startManuscript) {
           throw new Error('No default manuscript were found');
         }

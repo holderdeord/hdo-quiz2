@@ -16,7 +16,7 @@ export class Manuscript {
 
   constructor(private manuscript: TManuscript, private questionFactory: QuestionFactory, private chat: Chat,
               private bot: ChatUser, private responder: ChatUser, private voterGuide: VoterGuide) {
-    this.done = new Promise(resolve => this.parseManuscript(manuscript, manuscript.items).then(() => resolve(this)));
+    this.done = new Promise(resolve => this.parseManuscript(manuscript, [...manuscript.items]).then(() => resolve(this)));
   }
 
   public getNextManuscriptUrl(): string {
@@ -27,9 +27,6 @@ export class Manuscript {
         return lastResponseAnswer.links.next;
       }
     }
-    // if (this.manuscript.links && this.manuscript.links.next) {
-    //   return this.manuscript.links.next;
-    // }
     return null;
   }
 
@@ -86,11 +83,18 @@ export class Manuscript {
         return this.chat.askOpenQuestion<TManuscriptVoterGuideAlternative>(this.bot, this.responder, voterGuideQuestion)
           .then(response => {
             this.voterGuide.addAnswer(response.getInput(), manuscript);
+            // if (!this.voterGuide.hasMoreQuestionsInCategory()) {
+            //   this.chat.addMessage(this.bot, "YOU ANSWERED ALL IN CATEGORY");
+            // }
             return this.voterGuide.getChatResponseForNextManuscript();
           });
       default:
         console.log('Håndterer ikke typen enda', entry.type);
     }
     return new Promise(resolve => resolve());
+  }
+
+  public save() {
+    this.voterGuide.save();
   }
 }
