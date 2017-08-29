@@ -15,6 +15,16 @@ export class QuizService {
 
   }
 
+  getDefaultManuscript(): Promise<TManuscript> {
+    return new Promise(resolve => this.getManuscripts()
+      .subscribe(manuscripts => resolve(manuscripts.find(manuscript => manuscript.default === 'default'))));
+  }
+
+  getDefaultVoterGuideManuscript(): Promise<TManuscript> {
+    return new Promise(resolve => this.getManuscripts()
+      .subscribe(manuscripts => resolve(manuscripts.find(manuscript => manuscript.default === 'default_vg'))));
+  }
+
   getManuscripts(): Observable<TManuscript[]> {
     // return this.http.get('http://hdo-quiz.herokuapp.com/api/manuscripts/')
     return this.http.get('https://snakk.holderdeord.no/api/manuscripts/')

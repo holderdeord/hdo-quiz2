@@ -36,6 +36,7 @@ import { StackListComponent }           from './stack-list';
 import { StartComponent } from "./start/start.component";
 import { HdoCategoryService } from "./shared/hdo-category/hdo-category.service";
 import { RandomService } from "./shared/random/random.service";
+import { VoterGuideService } from "./shared/voter-guide/voter-guide.service";
 
 @NgModule({
   imports: [
@@ -80,6 +81,7 @@ import { RandomService } from "./shared/random/random.service";
     QuestionFactory,
     QuizService,
     RandomService,
+    VoterGuideService,
     {provide: Window, useValue: window}
   ],
   bootstrap: [AppComponent],

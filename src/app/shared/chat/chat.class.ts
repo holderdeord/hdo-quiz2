@@ -61,7 +61,7 @@ export class Chat {
       })
       .then(answer => {
         response = response || new ChatResponse(question);
-        response.addAnswer(answer);
+        response.addInput(answer);
         return response;
       });
   }
@@ -81,16 +81,13 @@ export class Chat {
       });
   }
 
-  public askOpenQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question<any>): Promise<ChatResponse<any>> {
-    return this.addMessage(quizMaster, question.text)
+  public askOpenQuestion<T>(quizMaster: IChatUser, responder: IChatUser, question: Question<any>): Promise<ChatResponse<T>> {
+    return (question.text ? this.addMessage(quizMaster, question.text) : new Promise(resolve => resolve()))
       .then(() => {
         const entry = this.getOrCreateEntry(responder);
         return entry.addMessage(new ChatMessageButtons(this, question.alternatives))
       })
-      .then((answer: Alternative<any>) => {
-        console.log(answer.links);
-        return new ChatResponse(question, answer)
-      });
+      .then((answer: Alternative<T>) => new ChatResponse(question, answer));
   }
 
   // public askRandomQuestions(quizMaster: IChatUser, responder: IChatUser, questions: Question<TManuscriptRandomItem>[], randomManuscript: TManuscriptRandom): Promise<ChatResponse<TManuscriptRandomItem>> {

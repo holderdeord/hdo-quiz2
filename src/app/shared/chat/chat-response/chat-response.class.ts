@@ -10,8 +10,12 @@ export class ChatResponse<T> {
     }
   }
 
-  public addAnswer(answer: Alternative<T>) {
+  public addInput(answer: Alternative<T>) {
     this.answers.push(answer);
+  }
+
+  public getInput(): T {
+    return this.answers[0].value;
   }
 
   public get wasCorrect(): boolean {

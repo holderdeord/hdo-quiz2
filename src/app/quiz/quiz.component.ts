@@ -10,6 +10,7 @@ import { LocalStorageService } from "../shared/local-storage/local-storage.servi
 import { LocalStorage } from "../shared/local-storage/local-storage.class";
 import { TChatLog } from "../shared/chat/chat.types";
 import { HdoCategoryService } from "../shared/hdo-category/hdo-category.service";
+import { VoterGuideService } from "../shared/voter-guide/voter-guide.service";
 
 @Component({
   selector: 'hdo-quiz',
@@ -32,7 +33,8 @@ export class QuizComponent {
               private questionFactory: QuestionFactory,
               private router: Router,
               private localStorageService: LocalStorageService,
-              private hdoCategoryService: HdoCategoryService) {
+              private hdoCategoryService: HdoCategoryService,
+              private voterGuideService: VoterGuideService) {
   }
 
   ngOnInit() {
@@ -68,7 +70,8 @@ export class QuizComponent {
 
   private getManuscript(manuscriptUrl: string, waitTime = [10, 20, 30, 60, 120, 240, 600]): Promise<Manuscript> {
     return this.service.getManuscript(manuscriptUrl)
-      .then(data => new Manuscript(data, this.questionFactory, this.chat, this.bot, this.responder, this.hdoCategoryService))
+      .then(data => new Manuscript(data, this.questionFactory, this.chat, this.bot, this.responder,
+        this.hdoCategoryService, this.voterGuideService))
       .catch((error: HttpErrorResponseData) => {
         console.warn(error);
         let timeUntilNextReload = waitTime.length > 1 ? waitTime.shift() : waitTime[0];

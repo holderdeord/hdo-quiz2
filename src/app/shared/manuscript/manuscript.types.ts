@@ -4,7 +4,7 @@ export type TManuscript = {
   pk: number;
   name: string;
   category: number;
-  hdo_category: string;
+  hdo_category: string | number;
   default: string;
   is_first_in_category: boolean;
   items: TManuscriptItem[];

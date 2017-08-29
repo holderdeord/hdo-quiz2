@@ -7,7 +7,7 @@ import {
   Question,
   RandomSpecialAlternatives
 } from '..';
-import { TManuscriptItem } from "../manuscript/manuscript.types";
+import { TManuscript, TManuscriptItem, TManuscriptVoterGuideAlternative } from "../manuscript/manuscript.types";
 import { THdoCategory } from "../hdo-category/hdo-category.types";
 
 @Injectable()
@@ -40,9 +40,17 @@ export class QuestionFactory {
   }
 
   public createQuestionFromVoterGuideCategories(entry: TManuscriptItem, categories: THdoCategory[]) {
-    const question = new Question(entry.text, null);
+    const question = new Question<THdoCategory>(entry.text, null);
     categories.forEach((category) => {
-      question.addAlternative(this.createQuickReplyAlternative(null, category.name));
+      question.addAlternative(new Alternative(category, category.name));
+    });
+    return question;
+  }
+
+  public createVoterGuideQuestion(manuscript: TManuscript) {
+    const question = new Question<TManuscriptVoterGuideAlternative>(null, null);
+    manuscript.voter_guide_alternatives.forEach(alternative => {
+      question.addAlternative(new Alternative<TManuscriptVoterGuideAlternative>(alternative, alternative.text));
     });
     return question;
   }

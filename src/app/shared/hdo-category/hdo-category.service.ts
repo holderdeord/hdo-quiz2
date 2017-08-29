@@ -21,15 +21,26 @@ export class HdoCategoryService {
         .subscribe(response => resolve(response.json())));
   }
 
-  getRandomManuscriptInCategory(categoryName: string): Promise<TManuscript> {
+  getNextManuscriptInCategoryName(categoryName: string, answeredManuscripts: number[] = []): Promise<TManuscript> {
     return new Promise((resolve, reject) => this.quizService.getManuscripts().subscribe(manuscripts => {
       const matchedManuscripts = manuscripts
-        .filter(manuscript => manuscript.hdo_category === categoryName);
+        .filter(manuscript =>
+          manuscript.hdo_category === categoryName &&
+          answeredManuscripts.indexOf(manuscript.pk) === -1);
       if (matchedManuscripts.length === 0) {
-        return reject(`Found no matching manuscripts for category ${categoryName}`);
+        return this.quizService.getDefaultVoterGuideManuscript()
+          .then(defaultManuscript => resolve(defaultManuscript));
       }
-      const randomIndex = this.randomService.getRandomNumber(matchedManuscripts.length);
-      resolve(matchedManuscripts[randomIndex]);
+      const randomManuscript = this.randomService.getRandomFromList(matchedManuscripts);
+      resolve(randomManuscript);
     }));
+  }
+
+  getNextManuscriptInCategoryId(categoryId: number, answeredManuscripts: number[] = []): Promise<TManuscript> {
+    return this.getList()
+      .then(categories => {
+        const category = categories.find(category => category.pk === categoryId);
+        return this.getNextManuscriptInCategoryName(category.name, answeredManuscripts);
+      });
   }
 }
