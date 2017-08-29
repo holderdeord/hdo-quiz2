@@ -1,14 +1,8 @@
 import { Injectable } from '@angular/core';
-import {
-  Alternative,
-  IManuscriptEntryMultipleAlternativeEntry,
-  // TManuscriptRandom,
-  // TManuscriptRandomItem,
-  Question,
-  RandomSpecialAlternatives
-} from '..';
 import { TManuscript, TManuscriptItem, TManuscriptVoterGuideAlternative } from "../manuscript/manuscript.types";
 import { THdoCategory } from "../hdo-category/hdo-category.types";
+import { Question } from "./question.class";
+import { Alternative } from "../alternative/alternative.class";
 
 @Injectable()
 export class QuestionFactory {
@@ -19,13 +13,13 @@ export class QuestionFactory {
     return question;
   }
 
-  public createQuestionFromMultiple(text: string, alternatives: IManuscriptEntryMultipleAlternativeEntry[]) {
-    const question = new Question(text, null);
-    alternatives.forEach(data => {
-      question.addAlternative(new Alternative(data.id, data.text));
-    });
-    return question;
-  }
+  // public createQuestionFromMultiple(text: string, alternatives: IManuscriptEntryMultipleAlternativeEntry[]) {
+  //   const question = new Question(text, null);
+  //   alternatives.forEach(data => {
+  //     question.addAlternative(new Alternative(data.id, data.text));
+  //   });
+  //   return question;
+  // }
 
   public createQuestionFromQuickReply(entry: TManuscriptItem): Question<TManuscriptItem> {
     const question = new Question(entry.text, null);
@@ -39,10 +33,10 @@ export class QuestionFactory {
     return question;
   }
 
-  public createQuestionFromVoterGuideCategories(entry: TManuscriptItem, categories: THdoCategory[]) {
-    const question = new Question<THdoCategory>(entry.text, null);
+  public createQuestionFromVoterGuideCategories(entry: TManuscriptItem, categories: string[]) {
+    const question = new Question<string>(entry.text, null);
     categories.forEach((category) => {
-      question.addAlternative(new Alternative(category, category.name));
+      question.addAlternative(new Alternative(category, category));
     });
     return question;
   }
@@ -92,14 +86,14 @@ export class QuestionFactory {
   //   // return questions;
   // }
 
-  public createOpenQuestion(text: string, alternatives: any[] = []): Question<any> {
-    const question = new Question(text, null);
-    alternatives.forEach(data => {
-      const alternative = new Alternative(data.value, data.text, data.className || 'btn');
-      question.addAlternative(alternative);
-    });
-    return question;
-  }
+  // public createOpenQuestion(text: string, alternatives: any[] = []): Question<any> {
+  //   const question = new Question(text, null);
+  //   alternatives.forEach(data => {
+  //     const alternative = new Alternative(data.value, data.text, data.className || 'btn');
+  //     question.addAlternative(alternative);
+  //   });
+  //   return question;
+  // }
 
   public createReloadManuscriptQuestion(timeUntilNextReload: number): Question<any> {
     const question = new Question(`Beklager, jeg får ikke kontakt med serveren akkurat nå =( Vent litt, så skal jeg prøve igjen om ${timeUntilNextReload} sekunder, eller si i fra når du tror jeg skal ha tilgang igjen.`, null);

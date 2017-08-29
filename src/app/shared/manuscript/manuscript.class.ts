@@ -7,15 +7,15 @@ import { ChatResponse } from "../chat/chat-response/chat-response.class";
 import { HdoCategoryService } from "../hdo-category/hdo-category.service";
 import { Alternative } from "../alternative/alternative.class";
 import { THdoCategory } from "../hdo-category/hdo-category.types";
-import { VoterGuideService } from "../voter-guide/voter-guide.service";
+import { VoterGuideFactory } from "../voter-guide/voter-guide.factory";
+import { VoterGuide } from "../voter-guide/voter-guide.class";
 
 export class Manuscript {
   public responses: ChatResponse<any>[] = [];
   public done: Promise<Manuscript>;
 
   constructor(private manuscript: TManuscript, private questionFactory: QuestionFactory, private chat: Chat,
-              private bot: ChatUser, private responder: ChatUser, private hdoCategoryService: HdoCategoryService,
-              private voterGuideService: VoterGuideService) {
+              private bot: ChatUser, private responder: ChatUser, private voterGuide: VoterGuide) {
     this.done = new Promise(resolve => this.parseManuscript(manuscript, manuscript.items).then(() => resolve(this)));
   }
 
@@ -78,28 +78,15 @@ export class Manuscript {
       case ManuscriptEntryType.text:
         return this.chat.addMessage(this.bot, entry.text);
       case ManuscriptEntryType.vg_categories:
-        return this.hdoCategoryService.getList()
-          .then(categories => {
-            const voterGuideSelectionQuestion = this.questionFactory.createQuestionFromVoterGuideCategories(entry, categories);
-            return this.chat.askOpenQuestion<THdoCategory>(this.bot, this.responder, voterGuideSelectionQuestion)
-              .then(response => {
-                const answeredManuscripts = this.voterGuideService.getIdOfAnsweredManuscripts();
-                return this.hdoCategoryService.getNextManuscriptInCategoryName(response.getInput().name, answeredManuscripts)
-                  .then(hdoCategoryManuscript => new ChatResponse(voterGuideSelectionQuestion, new Alternative(null, null, null, {
-                    next: hdoCategoryManuscript.pk.toString()
-                  })));
-              });
-          });
+        const voterGuideSelectionQuestion = this.questionFactory.createQuestionFromVoterGuideCategories(entry, this.voterGuide.getCategories());
+        return this.chat.askOpenQuestion<string>(this.bot, this.responder, voterGuideSelectionQuestion)
+          .then(response => this.voterGuide.getChatResponseForNextManuscript(response.getInput()));
       case ManuscriptEntryType.vg_questions:
         const voterGuideQuestion = this.questionFactory.createVoterGuideQuestion(manuscript);
         return this.chat.askOpenQuestion<TManuscriptVoterGuideAlternative>(this.bot, this.responder, voterGuideQuestion)
           .then(response => {
-            this.voterGuideService.addAnswer(response.getInput(), manuscript);
-            const answeredManuscripts = this.voterGuideService.getIdOfAnsweredManuscripts();
-            return this.hdoCategoryService.getNextManuscriptInCategoryId(<number>manuscript.hdo_category, answeredManuscripts)
-              .then(nextManuscript => new ChatResponse(voterGuideQuestion, new Alternative(null, null, null, {
-                next: nextManuscript.pk.toString()
-              })));
+            this.voterGuide.addAnswer(response.getInput(), manuscript);
+            return this.voterGuide.getChatResponseForNextManuscript();
           });
       default:
         console.log('Håndterer ikke typen enda', entry.type);

@@ -9,28 +9,25 @@ const apiUrl = 'http://localhost:8000/api';
 
 @Injectable()
 export class QuizService {
+  private _manuscripts: Observable<TManuscript[]>;
+
   constructor(private http: Http) {
 
   }
 
-  getDefaultManuscript(): Promise<TManuscript> {
+  public getDefaultManuscript(): Promise<TManuscript> {
     return new Promise(resolve => this.getManuscripts()
       .subscribe(manuscripts => resolve(manuscripts.find(manuscript => manuscript.default === 'default'))));
   }
 
-  getDefaultVoterGuideManuscript(): Promise<TManuscript> {
-    return new Promise(resolve => this.getManuscripts()
-      .subscribe(manuscripts => resolve(manuscripts.find(manuscript => manuscript.default === 'default_vg'))));
-  }
-
-  getManuscripts(): Observable<TManuscript[]> {
+  public getManuscripts(): Observable<TManuscript[]> {
     // return this.http.get('http://hdo-quiz.herokuapp.com/api/manuscripts/')
-    return this.http.get('https://snakk.holderdeord.no/api/manuscripts/')
+    return this._manuscripts = (this._manuscripts = this.http.get('https://snakk.holderdeord.no/api/manuscripts/')
     // return this.http.get(`${apiUrl}/manuscripts`)
-      .map(response => response.json());
+      .map(response => response.json()));
   }
 
-  getManuscript(manuscriptId): Promise<TManuscript> {
+  public getManuscript(manuscriptId: string): Promise<TManuscript> {
     const id = parseInt(manuscriptId, 10);
     return new Promise((resolve, reject) => {
       let manuscriptObservable: Observable<TManuscript>;
@@ -43,25 +40,25 @@ export class QuizService {
     });
   }
 
-  getManuscriptById(id: number): Observable<TManuscript> {
+  public getManuscriptById(id: number): Observable<TManuscript> {
     // return this.http.get(`http://localhost:8000/api/manuscripts/${id}/`)
     return this.http.get(`https://snakk.holderdeord.no/api/manuscripts/${id}/`)
     // return this.http.get(`${apiUrl}/manuscripts/${id}/`)
       .map(response => response.json());
   }
 
-  getManuscriptByString(name: string): Observable<TManuscript> {
+  public getManuscriptByString(name: string): Observable<TManuscript> {
     return this.http.get(`/assets/mock-data/manuscript-${name}.json`)
       .map(response => response.json());
   }
 
-  getStacks(): Observable<Quiz[]> {
+  public getStacks(): Observable<Quiz[]> {
     return this.http.get('/assets/mock-data/stacks.json')
       .map(res => res.json())
       .map(response => response.map(this.createStack));
   }
 
-  getStack(id: number): Observable<Quiz> {
+  public getStack(id: number): Observable<Quiz> {
     return this.http.get('/assets/stacks.json')
       .map(res => res.json())
       .flatMap(response => {

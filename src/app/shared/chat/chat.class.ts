@@ -1,18 +1,12 @@
 import { EventEmitter } from '@angular/core';
-import {
-  ChatEntry,
-  ChatMessageAnswer,
-  ChatMessageButtons,
-  ChatMessageText,
-  IChatUser
-} from './index';
-import {
-  Alternative,
-  Question,
-  RandomSpecialAlternatives,
-  ChatResponse
-} from '../../shared';
 import { TChatLog, TChatLogTextEntry } from "./chat.types";
+import { ChatEntry } from "./chat-entry/chat-entry.class";
+import { IChatUser } from "./chat-user/chat-user.interface";
+import { Alternative } from "../alternative/alternative.class";
+import { ChatMessageButtons } from "./chat-message-buttons/chat-message-buttons.class";
+import { ChatMessageText } from "./chat-message-text/chat-message-text.class";
+import { Question } from "../question/question.class";
+import { ChatResponse } from "./chat-response/chat-response.class";
 
 export class Chat {
   static DEFAULT_TIME_BEFORE_MESSAGE: number = 0;
@@ -53,18 +47,18 @@ export class Chat {
     this._participants.push(participant);
   }
 
-  public askMultipleSelectQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question<number>, response?: ChatResponse<number>): Promise<ChatResponse<number>> {
-    return this.addMessage(quizMaster, question.text)
-      .then(() => {
-        const entry = this.getOrCreateEntry(responder);
-        return entry.addMessage(new ChatMessageButtons(this, question.alternatives));
-      })
-      .then(answer => {
-        response = response || new ChatResponse(question);
-        response.addInput(answer);
-        return response;
-      });
-  }
+  // public askMultipleSelectQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question<number>, response?: ChatResponse<number>): Promise<ChatResponse<number>> {
+  //   return this.addMessage(quizMaster, question.text)
+  //     .then(() => {
+  //       const entry = this.getOrCreateEntry(responder);
+  //       return entry.addMessage(new ChatMessageButtons(this, question.alternatives));
+  //     })
+  //     .then(answer => {
+  //       response = response || new ChatResponse(question);
+  //       response.addInput(answer);
+  //       return response;
+  //     });
+  // }
 
   public askSingleSelectQuestion(quizMaster: IChatUser, responder: IChatUser, question: Question<boolean>): Promise<ChatResponse<boolean>> {
     return this.addMessage(quizMaster, question.text)
@@ -124,9 +118,9 @@ export class Chat {
     return this._entries;
   }
 
-  private getRandomPicture(images: string[]): string {
-    return images[Math.floor(Math.random() * images.length)];
-  }
+  // private getRandomPicture(images: string[]): string {
+  //   return images[Math.floor(Math.random() * images.length)];
+  // }
 
   // private getPicturesForStatus(images: TManuscriptImage[], status: TManuscriptPromiseStatus): string[] {
   //   return images

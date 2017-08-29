@@ -1,20 +1,20 @@
-import { NgModule }                     from '@angular/core';
-import { BrowserModule }                from '@angular/platform-browser';
-import { HttpModule }                   from '@angular/http';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
 
-import { AppComponent }                 from './app.component';
+import { AppComponent } from './app.component';
 import { routing, appRoutingProviders } from './app.routes';
 
 import {
   ChatService,
   ChatUserFactory
-}                                       from './shared/chat';
-import { NodeListService }              from './shared/node-list';
-import { QuizService }                  from './shared/quiz';
-import { LocalStorageService }          from './shared/local-storage';
+} from './shared/chat';
+import { NodeListService } from './shared/node-list';
+import { QuizService } from './shared/quiz';
+import { LocalStorageService } from './shared/local-storage';
 
-import { AboutComponent }               from './about';
-import { CardsDirective }               from './cards';
+import { AboutComponent } from './about';
+import { CardsDirective } from './cards';
 import {
   ChatEntryComponent,
   ChatMessageComponent,
@@ -22,21 +22,20 @@ import {
   ChatMessageButtonsComponent,
   ChatMessageQuestionComponent,
   ChatMessageTextComponent
-}                                       from './shared/chat';
+} from './shared/chat';
 import {
   QuestionFactory
-}                                       from './shared/question';
-import { HomeComponent }                from './home';
-import { MainNavigationComponent }      from './main-navigation';
-import { QuizComponent }                from './quiz';
-import { QuizListComponent }            from './quiz-list';
-import { ResultComponent }              from './result';
-import { StackComponent }               from './stack';
-import { StackListComponent }           from './stack-list';
+} from './shared/question';
+import { HomeComponent } from './home';
+import { MainNavigationComponent } from './main-navigation';
+import { QuizComponent } from './quiz';
+import { QuizListComponent } from './quiz-list';
+import { ResultComponent } from './result';
+import { StackComponent } from './stack';
+import { StackListComponent } from './stack-list';
 import { StartComponent } from "./start/start.component";
 import { HdoCategoryService } from "./shared/hdo-category/hdo-category.service";
-import { RandomService } from "./shared/random/random.service";
-import { VoterGuideService } from "./shared/voter-guide/voter-guide.service";
+import { VoterGuideFactory } from "./shared/voter-guide/voter-guide.factory";
 
 @NgModule({
   imports: [
@@ -80,8 +79,7 @@ import { VoterGuideService } from "./shared/voter-guide/voter-guide.service";
     NodeListService,
     QuestionFactory,
     QuizService,
-    RandomService,
-    VoterGuideService,
+    VoterGuideFactory,
     {provide: Window, useValue: window}
   ],
   bootstrap: [AppComponent],

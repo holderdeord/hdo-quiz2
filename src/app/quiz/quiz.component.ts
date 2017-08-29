@@ -1,16 +1,14 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { QuizService, Quiz } from '../shared/quiz';
+import { Quiz } from '../shared/quiz';
 import { Chat, ChatUser, ChatUserFactory } from '../shared/chat';
 import { QuestionFactory } from '../shared/question';
-import { HttpErrorResponseData } from "../shared/httpResponse/httpResponse.types";
 import { Manuscript } from "../shared/manuscript/manuscript.class";
 import { LocalStorageService } from "../shared/local-storage/local-storage.service";
 import { LocalStorage } from "../shared/local-storage/local-storage.class";
 import { TChatLog } from "../shared/chat/chat.types";
-import { HdoCategoryService } from "../shared/hdo-category/hdo-category.service";
-import { VoterGuideService } from "../shared/voter-guide/voter-guide.service";
+import { VoterGuideFactory } from "../shared/voter-guide/voter-guide.factory";
 
 @Component({
   selector: 'hdo-quiz',
@@ -28,13 +26,11 @@ export class QuizComponent {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
   constructor(private route: ActivatedRoute,
-              private service: QuizService,
               private chatUserFactory: ChatUserFactory,
               private questionFactory: QuestionFactory,
               private router: Router,
               private localStorageService: LocalStorageService,
-              private hdoCategoryService: HdoCategoryService,
-              private voterGuideService: VoterGuideService) {
+              private voterGuideFactory: VoterGuideFactory) {
   }
 
   ngOnInit() {
@@ -52,7 +48,9 @@ export class QuizComponent {
     if (oldChat) {
       oldChat.entries.forEach(entry => this.chat.addMessage(entry.bot ? this.bot : this.responder, entry.text, 0));
     }
-    return this.getManuscript(manuscriptUrl)
+    const manuscriptId = parseInt(manuscriptUrl, 10);
+    this.voterGuideFactory.create(manuscriptId)
+      .then(voterGuide => new Manuscript(voterGuide.manuscript, this.questionFactory, this.chat, this.bot, this.responder, voterGuide))
       .then(manuscript => manuscript.done)
       .then(manuscript => {
         const nextManuscriptUrl = manuscript.getNextManuscriptUrl();
@@ -68,27 +66,27 @@ export class QuizComponent {
       });
   }
 
-  private getManuscript(manuscriptUrl: string, waitTime = [10, 20, 30, 60, 120, 240, 600]): Promise<Manuscript> {
-    return this.service.getManuscript(manuscriptUrl)
-      .then(data => new Manuscript(data, this.questionFactory, this.chat, this.bot, this.responder,
-        this.hdoCategoryService, this.voterGuideService))
-      .catch((error: HttpErrorResponseData) => {
-        console.warn(error);
-        let timeUntilNextReload = waitTime.length > 1 ? waitTime.shift() : waitTime[0];
-        const reloadManuscriptQuestion = this.questionFactory.createReloadManuscriptQuestion(timeUntilNextReload);
-        return new Promise(resolve => {
-          const timeoutHandleId = setTimeout(() => {
-            this.chat.removeLastEntry();
-            this.getManuscript(manuscriptUrl, waitTime)
-              .then(manuscript => resolve(manuscript))
-          }, timeUntilNextReload * 1000);
-          this.chat.askOpenQuestion(this.bot, this.responder, reloadManuscriptQuestion)
-            .then(() => clearTimeout(timeoutHandleId))
-            .then(() => this.getManuscript(manuscriptUrl))
-            .then(manuscript => resolve(manuscript));
-        });
-      });
-  }
+  // private getManuscript(manuscriptUrl: string, waitTime = [10, 20, 30, 60, 120, 240, 600]): Promise<Manuscript> {
+  //   return this.service.getManuscript(manuscriptUrl)
+  //     .then(data => new Manuscript(data, this.questionFactory, this.chat, this.bot, this.responder,
+  //       this.hdoCategoryService, this.voterGuideFactory))
+  //     .catch((error: HttpErrorResponseData) => {
+  //       console.warn(error);
+  //       let timeUntilNextReload = waitTime.length > 1 ? waitTime.shift() : waitTime[0];
+  //       const reloadManuscriptQuestion = this.questionFactory.createReloadManuscriptQuestion(timeUntilNextReload);
+  //       return new Promise(resolve => {
+  //         const timeoutHandleId = setTimeout(() => {
+  //           this.chat.removeLastEntry();
+  //           this.getManuscript(manuscriptUrl, waitTime)
+  //             .then(manuscript => resolve(manuscript))
+  //         }, timeUntilNextReload * 1000);
+  //         this.chat.askOpenQuestion(this.bot, this.responder, reloadManuscriptQuestion)
+  //           .then(() => clearTimeout(timeoutHandleId))
+  //           .then(() => this.getManuscript(manuscriptUrl))
+  //           .then(manuscript => resolve(manuscript));
+  //       });
+  //     });
+  // }
 
   private scrollToBottom() {
     return setTimeout(() => {
