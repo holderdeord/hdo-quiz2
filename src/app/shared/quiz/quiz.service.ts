@@ -3,9 +3,7 @@ import { Http } from '@angular/http';
 import { Quiz } from './quiz.class';
 import { Question } from '../question/question.class';
 import { Observable } from 'rxjs';
-import {
-  TManuscript
-} from '..';
+import { TManuscript } from "../manuscript/manuscript.types";
 
 const apiUrl = 'http://localhost:8000/api';
 
